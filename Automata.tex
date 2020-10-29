@@ -1,28 +1,41 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
-
-\title{maquina de estados finitos}
-\author{
-  Vallejo,Collados Jesús\\
-\texttt{jesus.vallejo.collados@gmail.com}
-  \and
-  Serrano,Arrese Francisco Javier\\
-  \texttt{serranoarresejavier@gmail.com}
-  \and
-  Cañibano,Lopez Alberto \\
-  \texttt{ja.canibano@alumnos.upm.es}
-}
-\date{October 2020}
-
+\usepackage{amstext}
 \begin{document}
-\pagenumbering{gobble}
-\vspace*{1cm}
-\centering
-\text{AUTÓMATA FINITO DETERMINISTA}\\
-\vspace*{1cm}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
 
+        \Huge
+        \textbf{PDL: Práctica Procesador}
+        
+        \vspace{0.5cm}
+        \large
+        Procesador JavaScript-PDL
+        
+        \vspace{3cm}
+       
+        \textbf{
+            Serrano,Arrese Francisco Javier\\
+            Cañibano,Lopez Alberto\\
+            Vallejo,Collados Jesús
+            }
+            
+        \vspace{8cm}
+    
+        \large
+        Procesadores de Lenguajes\\
+        Universidad Politécnica de Madrid\\
+        Curso 2020-2021
+        
+    \end{center}
+\end{titlepage}
 
+\begin{center}
+AUTÓMATA FINITO DETERMINISTA
+
+\vspace*{1cm}
 \fbox{%
   \parbox{\textwidth}{
     \begin{tabular}{l|l}
@@ -32,12 +45,12 @@
       c     &Caracteres -\{*\}\\
       c'    &Caracteres -\{*/\}\\
       e     &Caracteres -\{'\}\\
-      
+      o.c.  &Otro Caracter
     \end{tabular}
-  }%
+  }
 }
+\vspace*{1cm}
 
-\begin{center}
 \begin{tikzpicture}[scale=0.2]
 \tikzstyle{every node}+=[inner sep=0pt]
 \draw [black] (38.3,-32.6) circle (3);
@@ -126,7 +139,7 @@
 \fill [black] (34.32,-15.4) -- (33.85,-16.22) -- (34.85,-16.18);
 \draw (34.44,-23.03) node [left] {$l$};
 \draw [black] (37.257,-12.828) arc (109.49148:-178.50852:2.25);
-\draw (40.46,-17.58) node [right] {$l\d\_$};
+\draw (40.46,-17.58) node [right] {$l/d/\_$};
 \fill [black] (35.76,-15.01) -- (35.55,-15.93) -- (36.5,-15.6);
 \draw [black] (34.75,-9.43) -- (35.35,-5.47);
 \fill [black] (35.35,-5.47) -- (34.74,-6.18) -- (35.73,-6.33);
@@ -180,10 +193,10 @@
 \draw (48.4,-46.35) node [left] {$)$};
 \draw [black] (39.62,-35.293) arc (24.69069:6.75447:60.378);
 \fill [black] (44.72,-53.41) -- (45.12,-52.56) -- (44.13,-52.68);
-\draw (43.65,-43.6) node [right] {${$};
+\draw (43.65,-43.6) node [right] {$\{$};
 \draw [black] (38.369,-35.599) arc (-0.2015:-18.87926:56.208);
 \fill [black] (35.35,-53.59) -- (36.08,-52.99) -- (35.13,-52.67);
-\draw (38.31,-44.95) node [right] {$}$};
+\draw (38.31,-44.95) node [right] {$\}$};
 \draw [black] (36.37,-34.9) -- (28.03,-44.8);
 \fill [black] (28.03,-44.8) -- (28.93,-44.51) -- (28.16,-43.87);
 \draw (32.75,-41.29) node [right] {$=/!$};
@@ -195,10 +208,10 @@
 \draw (18.98,-50.6) node [above] {$=$};
 \draw [black] (35.62,-33.95) -- (16.68,-43.55);
 \fill [black] (16.68,-43.55) -- (17.62,-43.63) -- (17.16,-42.74);
-\draw (24.88,-38.24) node [above] {$&$};
+\draw (24.88,-38.24) node [above] {$\&$};
 \draw [black] (11.14,-45.79) -- (7.86,-46.81);
 \fill [black] (7.86,-46.81) -- (8.78,-47.05) -- (8.48,-46.09);
-\draw (8.41,-45.74) node [above] {$&$};
+\draw (8.41,-45.74) node [above] {$\&$};
 \draw [black] (19.434,-34.567) arc (115.50813:82.4645:28.335);
 \fill [black] (19.43,-34.57) -- (20.37,-34.67) -- (19.94,-33.77);
 \draw (26.94,-31.59) node [above] {$'$};
@@ -216,5 +229,242 @@
 \draw (23.51,-20.15) node [above] {$,$};
 \end{tikzpicture}
 \end{center}
+\vspace{2cm}
+
+\begin{center}
+ACCIONES SEMÁNTICAS\\
+\end{center}
+\vspace{2cm}
+
+\noindent
+\textbf{Leer:}Se lee en todos los estados menos en los que pone o.c.\\
+\textbf{Errores}:  Cualquier transicion no declarada dara error.\\
+
+\textbf{Caso 0-1:}
+\begin{verbatim}
+    if siguienteCaracter==d
+        numero=valor(d)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 1-1:}
+\begin{verbatim}
+    if siguienteCaracter==d
+        numero=numero+d
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 1-11:}
+\begin{verbatim}
+    GenerarToken(wholeConst,numero)
+\end{verbatim}
+
+\textbf{Caso 0-2:}
+\begin{verbatim}
+    if siguienteCaracter==l 
+        lexema=l
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 2-2:}
+\begin{verbatim}
+    if siguienteCaracter== l | d | '_' 
+        lexema=lexema+(l|d|'_')
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 2-12:}
+\begin{verbatim}
+    GenerarToken(ID,posicionTablaSimbolos)
+\end{verbatim}
+
+\textbf{Caso 0-3:}
+\begin{verbatim}
+    if siguienteCaracter=='+'
+        //Nada
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 3-13:}
+\begin{verbatim}
+    GenerarToken(aritOp,plus)
+\end{verbatim}
+
+\textbf{Caso 3-14:}
+\begin{verbatim}
+    if siguienteCaracter=='+'
+        GenerarToken(autoIncOp,autoinc)
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 0-4:}
+\begin{verbatim}
+    if siguienteCaracter=='-'
+        //Nada
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 4-15:}
+\begin{verbatim}
+    GenerarToken(aritOp,minus)
+\end{verbatim}
+
+\textbf{Caso 4-16:}
+\begin{verbatim}
+    if siguienteCarcter=='-'
+        GenerarToken(autoIncOp,autoinc)
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 0-5:}
+\begin{verbatim}
+    if siguienteCaracter=='/'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 5-6:}
+\begin{verbatim}
+    if siguienteCaracater=='*'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 6-6:}
+\begin{verbatim}
+    if siguienteCaracater=='c'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 6-7:}
+\begin{verbatim}
+    if siguienteCaracater=='*'
+         //NADA
+    else
+         Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 7-6:}
+\begin{verbatim}
+    if siguienteCaracater=='c''
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 7-0:}
+\begin{verbatim}
+    if siguienteCaracater=='/'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 0-26:}
+\begin{verbatim}
+    if siguienteCaracter==','
+        GenerarToken(separator,colon)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 0-25:}
+\begin{verbatim}
+    if siguienteCaracter==';'
+        GenerarToken(separator,semicolon)
+    else
+        Error("SIMBOLO NO RECONOCIDO") )
+\end{verbatim}
+
+\textbf{Caso 0-20:}
+\begin{verbatim}
+    if siguienteCaracter=='}'
+        GenerarToken(separator,closeBraq)
+    else
+        Error("SIMBOLO NO RECONOCIDO")  
+\end{verbatim}
+
+\textbf{Caso 0-19:}
+\begin{verbatim}
+    if siguienteCaracter=='{'
+        GenerarToken(separator,openBraq)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 0-18:}
+\begin{verbatim}
+    if siguienteCaracter==')'
+        GenerarToken(separator,closePar)
+    else
+        Error("SIMBOLO NO RECONOCIDO")  
+\end{verbatim}
+
+\textbf{Caso 0-17:}
+\begin{verbatim}
+    if siguienteCaracter=='('
+        GenerarToken(separator,openPar)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 0-10:}
+\begin{verbatim}
+    if siguienteCaracter=='''
+        lexema=''
+    else
+        Error ("SIMBOLO NO RECONOCIDO)
+\end{verbatim}
+
+\textbf{Caso 10-10:}
+\begin{verbatim}
+    if siguienteCaracter==e
+        lexema=lexema+e
+    else 
+        Error ("SIMBOLO NO RECONOCIDO)
+\end{verbatim}
+
+\textbf{Caso 10-24:}
+\begin{verbatim}
+    if siguienteCaracater=='''
+        GenerarToken(chain,posicionTablaSimbolos)//revisar
+    else 
+        Error ("SIMBOLO NO RECONOCIDO)
+\end{verbatim}
+
+\textbf{Caso 0-8:}
+\begin{verbatim}
+    if siguienteCaracter=='='
+
+    else if siguienteCaracater=='!'
+    
+    else 
+        Error ("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 8-22:}
+\begin{verbatim}
+    if siguienteCaracater == '='
+        GenerarToken(relOp,equals)
+    else 
+        Error ("SIMBOLO NO RECONOCIDO")  
+\end{verbatim}
+
+
+
+
+
 
 \end{document}

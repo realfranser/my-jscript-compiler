@@ -29,15 +29,16 @@ Acciones semanticas
 Leer:     Se lee en todos los estados menos en los que pone o.c.
 Errores:  Cualquier transicion no declarada dara error.
 -----
+#######
 -----
 0-1: 
-    if siguienteCaracter == d
+    if siguienteCaracter==d
         numero=valor(d)
     else
         Error("SIMBOLO NO RECONOCIDO")
 -----
 1-1:
-    if siguienteCaracter == d
+    if siguienteCaracter==d
         numero=numero+d
     else 
         Error("SIMBOLO NO RECONOCIDO")
@@ -45,29 +46,179 @@ Errores:  Cualquier transicion no declarada dara error.
 1-11:
     GenerarToken(wholeConst,numero)
 ------
-
+#######
 ------
 0-2: 
-    if siguienteCaracter == l 
+    if siguienteCaracter==l 
         lexema=l
     else 
         Error("SIMBOLO NO RECONOCIDO")
 
 2-2:
-    if siguienteCaracter == l || siguienteCaracter == d || siguienteCaracter == _
-        lexema=lexema+l
-    
-    if siguienteCaracter == d
-        lexema=lexema+d
-    if siguienteCaracter == _
-
-
-
+    if siguienteCaracter== l | d | '_' 
+        lexema=lexema+(l|d|'_')
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+------
+2-12: 
+    GenerarToken(ID,posicionTablaSimbolos)
 -----
+########
+-----
+0-3:
+    if siguienteCaracter=='+'
+        //Nada
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+3-13:
+    GenerarToken(aritOp,plus)
+------
+3-14:
+    if siguienteCaracter=='+'
+        GenerarToken(autoIncOp,autoinc)
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+------
+########
+-----
+0-4:
+    if siguienteCaracter=='-'
+        //Nada
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+4-15:
+    GenerarToken(aritOp,minus)
+------
+4-16:
+    if siguienteCarcter=='-'
+        GenerarToken(autoIncOp,autoinc)
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+------
+######
+------
+0-5:
+    if siguienteCaracter=='/'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+5-6: 
+    if siguienteCaracater=='*'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+6-6:
+     if siguienteCaracater=='c'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+6-7:
+    if siguienteCaracater=='*'
+         //NADA
+    else
+         Error("SIMBOLO NO RECONOCIDO")
+-------
+7-6:
+    if siguienteCaracater=='c''
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+-----
+7-0:
+    if siguienteCaracater=='/'
+        //NADA
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+-----
+#######
+------
+0-26:
+    if siguienteCaracter==','
+        GenerarToken(separator,colon)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+#######
+------
+0-25:
+    if siguienteCaracter==';'
+        GenerarToken(separator,semicolon)
+    else
+        Error("SIMBOLO NO RECONOCIDO") 
+------
+######
+------
+0-20:
+    if siguienteCaracter=='}'
+        GenerarToken(separator,closeBraq)
+    else
+        Error("SIMBOLO NO RECONOCIDO")       
+------
+#######
+------
+0-19:
+    if siguienteCaracter=='{'
+        GenerarToken(separator,openBraq)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+######
+------
+0-18:
+    if siguienteCaracter==')'
+        GenerarToken(separator,closePar)
+    else
+        Error("SIMBOLO NO RECONOCIDO")                  
+------
+######3
+------
+0-17:
+    if siguienteCaracter=='('
+        GenerarToken(separator,openPar)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+------
+#######
+------
+0-10:
+    if siguienteCaracter=='''
+        lexema=''
+    else
+        Error ("SIMBOLO NO RECONOCIDO)
+------
+10-10:
+    if siguienteCaracter==e
+        lexema=lexema+e
+    else 
+        Error ("SIMBOLO NO RECONOCIDO)
+-----
+10-24:
+    if siguienteCaracater=='''
+        GenerarToken(chain,posicionTablaSimbolos)//revisar
+    else 
+        Error ("SIMBOLO NO RECONOCIDO)
+------
+#######
 ------
 
+0-8://separar casos =  ! 
+    if siguienteCaracter=='='
 
-
+    else if siguienteCaracater=='!'
+    
+    else 
+        Error ("SIMBOLO NO RECONOCIDO")
+8-22:   
+    if siguienteCaracater == '='
+        GenerarToken(relOp,equals)
+    else 
+        Error ("SIMBOLO NO RECONOCIDO")    
+   
 
 
 //Jerarquía lógica
