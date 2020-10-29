@@ -28,30 +28,38 @@ Acciones semanticas
 
 Leer:     Se lee en todos los estados menos en los que pone o.c.
 Errores:  Cualquier transicion no declarada dara error.
-
+-----
+-----
 0-1: 
     if siguienteCaracter == d
         numero=valor(d)
     else
         Error("SIMBOLO NO RECONOCIDO")
-
+-----
 1-1:
     if siguienteCaracter == d
         numero=numero+d
     else 
         Error("SIMBOLO NO RECONOCIDO")
-
+-----
 1-11:
     GenerarToken(wholeConst,numero)
+------
 
+------
 0-2: 
     if siguienteCaracter == l 
         lexema=l
     else 
         Error("SIMBOLO NO RECONOCIDO")
 
-
-
+2-2:
+    if siguienteCaracter == l || siguienteCaracter == d || siguienteCaracter == _
+        lexema=lexema+l
+    
+    if siguienteCaracter == d
+        lexema=lexema+d
+    if siguienteCaracter == _
 
 
 
