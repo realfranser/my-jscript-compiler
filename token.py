@@ -25,12 +25,6 @@ def tokenizer(file):
 						t.write(write)
 						
 
-						
-				 
-
-
-
-
 
 def main():
 	parser = argparse.ArgumentParser(add_help=True)
