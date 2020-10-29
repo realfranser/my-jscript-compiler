@@ -47,7 +47,10 @@ Errores:  Cualquier transicion no declarada dara error.
 0-2: 
     if siguienteCaracter == l 
         lexema=l
-    else
+    else 
+        Error("SIMBOLO NO RECONOCIDO")
+
+
 
 
 
