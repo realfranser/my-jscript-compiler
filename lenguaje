@@ -1,0 +1,27 @@
+S:--> del S | dA | lB | +D | -E | *F | /G  | ( | ) | { | } | =L | , | ; | &O | !L 
+A:--> dA | o.c.
+B:--> lB | dB | lambda 
+D:--> + | lambda
+E:--> - | lambda
+F:--> / 
+G:--> *
+L:--> = | lambda
+O:--> &
+
+
+
+
+
+
+//Jerarquía lógica
+
+//Jerarquía aritmética
+
+//Jerarquía relacional
+
+
+// ejemplo --> if(pp =2):
+
+d -- digito
+l -- letra minuscula
+del -- delimitador(blanco, tab, EOL)
