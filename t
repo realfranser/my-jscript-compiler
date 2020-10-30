@@ -1,11 +1,11 @@
-<wholeConst,1234>
-<ID,popio>
-<ID,kkkk>
-<if,>
-<separator,openPar>
-<ID,hola>
-<relOp,equals>
-<ID,pp>
-<separator,closePar>
-<separator,semicolon>
-<chain,'deohjflskdhjf>
+<ID,peepe>
+<chain,'pee
+'>
+<ID,paco>
+<chain,'
+/*1234
+& &1 
+hola*/
+1234
+'>
+<ID,h>

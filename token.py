@@ -6,6 +6,27 @@ targetFile = 'tokens.json'
 
 delim = [' ','\t']
 eol = ['\n']
+openComment = False
+
+def estadoCode(estado,word):
+	if estado == 1:
+		return 'wholeConst'
+	if estado == 2:
+		return 'reservedWord'
+	if estado == 3:
+		return 'aritOp'
+	if estado == 5: 
+		return 'aritOp'	
+	if estado == 8:
+		return 'logOp'	 
+	if estado == 10:
+		if word[len(word)-1]!="'":
+			print('string no finalizado en la ultima linea')
+			return 'error'
+		else:
+			return 'cadena'	
+		
+									
 def generarToken(tokenCode,atribute):
 	with  open(targetFile) as f:
 		data = json.load(f)
@@ -29,9 +50,11 @@ def generarToken(tokenCode,atribute):
 		
 
 def analizadorLexico(file):
+		global openComment
 		word = ''
 		estado = 0
-		with open(file,'r') as f:
+		contLinea=1
+		with open(file,'r') as f, open ('error.txt','w') as errorFile:
 			lines = f.readlines()
 			for line in lines:
 				print('siguiente linea')
@@ -40,10 +63,14 @@ def analizadorLexico(file):
 					print(counter)
 					print('siguiente caracter '+line[counter])
 					if estado == 0:
-						if line[counter] in delim:
+						if openComment == True:
+							counter=counter-1
+							estado = 6
+						elif line[counter] in delim:
 							print('------delimitador-------')
 						elif line[counter] in eol:
 							print('/////final de linea//////')
+							contLinea = contLinea +1
 							break
 						elif line[counter].isdigit() == True:
 							estado = 1
@@ -76,9 +103,23 @@ def analizadorLexico(file):
 						elif line[counter] == ',':
 							generarToken('separator','colon')
 						else:
-							print('Errorororororororororo')
-							#tratamiento de errores y elementos inesperados
+							elementoForaneo = True
+							causaError = 'error elemento foraneo: '+line[counter]+ ' linea: ' + str(contLinea) + '\n'
+							errorFile.write(causaError)
+						
 						word=line[counter]
+						if(counter==len(line)-1) and (line==lines[len(lines)-1]):
+							if word == '&' or word == '=' or word == "'":
+								causaError = 'error: '+word+ ' linea: ' + str(contLinea) + '\n'
+								errorFile.write(causaError)
+							elif elementoForaneo == True:
+								counter = counter+1
+								continue
+							else:
+								generarToken(estadoCode(estado),word)
+						counter = counter+1
+						elementoForaneo = False
+						continue
 					elif estado ==	1:
 						if line[counter].isdigit()==True:
 							print('es digito ')
@@ -93,7 +134,6 @@ def analizadorLexico(file):
 						if line[counter].isdigit() == True  or line[counter].isalpha() == True or line[counter] =='_':
 							estado=2
 							word+=line[counter]
-
 						else:
 							estado=0
 							counter = counter-1
@@ -115,54 +155,60 @@ def analizadorLexico(file):
 							estado =0
 							generarToken('aritOp','minus')
 							counter = counter-1
-
 					elif estado ==5:
 						if line[counter] =='*':
+							openComment=True
 							estado = 6
-
+							counter=counter+1
+							continue
 						else:
 							Error('barra sin asterico')	
 					elif estado == 6:
 						if line[counter] == '*':
 							estado = 7
-
+						elif line[counter] in eol:
+							contLinea = contLinea +1
+							estado = 0
+							break
 						else:
-							estado =7 
-
+							estado =6 
 					elif estado ==7:
 						if line[counter] == '/':
+							openComment=False
 							estado =0 
-
+							counter=counter+1
+							continue
 						elif line[counter] == '*':
 							counter = counter +1
 							continue
 						else:
 							estado = 6
-
 					elif estado ==8:
 						if line[counter] == '=':
 							estado =0
 							generarToken('relOp','notEquals')
-	
 						else:
 							estado = 0
 							counter = counter -1
 							generarToken('logOp','not')#revisar palabras reservadas
-
 					elif estado ==9: 
 						if line[counter] == '&':
 							estado=0
 							generarToken('logOp','and')
 						else:
-							Error('Necesita otro &')
+							estado = 0
+							print('----------------------------')
+							causaError = 'error: ' +word+ ' Expected: &&' + ' linea: ' + str(contLinea) + '\n'
+							errorFile.write(causaError)
+							continue
 					elif estado ==10: 
 						if line[counter] != "'":
 							estado = 10
 							word+=line[counter]
 						else:
 							estado=0
+							word+=line[counter]
 							generarToken('chain',word)
-							counter = counter-1
 					elif estado==11:
 						if line[counter] == '=':
 							estado = 0
@@ -172,7 +218,14 @@ def analizadorLexico(file):
 							counter = counter-1
 							generarToken('asigOp','equal')
 					counter = counter +1
-
+					if(counter==len(line)) and (line==lines[len(lines)-1]):
+						tokenCode = estadoCode(estado,word)
+						if tokenCode == 'error':
+							continue
+						generarToken(tokenCode,word)	
+		
+		f.close()
+		errorFile.close()
 					
 					
 					
