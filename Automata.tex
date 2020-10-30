@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usepackage{amstext}
+
 \begin{document}
 \begin{titlepage}
     \begin{center}
@@ -34,6 +35,7 @@
 
 \begin{center}
 AUTÓMATA FINITO DETERMINISTA
+\end{center}
 
 \vspace*{1cm}
 \fbox{%
@@ -148,7 +150,7 @@ AUTÓMATA FINITO DETERMINISTA
     \fill [black] (32.26,-16.38) -- (31.7,-17.14) -- (32.69,-17.22);
     \draw (31.68,-22.88) node [left] {$l$};
     \draw [black] (35.531,-12.82) arc (128.93151:-159.06849:2.25);
-    \draw (39.88,-15.67) node [right] {$l/d/bBaja$};
+    \draw (39.88,-15.67) node [right] {$l/d/\_$};
     \fill [black] (34.84,-15.37) -- (34.96,-16.31) -- (35.74,-15.68);
     \draw [black] (33.45,-10.52) -- (34.95,-5.38);
     \fill [black] (34.95,-5.38) -- (34.25,-6.01) -- (35.21,-6.29);
@@ -202,10 +204,10 @@ AUTÓMATA FINITO DETERMINISTA
     \draw (46.09,-45.08) node [below] {$)$};
     \draw [black] (35.921,-34.524) arc (31.54446:14.85272:74.061);
     \fill [black] (44.39,-54.29) -- (44.67,-53.38) -- (43.7,-53.64);
-    \draw (41.61,-43.14) node [right] {$llAb$};
+    \draw (41.61,-43.14) node [right] {$\{$};
     \draw [black] (34.86,-34.947) arc (9.27057:-9.27057:57.438);
     \fill [black] (34.86,-53.45) -- (35.48,-52.74) -- (34.5,-52.58);
-    \draw (36.11,-44.2) node [right] {$llCe$};
+    \draw (36.11,-44.2) node [right] {$\}$};
     \draw [black] (33.22,-34.8) -- (29.18,-45.2);
     \fill [black] (29.18,-45.2) -- (29.94,-44.64) -- (29.01,-44.28);
     \draw (31.95,-40.85) node [right] {$!$};
@@ -217,10 +219,10 @@ AUTÓMATA FINITO DETERMINISTA
     \draw (20,-51.05) node [above] {$=$};
     \draw [black] (31.34,-32.52) -- (22.36,-34.08);
     \fill [black] (22.36,-34.08) -- (23.23,-34.44) -- (23.06,-33.45);
-    \draw (26.25,-32.68) node [above] {$amp$};
+    \draw (26.25,-32.68) node [above] {$\&$};
     \draw [black] (16.49,-35.33) -- (7.91,-37.47);
     \fill [black] (7.91,-37.47) -- (8.81,-37.76) -- (8.57,-36.79);
-    \draw (11.28,-35.81) node [above] {$amp$};
+    \draw (11.28,-35.81) node [above] {$\&$};
     \draw [black] (16.289,-29.498) arc (102.25681:68.44282:26.374);
     \fill [black] (16.29,-29.5) -- (17.18,-29.82) -- (16.96,-28.84);
     \draw (24.11,-28.44) node [above] {$'$};
@@ -464,7 +466,7 @@ ACCIONES SEMÁNTICAS\\
 
 \textbf{Caso 0-8:}
 \begin{verbatim}
-    if siguienteCaracter=='='
+    if siguienteCaracter=='!'
     
     else 
         Error ("SIMBOLO NO RECONOCIDO")
@@ -472,20 +474,20 @@ ACCIONES SEMÁNTICAS\\
 
 \textbf{Caso 8-21:}
 \begin{verbatim}
-        GenerarToken(relOp,equals)
+        GenerarToken(logOp,not)
 \end{verbatim}
 
 \textbf{Caso 8-22:}
 \begin{verbatim}
     if siguienteCaracater == '='
-        GenerarToken(relOp,equals)
+        GenerarToken(relOp,notEquals)
     else 
         Error ("SIMBOLO NO RECONOCIDO")  
 \end{verbatim}
 
 \textbf{Caso 0-11:}
 \begin{verbatim}
-    if siguienteCaracater == '!'
+    if siguienteCaracater == '='
 
     else 
         Error ("SIMBOLO NO RECONOCIDO")  
@@ -494,14 +496,29 @@ ACCIONES SEMÁNTICAS\\
 \textbf{Caso 11-28:}
 \begin{verbatim}
     if siguienteCaracater == '='
-        GenerarToken(relOp,notEquals)
+        GenerarToken(relOp,equals)
     else 
         Error ("SIMBOLO NO RECONOCIDO")  
 \end{verbatim}
 
 \textbf{Caso 11-29:}
 \begin{verbatim}
-        GenerarToken(logOp,not)
+        GenerarToken(asigOp,equal)
+\end{verbatim}
+\textbf{Caso 0-9:}
+\begin{verbatim}
+    if siguienteCaracter == '&'
+        
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+\end{verbatim}
+
+\textbf{Caso 9-23:}
+\begin{verbatim}
+    if siguienteCaracter == '&'
+        GenerarToken(logOp,and)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
 \end{verbatim}
 
 

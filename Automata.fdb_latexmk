@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1604050122 "/home/jesus/Procesadores de Lenguajes/PDL/Automata.tex" "/home/jesus/Procesadores de Lenguajes/PDL/Automata.pdf" "Automata" 1604050122
+["pdflatex"] 1604057153 "/home/jesus/Procesadores de Lenguajes/PDL/Automata.tex" "/home/jesus/Procesadores de Lenguajes/PDL/Automata.pdf" "Automata" 1604057153
   "/etc/texmf/web2c/texmf.cnf" 1603977734 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/jesus/Procesadores de Lenguajes/PDL/Automata.aux" 1604050122 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/home/jesus/Procesadores de Lenguajes/PDL/Automata.tex" 1604050121 15792 0f806d65862b4f4338822ba495e09b6d ""
+  "/home/jesus/Procesadores de Lenguajes/PDL/Automata.aux" 1604057153 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/home/jesus/Procesadores de Lenguajes/PDL/Automata.tex" 1604057135 16102 313d6b3e0a96133f19d936386af82162 ""
   "/home/jesus/Procesadores de Lenguajes/PDL/tikz.sty" 0 -1 0 ""
   "/usr/share/texlive/texmf-dist/tex/latex/base/article.cls" 1580683321 20023 e427dd9e17e239bf926ef3aab67fe35e ""
   "/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty" 1580683321 5050 8933a39ad74377accd18991c5eb90c58 ""
@@ -10,9 +10,9 @@
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1581979058 38841 ce3692aa899bb693b90b87eaa5d4d84e ""
   "/usr/share/texmf/web2c/texmf.cnf" 1581979058 38841 ce3692aa899bb693b90b87eaa5d4d84e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1603977746 4791333 57943d1b91f3a98fbf6179733f0c3c08 ""
-  "Automata.tex" 1604050121 15792 0f806d65862b4f4338822ba495e09b6d ""
+  "Automata.tex" 1604057135 16102 313d6b3e0a96133f19d936386af82162 ""
   "tikz.sty" 0 -1 0 ""
   (generated)
-  "/home/jesus/Procesadores de Lenguajes/PDL/Automata.pdf"
   "/home/jesus/Procesadores de Lenguajes/PDL/Automata.log"
+  "/home/jesus/Procesadores de Lenguajes/PDL/Automata.pdf"
   "Automata.log"
