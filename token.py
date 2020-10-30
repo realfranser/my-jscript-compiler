@@ -1,160 +1,178 @@
 import json
 import argparse
-targetfile = 'tokens.json'
-tokenFile = 't'
+targetFile = 'tokens.json'
+
 
 
 delim = [' ','\t']
 eol = ['\n']
 def generarToken(tokenCode,atribute):
-	file = open(tokenFile,W)
-	token = '<' + tokencode + ',' + atribute + '>'
-	file.write(token)
+	with  open(targetFile) as f:
+		data = json.load(f)
+		print("generando token:"+atribute)
+		if tokenCode == 'reservedWord':#buscar en token.json
+			print('palabra reservada?')
+			for i in data['tokens']:
+				if (i['tokenCode'] == 'reservedWord'):
+					for k in i['tokenList']:
+						print(k['atribute'] + ' == ' + atribute)
+						if k['atribute']==atribute:
+							print('found')
+							token = '<' + atribute + ',>\n'
+							break
+						else:
+							token = '<ID,' + atribute + '>\n'
+		else:	
+			token = '<' + tokenCode + ',' + atribute + '>\n' 
+		
+		tokenFile.write(token)
+		
 
-def analizadorLexico():
-	with open(targetfile) as f,open(tokenFile,'w') as t:
-		tokens = json.load(f)
-		f.close
+def analizadorLexico(file):
 		word = ''
 		estado = 0
 		with open(file,'r') as f:
-			line = f.readline()
-			while line:
-				for	i in line:
+			lines = f.readlines()
+			for line in lines:
+				print('siguiente linea')
+				counter =0
+				while counter in range(len(line)):
+					print(counter)
+					print('siguiente caracter '+line[counter])
 					if estado == 0:
-						if i in delim:
-							continue
-						elif i in eol:
+						if line[counter] in delim:
+							print('------delimitador-------')
+						elif line[counter] in eol:
+							print('/////final de linea//////')
 							break
-						elif i.isdigit:
+						elif line[counter].isdigit() == True:
 							estado = 1
-						elif i.isalpha:
-        				
-							 estado=2
-						elif i=='+':
-							estado = 3
-						elif i=='-':
-							estado=4
-						elif i == '/':
-							estado = 5
-						elif i == '(':
-							generarToken(separator,openPar)
-						elif i == ')':
-							generarToken(separator,closePar)
-						elif i == '{':
-							generarToken(separator,openBraq)
-						elif i == '}':
-							generarToken(separator,closeBraq)	 
-						elif i == '!':
-							estado = 8
-						elif i == '&':
-							estado = 9
-						elif i=="'":
-							estado = 10
-						elif i=='=':
-							estado = 11	
-						elif i==';':
-							generarToken('separator','semicolon')
-						elif i == ',':
-							generarToken(separator,colon)
-						else:
-							print('hola')
-							#tratamiento de errores y elementos inesperados
-						word=i
-					elif estado ==	1:
-						if i.isdigit:
-							estado=1
-							word+=i
-							continue
-						else:
-							estado=0
-							generarToken(wholeConst,numero)
-							i--
-							continue
-					elif estado ==	 2:
-						if i.isdigit() or i.isalpha or i =='_':
+						elif line[counter].isalpha() == True:
 							estado=2
-							word+=i
-							continue
+						elif line[counter] == '+':
+							estado = 3
+						elif line[counter] == '-':
+							estado=4
+						elif line[counter] == '/':
+							estado = 5
+						elif line[counter] == '(':
+							generarToken('separator','openPar')
+						elif line[counter] == ')':
+							generarToken('separator','closePar')
+						elif line[counter] == '{':
+							generarToken('separator','openBraq')
+						elif line[counter] == '}':
+							generarToken('separator','closeBraq')	 
+						elif line[counter] == '!':
+							estado = 8
+						elif line[counter] == '&':
+							estado = 9
+						elif line[counter]=="'":
+							estado = 10
+						elif line[counter]=='=':
+							estado = 11	
+						elif line[counter]==';':
+							generarToken('separator','semicolon')
+						elif line[counter] == ',':
+							generarToken('separator','colon')
+						else:
+							print('Errorororororororororo')
+							#tratamiento de errores y elementos inesperados
+						word=line[counter]
+					elif estado ==	1:
+						if line[counter].isdigit()==True:
+							print('es digito ')
+							estado=1
+							word+=line[counter]
 						else:
 							estado=0
-							generarToken(ID,posicionTablaSimbolos)
-							i--
-							continue
-				    elif estado ==3:
-						if i == '+':
+							counter =counter-1
+							print('final digitos')
+							generarToken('wholeConst',word)		
+					elif estado == 2:
+						if line[counter].isdigit() == True  or line[counter].isalpha() == True or line[counter] =='_':
+							estado=2
+							word+=line[counter]
+
+						else:
+							estado=0
+							counter = counter-1
+							print('final caracteres y numeros y esas cosas nazis')
+							generarToken('reservedWord',word)							
+					elif estado == 3:
+						if line[counter] == '+':
 							estado = 0
-							generarToken(autoIncOp,autoinc)
+							generarToken('autoIncOp','autoinc')
 						else:
 							estado =0
-							generarToken(aritOp,plus)
-							i--
-							continue
-				    elif estado == 4:
-						if i == '-':
+							generarToken('aritOp','plus')
+							counter = counter-1
+					elif estado == 4:
+						if line[counter] == '-':
 							estado = 0
-							generarToken(autoDecOp,autodec)
+							generarToken('autoDecOp','autodec')
 						else:
 							estado =0
-							generarToken(aritOp,minus)
-							i--
-							continue
+							generarToken('aritOp','minus')
+							counter = counter-1
+
 					elif estado ==5:
-						if i =='*':
+						if line[counter] =='*':
 							estado = 6
-							continue
+
 						else:
 							Error('barra sin asterico')	
 					elif estado == 6:
-						if i == '*':
+						if line[counter] == '*':
 							estado = 7
-							continue
+
 						else:
 							estado =7 
-							continue
+
 					elif estado ==7:
-						if i == '/':
+						if line[counter] == '/':
 							estado =0 
-							continue
-						elif i == '*':
+
+						elif line[counter] == '*':
+							counter = counter +1
 							continue
 						else:
 							estado = 6
-							continue
+
 					elif estado ==8:
-						if i == '=':
+						if line[counter] == '=':
 							estado =0
-							generarToken(relOp,notEquals)
-							continue
+							generarToken('relOp','notEquals')
+	
 						else:
 							estado = 0
-							generarToken(logOp,not)#revisar palabras reservadas
-							continue
+							counter = counter -1
+							generarToken('logOp','not')#revisar palabras reservadas
+
 					elif estado ==9: 
-						if i == '&':
+						if line[counter] == '&':
 							estado=0
-							generarToken(logOp,and)
-							break
+							generarToken('logOp','and')
 						else:
 							Error('Necesita otro &')
 					elif estado ==10: 
-						if i != "'":
+						if line[counter] != "'":
 							estado = 10
-							word+=i
+							word+=line[counter]
 						else:
 							estado=0
-							generarToken(chain,posicionTablaSimbolos)
-							continue
-
+							generarToken('chain',word)
+							counter = counter-1
 					elif estado==11:
-						if i == '=':
+						if line[counter] == '=':
 							estado = 0
-							generarToken(relOp,equals)
+							generarToken('relOp','equals')
 						else:
 							estado =0
-							i--
-							generarToken(asigOp,equal)
-							continue
+							counter = counter-1
+							generarToken('asigOp','equal')
+					counter = counter +1
+
 					
 					
 					
@@ -171,10 +189,15 @@ def analizadorLexico():
 
 
 def main():
+	global tokenFile
 	parser = argparse.ArgumentParser(add_help=True)
 	parser.add_argument('-f', type =str,nargs=1,help='Required filename you want to compile')
 	args = parser.parse_args()
+	tokenFile = file = open('t','w') 
 	analizadorLexico(args.f[0])
+	
+
+	
 
 
 if __name__== '__main__':

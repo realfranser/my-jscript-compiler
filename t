@@ -1,0 +1,11 @@
+<wholeConst,1234>
+<ID,popio>
+<ID,kkkk>
+<if,>
+<separator,openPar>
+<ID,hola>
+<relOp,equals>
+<ID,pp>
+<separator,closePar>
+<separator,semicolon>
+<chain,'deohjflskdhjf>
