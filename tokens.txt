@@ -19,11 +19,4 @@
 <separator,closePar>
 <separator,openBraq>
 <separator,closeBraq>
-<chain,'pepe'>
-<wholeConst,23>
-<aritOp,minus>
-<wholeConst,423049>
-<ID,sajkhdlask_p>
-<ID,p1223>
-<wholeConst,1>
-<ID,wd>
+<wholeConst,1122>

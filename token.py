@@ -8,7 +8,7 @@ delim = [' ','\t']
 eol = ['\n']
 openComment = False
 
-def estadoCode(estado,word):
+def estadoCode(estado,word,contLinea):
 	if estado == 1:
 		return 'wholeConst'
 	if estado == 2:
@@ -21,7 +21,9 @@ def estadoCode(estado,word):
 		return 'logOp'	 
 	if estado == 10:
 		if word[len(word)-1]!="'":
-			print('string no finalizado en la ultima linea')
+			with open ('error.txt','w') as errorFile:
+				causaError = 'Error -- Cadena no cerrada: +++ '+word+' +++ en linea:'+str(contLinea)+' \n'
+				errorFile.write(causaError)
 			return 'error'
 		else:
 			return 'cadena'	
@@ -104,19 +106,18 @@ def analizadorLexico(file):
 							generarToken('separator','colon')
 						else:
 							elementoForaneo = True
-							causaError = 'error elemento foraneo: '+line[counter]+ ' linea: ' + str(contLinea) + '\n'
+							causaError = 'Error -- elemento foraneo: '+line[counter]+ ' linea: ' + str(contLinea) + '\n'
 							errorFile.write(causaError)
 						
 						word=line[counter]
 						if(counter==len(line)-1) and (line==lines[len(lines)-1]):
 							if word == '&' or word == '=' or word == "'":
-								causaError = 'error: '+word+ ' linea: ' + str(contLinea) + '\n'
+								causaError = 'Error -- '+word+ ' linea: ' + str(contLinea) + '\n'
 								errorFile.write(causaError)
 							elif elementoForaneo == True:
 								counter = counter+1
 								continue
-							else:
-								generarToken(estadoCode(estado),word)
+						
 						counter = counter+1
 						elementoForaneo = False
 						continue
@@ -137,7 +138,7 @@ def analizadorLexico(file):
 						else:
 							estado=0
 							counter = counter-1
-							print('final caracteres y numeros y esas cosas nazis')
+							print('Salida estado 2(conjuto de caracteres!=/,*,\',& etc')
 							generarToken('reservedWord',word)							
 					elif estado == 3:
 						if line[counter] == '+':
@@ -162,7 +163,10 @@ def analizadorLexico(file):
 							counter=counter+1
 							continue
 						else:
-							Error('barra sin asterico')	
+							causaError = 'Error -- In line '+ str(contLinea) + '.  Provided: '+word+ ' || Expected: /*.'+ '\n'
+							errorFile.write(causaError)
+							 # falla
+							
 					elif estado == 6:
 						if line[counter] == '*':
 							estado = 7
@@ -197,8 +201,7 @@ def analizadorLexico(file):
 							generarToken('logOp','and')
 						else:
 							estado = 0
-							print('----------------------------')
-							causaError = 'error: ' +word+ ' Expected: &&' + ' linea: ' + str(contLinea) + '\n'
+							causaError = 'Error -- In line '+ str(contLinea) + '. Provided: '+word+ ' || Expected: &&.'+ '\n'
 							errorFile.write(causaError)
 							continue
 					elif estado ==10: 
@@ -219,7 +222,7 @@ def analizadorLexico(file):
 							generarToken('asigOp','equal')
 					counter = counter +1
 					if(counter==len(line)) and (line==lines[len(lines)-1]):
-						tokenCode = estadoCode(estado,word)
+						tokenCode = estadoCode(estado,word,contLinea)
 						if tokenCode == 'error':
 							continue
 						generarToken(tokenCode,word)	
@@ -246,7 +249,7 @@ def main():
 	parser = argparse.ArgumentParser(add_help=True)
 	parser.add_argument('-f', type =str,nargs=1,help='Required filename you want to compile')
 	args = parser.parse_args()
-	tokenFile = file = open('t','w') 
+	tokenFile = open('t','w') 
 	analizadorLexico(args.f[0])
 	
 
