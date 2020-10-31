@@ -1,4 +1,4 @@
-python3 rec.py -f tests/test.js
+python3 rec.py -f tests/test.js > tests/debug.txt
 echo ---------- tokens ---------------
 cat output/tokens.txt
 echo ---------------------------------
