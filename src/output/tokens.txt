@@ -4,6 +4,7 @@
 <ID,c>
 <separator,closePar>
 <separator,openBraq>
+<let,>
 <ID,b>
 <asigOp,equal>
 <ID,c>

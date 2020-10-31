@@ -8,10 +8,11 @@
 ** Delimitador en caracater:2 ,linea: 3
 ** Delimitador en caracater:3 ,linea: 3
 ** Delimitador en caracater:4 ,linea: 3
-** Delimitador en caracater:6 ,linea: 3
 ** Delimitador en caracater:8 ,linea: 3
-** Delimitador en caracater:11 ,linea: 3
-//////// Número total de caracateres en la linea:11
+** Delimitador en caracater:10 ,linea: 3
+** Delimitador en caracater:12 ,linea: 3
+** Delimitador en caracater:15 ,linea: 3
+//////// Número total de caracateres en la linea:15
 ** Delimitador en caracater:1 ,linea: 4
 ** Delimitador en caracater:2 ,linea: 4
 ** Delimitador en caracater:3 ,linea: 4

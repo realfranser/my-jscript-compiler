@@ -1,6 +1,6 @@
 function padre(c) {
 
-    b = c;
+    let b = c;
     b++;
 
     c - b
