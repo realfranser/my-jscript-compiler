@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.30)  30 OCT 2020 12:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.30)  31 OCT 2020 15:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/home/jesus/Procesadores de Lenguajes/PDL/Automata.tex"
-(/home/jesus/Procesadores de Lenguajes/PDL/Automata.tex
+**"/home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.tex"
+(/home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
@@ -245,11 +245,30 @@ Package: amstext 2000/06/29 v2.01 AMS text
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks29
 \ex@=\dimen187
-)) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+)) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2019/11/07 v1.0c TeX engine tests
+))
+\Gm@cnth=\count196
+\Gm@cntv=\count197
+\c@Gm@tempcnt=\count198
+\Gm@bindingoffset=\dimen188
+\Gm@wd@mp=\dimen189
+\Gm@odd@mp=\dimen190
+\Gm@even@mp=\dimen191
+\Gm@layoutwidth=\dimen192
+\Gm@layoutheight=\dimen193
+\Gm@layouthoffset=\dimen194
+\Gm@layoutvoffset=\dimen195
+\Gm@dimlist=\toks30
+) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count196
+\l__kernel_color_stack_int=\count199
 \l__pdf_internal_box=\box56
-) (/home/jesus/Procesadores de Lenguajes/PDL/Automata.aux)
+) (/home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.aux)
 \openout1 = `Automata.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
@@ -268,64 +287,110 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
 LaTeX Font Info:    ... okay on input line 6.
  ABD: EveryShipout initializing macros (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count197
-\scratchdimen=\dimen188
+\scratchcounter=\count266
+\scratchdimen=\dimen196
 \scratchbox=\box57
-\nofMPsegments=\count198
-\nofMParguments=\count199
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count266
-\MPscratchDim=\dimen189
-\MPnumerator=\count267
-\makeMPintoPDFobject=\count268
-\everyMPtoPDFconversion=\toks31
+\nofMPsegments=\count267
+\nofMParguments=\count268
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count269
+\MPscratchDim=\dimen197
+\MPnumerator=\count270
+\makeMPintoPDFobject=\count271
+\everyMPtoPDFconversion=\toks32
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
-)) [1
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(76.78688pt, 460.72124pt, 76.78688pt)
+* v-part:(T,H,B)=(28.45274pt, 596.22748pt, 170.28976pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=460.72124pt
+* \textheight=596.22748pt
+* \oddsidemargin=4.51689pt
+* \evensidemargin=4.51689pt
+* \topmargin=-80.81725pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 53.
+(Font)              <7> on input line 56.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 53.
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 53.
+(Font)              <5> on input line 56.
+
+Overfull \hbox (10.13332pt too wide) in paragraph at lines 56--57
+[] 
+ []
+
+LaTeX Font Info:    Trying to load font information for OML+cmr on input line 97.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 97.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 97.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 53.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 97.
 
-Overfull \hbox (25.13332pt too wide) in paragraph at lines 53--55
+Overfull \hbox (10.13332pt too wide) in paragraph at lines 97--98
+[] 
+ []
+
+[1] [2]
+Overfull \hbox (25.13332pt too wide) in paragraph at lines 142--144
 [][]
  []
 
-
-Overfull \hbox (101.1832pt too wide) in paragraph at lines 250--251
- [] 
- []
-
-[1]
-Underfull \hbox (badness 10000) in paragraph at lines 259--262
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 346--349
 
  []
 
-[2] [3] [4] [5] [6] (/home/jesus/Procesadores de Lenguajes/PDL/Automata.aux) ) 
+[4] [5] [6] [7] [8] (/home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.aux) ) 
 Here is how much of TeX's memory you used:
- 11874 strings out of 481239
- 245072 string characters out of 5920376
- 487406 words of memory out of 5000000
- 26953 multiletter control sequences out of 15000+600000
+ 12405 strings out of 481239
+ 252791 string characters out of 5920376
+ 501220 words of memory out of 5000000
+ 27471 multiletter control sequences out of 15000+600000
  534025 words of font info for 30 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,10n,68p,453b,661s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,10n,68p,459b,661s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on "/home/jesus/Procesadores de Lenguajes/PDL/Automata.pdf" (7 pages, 110668 bytes).
+Output written on "/home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.pdf" (9 pages, 117522 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
- 45 compressed objects within 1 object stream
+ 69 PDF objects out of 1000 (max. 8388607)
+ 49 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usepackage{amstext}
-
+\usepackage[scale=0.75,top=1cm]{geometry}
 \begin{document}
 \begin{titlepage}
     \begin{center}
@@ -32,12 +32,101 @@
         
     \end{center}
 \end{titlepage}
+\newpage
+\begin{center}
+    PALABRAS RESERVADAS
+\end{center}
+\fbox{%
+  \parbox{\textwidth}{
+     alert\\
+     boolean\\
+     else\\ 
+     function\\
+     if\\
+     input\\
+     let\\
+     number\\
+     return\\
+     string\\
+     while\\
+     false\\
+     true\\
+     do  
+  }
+}
+\begin{center}
+    TOKENS
+\end{center}
+\fbox{%
+  \parbox{\textwidth}{
+    \begin{tabular}{l|l}
+        alert	            &\textless alert, \textgreater\\
+        boolean	            &\textless boolean, \textgreater\\
+        else	            &\textless  else, \textgreater\\
+        function	        &\textless function, \textgreater\\
+        if	                &\textless if, \textgreater\\
+        input	            &\textless input, \textgreater\\
+        let	                &\textless let, \textgreater\\
+        number	            &\textless number, \textgreater\\
+        return	            &\textless return, \textgreater\\
+        string	            &\textless string, \textgreater\\
+        while	            &\textless while, \textgreater\\
+        false	            &\textless false, \textgreater\\
+        true	            &\textless true, \textgreater\\
+        do	                &\textless do, \textgreater\\
+        autoInc	            &\textless Autoincremento (++), \textgreater\\
+        Número	            &\textless constante entera, \textgreater\\
+        Posición(Número)	&\textless Cadena ('), \textgreater\\
+        Número	            &\textless Identificador, \textgreater\\
+        equal	            &\textless =, \textgreater\\
+        colon	            &\textless ,, \textgreater\\
+        semicolon	        &\textless ;, \textgreater\\
+        openPar	            &\textless (, \textgreater\\
+        closePar	        &\textless ), \textgreater\\
+        openBraq	        &\textless \{, \textgreater\\
+        closeBraq	        &\textless \}, \textgreater\\
+        plus	            &\textless +, \textgreater\\
+        minus	            &\textless -, \textgreater\\
+        and	                &\textless \&\&, \textgreater\\
+        not	                &\textless !, \textgreater\\
+        notEquals	        &\textless !=, \textgreater\\
+        equals	            &\textless ==, \textgreater
+        
+    \end{tabular}
+  }
+}
+\newpage
+\begin{center}
+    GRAMÁTICA
+\end{center}
 
+\begin{verbatim}
+S:--> del S | dA | lB | +C | -D | /F  | ( | ) | { | } | =G | !G | , | ; | &H | 'J
+A:--> dA |lambda
+B:--> lB | dB | _B | lambda  
+C:--> + | lambda
+D:--> - | lambda
+F:--> *E
+E:--> cE | *I | /
+I:--> *I | c'E
+G:--> = | lambda
+H:--> &
+J:--> eJ | '
+
+
+d -- digito
+l -- letra minuscula
+del -- delimitador(blanco, tab, EOL)
+c -- caracteres - (*)
+c' -- caracteres - (*/)
+e -- caracteres - (')
+\end{verbatim}
+\newpage
 \begin{center}
 AUTÓMATA FINITO DETERMINISTA
 \end{center}
 
-\vspace*{1cm}
+%\vspace*{1cm}
 \fbox{%
   \parbox{\textwidth}{
     \begin{tabular}{l|l}
@@ -250,12 +339,10 @@ AUTÓMATA FINITO DETERMINISTA
     \end{tikzpicture}
     \end{center}
 \vspace{2cm}
-
+\newpage
 \begin{center}
 ACCIONES SEMÁNTICAS\\
 \end{center}
-\vspace{2cm}
-
 \noindent
 \textbf{Leer:}Se lee en todos los estados menos en los que pone o.c.\\
 \textbf{Errores}:  Cualquier transicion no declarada dara error.\\
@@ -375,7 +462,7 @@ ACCIONES SEMÁNTICAS\\
     else
          Error("SIMBOLO NO RECONOCIDO")
 \end{verbatim}
-
+\newpage
 \textbf{Caso 7-6:}
 \begin{verbatim}
     if siguienteCaracater=='c''
@@ -439,7 +526,7 @@ ACCIONES SEMÁNTICAS\\
     else
         Error("SIMBOLO NO RECONOCIDO")
 \end{verbatim}
-
+\newpage
 \textbf{Caso 0-10:}
 \begin{verbatim}
     if siguienteCaracter=='''
@@ -505,6 +592,7 @@ ACCIONES SEMÁNTICAS\\
 \begin{verbatim}
         GenerarToken(asigOp,equal)
 \end{verbatim}
+\newpage
 \textbf{Caso 0-9:}
 \begin{verbatim}
     if siguienteCaracter == '&'
@@ -521,10 +609,21 @@ ACCIONES SEMÁNTICAS\\
         Error("SIMBOLO NO RECONOCIDO")
 \end{verbatim}
 
+\vspace*{1cm}
 
-
-
-
+\begin{center}
+    TABLA DE SIMBOLOS\\
+    \end{center}
+\vspace*{1cm}
+El valor de los atributos y numero de tabla seran corregidos con el valor real mas adelante.
+\begin{verbatim}
+    Contenido Tabla Símbolos # N :
+    * LEXEMA : 'x'
+      ATRIBUTOS :
+        + tipo: unknown
+        + despl: unknown
+    
+\end{verbatim}
 
 
 \end{document}

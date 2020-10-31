@@ -1,10 +1,10 @@
-PWD /home/jesus/Procesadores de Lenguajes/PDL
+PWD /home/jesus/Procesadores de Lenguajes/PDL/LaTex
 INPUT /etc/texmf/web2c/texmf.cnf
 INPUT /usr/share/texmf/web2c/texmf.cnf
 INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
-INPUT /home/jesus/Procesadores de Lenguajes/PDL/Automata.tex
-OUTPUT /home/jesus/Procesadores de Lenguajes/PDL/Automata.log
+INPUT /home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.tex
+OUTPUT /home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.log
 INPUT /usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
@@ -122,11 +122,17 @@ INPUT /usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 INPUT /usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
-INPUT /home/jesus/Procesadores de Lenguajes/PDL/Automata.aux
-INPUT /home/jesus/Procesadores de Lenguajes/PDL/Automata.aux
-OUTPUT /home/jesus/Procesadores de Lenguajes/PDL/Automata.aux
+INPUT /home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.aux
+INPUT /home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.aux
+OUTPUT /home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.aux
 INPUT /usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
@@ -138,13 +144,15 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-OUTPUT /home/jesus/Procesadores de Lenguajes/PDL/Automata.pdf
+OUTPUT /home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.pdf
 INPUT /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map
+INPUT /usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
+INPUT /usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
-INPUT /home/jesus/Procesadores de Lenguajes/PDL/Automata.aux
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+INPUT /home/jesus/Procesadores de Lenguajes/PDL/LaTex/Automata.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
