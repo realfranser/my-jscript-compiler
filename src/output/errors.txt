@@ -1,0 +1,3 @@
+++ Error: Caracter no reconocido:	 en caracter: 0 ,linea: 2
+++ Error: Caracter no reconocido:	 en caracter: 0 ,linea: 3
+++ Error: ' cadena supera los 64 caracteres por: 1 ,en la linea: 3

@@ -209,9 +209,12 @@ def analizadorLinea(line, lineCounter):
 			if(seCierra == False):
 				generarError('++ Error: \' cadena no se cierra en ningun momento,abierto en caracter: '
 																+str(aperturaEnCaracter) +' ,linea: ' + str(lineCounter))
-
 			else:
-			  generarToken('chain',cadena)
+				if len(cadena)<67:
+					generarToken('chain',cadena)
+				else:
+			  		generarError('++ Error: \' cadena supera los 64 caracteres por: '
+																+str(len(cadena)-66) +' ,en la linea: ' + str(lineCounter))
 
 		elif leerChar(lista).isdigit()== True:
 			numero = leerChar(lista)

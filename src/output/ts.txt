@@ -1,4 +1,4 @@
-Contenido Tabla Símbolos # 0 :
+Contenido Tabla SÃ­mbolos # 0 :
 * LEXEMA : 'padre'
   ATRIBUTOS :
 	+ tipo: unknown
