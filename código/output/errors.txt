@@ -1,5 +1,0 @@
-++ Error: & esta solo en caracter: 7 ,linea: 1
-++ Error: Caracter no reconocido:. en caracter: 42 ,linea: 1
-++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 53 ,linea: 1
-++ Error: & esta solo en caracter: 1 ,linea: 8
-++ Error: / esta solo en caracter: 1 ,linea: 9

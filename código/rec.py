@@ -8,14 +8,37 @@ errorFilePath = 'output/errors.txt'
 TSFilePath = 'output/ts.txt'
 # Global flag
 openComment = False
-
+tsOgNumber = 0
+tsAcNumber = 0
 
 def generarTS():
-	return
+	global tsAcNumber
+	lineaNumeroTS = 'Contenido Tabla Símbolos # '+str(tsAcNumber)+' :\n'
+	TSFile.write(lineaNumeroTS)
+	tsAcNumber = tsAcNumber + 1
+	
+def lexemaTS(lexema):
+	lineaLexemaTS = '* LEXEMA : \''+lexema+'\'\n'
+	TSFile.write(lineaLexemaTS)
+	atributoTS()
+		
+def atributoTS():
+	lineaAtributoTS = '  ATRIBUTOS :\n'
+	TSFile.write(lineaAtributoTS)
+	# Esto es solo para la primera entrega habra que cambiarlo cuando hagamos el sintactico
+	valor = 'unknown'
+	lineaATipoTS = '	+ tipo: ' + valor +'\n'
+	TSFile.write(lineaATipoTS)
+	valor = 'unknown'
+	lineaADesplTS = '	+ despl: ' + valor +'\n'
+	TSFile.write(lineaADesplTS)
+
+
 
 
 								
 def generarToken(tokenCode,atribute):
+	found =False
 	with  open(sourceTokenFilePath) as sourceTokenFile:
 		data = json.load(sourceTokenFile)
 		if tokenCode == 'reservedWord':#buscar en token.json
@@ -24,9 +47,12 @@ def generarToken(tokenCode,atribute):
 					for k in i['tokenList']:
 						if k['atribute']==atribute:
 							token = '<' + atribute + ',>\n'
+							found = True
 							break
-						else:
-							token = '<ID,' + atribute + '>\n'
+			if found == False:
+				token = '<ID,' + atribute + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
+				lexemaTS(atribute)
+
 		else:	
 			token = '<' + tokenCode + ',' + atribute + '>\n' 
 		
@@ -257,7 +283,7 @@ def analizadorLinea(line, lineCounter):
 						
 
 def main():
-	global tokenFile,errorFile,openComment,TSFile
+	global tokenFile,errorFile,openComment,TSFile,tsAcNumber,tsOgNumber
 	
 	# Parses argument, and requires the user to provide one file
 	parser = argparse.ArgumentParser(add_help=True)
@@ -277,7 +303,8 @@ def main():
 		openComment =False
 		lineCounter = 0;
 		lines = test.readlines()
-		tokenLines = lines # do not modify entering argument ever
+		tokenLines = lines # backup so the OG list is not modified in case we need it
+		generarTS()
 		while tokenLines:
 			lineCounter= lineCounter+1
 			analizadorLinea(leerLinea(tokenLines),lineCounter)
