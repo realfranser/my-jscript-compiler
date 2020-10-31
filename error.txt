@@ -1,3 +1,0 @@
-++ Error: & is alone
-++ Error: Caracter no reconocido:.
-++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 53

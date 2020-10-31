@@ -1,12 +1,23 @@
 import json
 import argparse
-targetFile = 'tokens.json'
 
+# File Paths
+sourceTokenFilePath = 'sources/tokens.json'
+tokenFilePath = 'output/tokens.txt'
+errorFilePath = 'output/errors.txt'
+TSFilePath = 'output/ts.txt'
+# Global flag
 openComment = False
+
+
+def generarTS():
+	return
+
+
 								
 def generarToken(tokenCode,atribute):
-	with  open(targetFile) as f:
-		data = json.load(f)
+	with  open(sourceTokenFilePath) as sourceTokenFile:
+		data = json.load(sourceTokenFile)
 		if tokenCode == 'reservedWord':#buscar en token.json
 			for i in data['tokens']:
 				if (i['tokenCode'] == 'reservedWord'):
@@ -20,6 +31,7 @@ def generarToken(tokenCode,atribute):
 			token = '<' + tokenCode + ',' + atribute + '>\n' 
 		
 		tokenFile.write(token)
+		sourceTokenFile.close()
 
 def generarError(error):
 		errorFile.write(error)
@@ -38,21 +50,21 @@ def leerLinea(lista):
 		linea = lista[0]
 	return linea
 
-def analizadorLinea(line):
-	global comentarioAbierto
+def analizadorLinea(line, lineCounter):
+	global openComment
 	contadorCaracter = 0
 	lista = line
 	while lista:
-		if comentarioAbierto == True:
+		if openComment == True:
 			while lista:
 				if leerChar(lista)== '*':	
 					contadorCaracter = contadorCaracter+1
 					lista = lista[1:]
-					aperturaEnCaracter=contadorCaracter
+					cerradoEnCaracter=contadorCaracter
 					if leerChar(lista) == '/':
 						contadorCaracter = contadorCaracter+1
 						lista = lista[1:]
-						comentarioAbierto = False
+						openComment = False
 						break
 					else:
 							contadorCaracter = contadorCaracter+1
@@ -60,13 +72,14 @@ def analizadorLinea(line):
 				else:
 					contadorCaracter = contadorCaracter+1
 					lista = lista[1:]
-			if(comentarioAbierto == False):
-					print('!! Atención: /* comentario en bloque cerrado en caracter: '+str(aperturaEnCaracter))
+			if(openComment == False):
+					print('!! Atención: */ comentario en bloque cerrado en caracter: '+
+															str(cerradoEnCaracter)+' ,linea: '+str(lineCounter))
 
 		elif leerChar(lista) == ' ' or leerChar(lista) == '\n':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-			print('** Delimitador en caracater:'+str(contadorCaracter))
+			print('** Delimitador en caracater:'+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 
 
 		elif leerChar(lista) == '+':
@@ -117,7 +130,7 @@ def analizadorLinea(line):
 				lista = lista[1:]
 				generarToken('logOp','and')
 			else:
-				generarError('++ Error: & is alone')
+				generarError('++ Error: & esta solo en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 
 		elif leerChar(lista) == ',':
 			contadorCaracter = contadorCaracter+1
@@ -166,7 +179,8 @@ def analizadorLinea(line):
 					contadorCaracter = contadorCaracter+1
 					lista = lista[1:]
 			if(seCierra == False):
-				generarError('++ Error: \' cadena no se cierra en ningun momento,abierto en caracter: '+str(aperturaEnCaracter))
+				generarError('++ Error: \' cadena no se cierra en ningun momento,abierto en caracter: '
+																+str(aperturaEnCaracter) +' ,linea: ' + str(lineCounter))
 
 			else:
 			  generarToken('chain',cadena)
@@ -206,7 +220,7 @@ def analizadorLinea(line):
 			if leerChar(lista) == '*':
 				contadorCaracter = contadorCaracter+1
 				lista = lista[1:]
-				comentarioAbierto = True
+				openComment = True
 				aperturaEnCaracter=contadorCaracter
 				while lista:
 					if leerChar(lista)== '*':
@@ -215,7 +229,7 @@ def analizadorLinea(line):
 						if leerChar(lista) == '/':
 							caracateresontadorCaracter = contadorCaracter+1
 							lista = lista[1:]
-							comentarioAbierto = False
+							openComment = False
 							break
 						else:
 							contadorCaracter = contadorCaracter+1
@@ -223,14 +237,15 @@ def analizadorLinea(line):
 					else:
 						contadorCaracter = contadorCaracter+1
 						lista = lista[1:]
-				if(comentarioAbierto == True):
-					print('!! Atención: /* comentario en bloque no se cierra en la linea, abierto en caracter: '+str(aperturaEnCaracter))
+				if(openComment == True):
+					print('!! Atención: /* comentario en bloque no se cierra en la linea, abierto en caracter: '+
+																str(aperturaEnCaracter)+ ' ,linea: ' + str(lineCounter))
 
 			else:
-			  generarError('++ Error: / is alone')
+			  generarError('++ Error: / esta solo en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 
 		else:
-			generarError('++ Error: Caracter no reconocido:'+ leerChar(lista))
+			generarError('++ Error: Caracter no reconocido:'+ leerChar(lista) + ' en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
 
@@ -242,24 +257,37 @@ def analizadorLinea(line):
 						
 
 def main():
-	global tokenFile,errorFile,comentarioAbierto
+	global tokenFile,errorFile,openComment,TSFile
+	
+	# Parses argument, and requires the user to provide one file
 	parser = argparse.ArgumentParser(add_help=True)
 	parser.add_argument('-f', type =str,nargs=1,help='Required filename you want to compile')
 	args = parser.parse_args()
-	tokenFile = open('tokens.txt','w')
-	with open(args.f[0],'r') as f, open ('error.txt','w') as errorFile:
-		comentarioAbierto =False
-		lines = f.readlines()
-		lineas = lines # por si acaso
-		while lineas:
-			print('-------------------------------------------')
-			print('comentarioAbierto='+str(comentarioAbierto))
-			analizadorLinea(leerLinea(lineas))
-			lineas = lineas[1:]
 
-	f.close()
+	
+	testFilePath = args.f[0]
+
+    #
+    # tokenFilePath, errorFilePath, TSFilePath have to be flushed each time .py is executed, do to this , these are opened in 'w' mode.
+    # These paths can be changed at the begining of the file.
+    #
+
+	with open(testFilePath,'r') as test, open(tokenFilePath,'w') as tokenFile, open (errorFilePath,'w') as errorFile, open(TSFilePath,'w') as TSFile:
+		
+		openComment =False
+		lineCounter = 0;
+		lines = test.readlines()
+		tokenLines = lines # do not modify entering argument ever
+		while tokenLines:
+			lineCounter= lineCounter+1
+			analizadorLinea(leerLinea(tokenLines),lineCounter)
+			tokenLines = tokenLines[1:]
+	# clean up , close files
+	test.close()
 	errorFile.close()
 	tokenFile.close()
+	TSFile.close()
+
 
 	
 
