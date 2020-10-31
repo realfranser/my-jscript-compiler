@@ -1,6 +1,8 @@
 import json
 import argparse
 
+
+
 # File Paths
 sourceTokenFilePath = 'sources/tokens.json'
 tokenFilePath = 'output/tokens.txt'
