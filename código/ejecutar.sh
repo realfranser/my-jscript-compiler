@@ -1,11 +1,13 @@
-/bin/usr/python3 rec.py -f tests/test.js
+python3 rec.py -f tests/test.js
 echo ---------- tokens ---------------
 cat output/tokens.txt
-echo 
+echo ---------------------------------
 echo
 echo ---------- errors ---------------
 cat output/errors.txt
+echo ---------------------------------
 echo
-echo
-echo ----------   ts   ---------------
+echo ------------ ts -----------------
 cat output/ts.txt
+echo ---------------------------------
+echo

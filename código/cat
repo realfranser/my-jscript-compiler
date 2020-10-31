@@ -1,0 +1,66 @@
+** Delimitador en caracater:2 ,linea: 1
+** Delimitador en caracater:5 ,linea: 1
+** Delimitador en caracater:8 ,linea: 1
+** Delimitador en caracater:11 ,linea: 1
+** Delimitador en caracater:14 ,linea: 1
+** Delimitador en caracater:17 ,linea: 1
+** Delimitador en caracater:26 ,linea: 1
+** Delimitador en caracater:28 ,linea: 1
+** Delimitador en caracater:31 ,linea: 1
+** Delimitador en caracater:34 ,linea: 1
+** Delimitador en caracater:36 ,linea: 1
+** Delimitador en caracater:40 ,linea: 1
+** Delimitador en caracater:42 ,linea: 1
+** Delimitador en caracater:44 ,linea: 1
+** Delimitador en caracater:46 ,linea: 1
+** Delimitador en caracater:48 ,linea: 1
+** Delimitador en caracater:50 ,linea: 1
+** Delimitador en caracater:52 ,linea: 1
+//////// Número total de caracateres en la linea:92
+!! Atención: /* comentario en bloque no se cierra en la linea, abierto en caracter: 2 ,linea: 2
+//////// Número total de caracateres en la linea:15
+//////// Número total de caracateres en la linea:1
+//////// Número total de caracateres en la linea:5
+//////// Número total de caracateres en la linea:1
+//////// Número total de caracateres en la linea:1
+!! Atención: */ comentario en bloque cerrado en caracter: 13 ,linea: 7
+** Delimitador en caracater:15 ,linea: 7
+//////// Número total de caracateres en la linea:15
+** Delimitador en caracater:2 ,linea: 8
+//////// Número total de caracateres en la linea:2
+** Delimitador en caracater:1 ,linea: 9
+//////// Número total de caracateres en la linea:1
+//////// Número total de caracateres en la linea:4
+---------- tokens ---------------
+<aritOp,plus>
+<autoIncOp,autoinc>
+<aritOp,plus>
+<aritOp,plus>
+<wholeConst,6>
+<logOp,and>
+<aritOp,minus>
+<wholeConst,1>
+<autoDecOp,autodec>
+<ID,w>
+<logOp,not>
+<relOp,notEquals>
+<relOp,equals>
+<asigOp,equal>
+<asigOp,equal>
+<relOp,notEquals>
+<separator,colon>
+<separator,openPar>
+<separator,closePar>
+<separator,openBraq>
+<separator,closeBraq>
+<wholeConst,1122>
+
+
+---------- errors ---------------
+++ Error: & esta solo en caracter: 7 ,linea: 1
+++ Error: Caracter no reconocido:. en caracter: 42 ,linea: 1
+++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 53 ,linea: 1
+++ Error: & esta solo en caracter: 1 ,linea: 8
+
+
+---------- ts ---------------
