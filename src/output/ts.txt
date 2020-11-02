@@ -2,32 +2,12 @@ Contenido Tabla Símbolos # 0 :
 * LEXEMA : 'padre'
   ATRIBUTOS :
 	+ tipo: unknown
-	+ despl: unknown
+	+ Despl: -1
 * LEXEMA : 'c'
   ATRIBUTOS :
 	+ tipo: unknown
-	+ despl: unknown
+	+ Despl: -1
 * LEXEMA : 'b'
   ATRIBUTOS :
 	+ tipo: unknown
-	+ despl: unknown
-* LEXEMA : 'c'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ despl: unknown
-* LEXEMA : 'b'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ despl: unknown
-* LEXEMA : 'c'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ despl: unknown
-* LEXEMA : 'b'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ despl: unknown
-* LEXEMA : 'c'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ despl: unknown
+	+ Despl: -1
