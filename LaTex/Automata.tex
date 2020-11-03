@@ -625,36 +625,39 @@ El valor de los atributos y numero de tabla seran corregidos con el valor real m
     
 \end{verbatim}
 \newpage
+
 \begin{center}
     CASOS DE PRUEBA\\
 \end{center}
+
 Prueba 1: \textit{CORRECTO}
+\begin{flushleft}
+Código:
 \begin{verbatim}
-
+    number a = 1;
+    string pp = 'hola';
+    
+    /* hola
+    
+    disculpa*/
+    if (a && a) {
+        a = 2;
+    }
 \end{verbatim}
-number a = 1;
-string pp = 'hola';
 
-/* hola
-
-disculpa*/
-if (a && a) {
-    a = 2;
-}
-\end{document}
-Tokens
+Tokens:
 \begin{verbatim}
-<number,>
-<ID,a>
-<asigOp,equal>
-<wholeConst,1>
-<separator,semicolon>
-<string,>
-<ID,pp>
-<asigOp,equal>
-<chain,'hola'>
-\end{verbatim}}
-TS
+    <number,>
+    <ID,a>
+    <asigOp,equal>
+    <wholeConst,1>
+    <separator,semicolon>
+    <string,>
+    <ID,pp>
+    <asigOp,equal>
+    <chain,'hola'>
+\end{verbatim}
+    TS:
 \begin{verbatim}
     Contenido Tabla Símbolos # 0 :
     * LEXEMA : 'a'
@@ -665,8 +668,59 @@ TS
       ATRIBUTOS :
         + tipo: unknown
         + despl: unknown
-\end{verbatim}}
+\end{verbatim}
 Errores
 \begin{verbatim}
 
-\end{verbatim}}
+\end{verbatim}
+
+\newpage
+
+Prueba 2: \textit{CORRECTO}
+\begin{flushleft}
+Código:
+\begin{verbatim}
+    <<<<<<< HEAD
+    +function padre(c) {
+    
+    =======
+    function padre(c) {
+        '1111111111111111111111111111111111111111111111111111111111111111'
+    >>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5
+        let b = c;
+        b++;
+    
+        c - b
+    
+        return c
+    }
+\end{verbatim}
+
+Tokens:
+\begin{verbatim}
+    <number,>
+    <ID,a>
+    <asigOp,equal>
+    <wholeConst,1>
+    <separator,semicolon>
+    <string,>
+    <ID,pp>
+    <asigOp,equal>
+    <chain,'hola'>
+\end{verbatim}
+    TS:
+\begin{verbatim}
+    Contenido Tabla Símbolos # 0 :
+    * LEXEMA : 'a'
+      ATRIBUTOS :
+        + tipo: unknown
+        + despl: unknown
+    * LEXEMA : 'pp'
+      ATRIBUTOS :
+        + tipo: unknown
+        + despl: unknown
+\end{verbatim}
+Errores
+\end{flushleft}
+\end{document}
+    }
