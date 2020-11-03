@@ -104,7 +104,7 @@ def analizadorLinea(line, lineCounter):
 					print('!! Atención: */ comentario en bloque cerrado en caracter: '+
 															str(cerradoEnCaracter)+' ,linea: '+str(lineCounter))
 
-		elif leerChar(lista) == ' ' or leerChar(lista) == '\n':
+		elif leerChar(lista) == '\s' or leerChar(lista) == '\n' or leerChar(lista) == '\t':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
 			print('** Delimitador en caracater:'+str(contadorCaracter)+' ,linea: '+str(lineCounter))
