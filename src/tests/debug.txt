@@ -1,0 +1,20 @@
+<<<<<<< HEAD
+** Delimitador en caracater:14 ,linea: 1
+//////// Número total de caracateres en la linea:14
+//////// Número total de caracateres en la linea:18
+** Delimitador en caracater:7 ,linea: 3
+//////// Número total de caracateres en la linea:7
+** Delimitador en caracater:9 ,linea: 4
+//////// Número total de caracateres en la linea:9
+** Delimitador en caracater:11 ,linea: 5
+//////// Número total de caracateres en la linea:11
+** Delimitador en caracater:1 ,linea: 6
+//////// Número total de caracateres en la linea:1
+** Delimitador en caracater:5 ,linea: 7
+//////// Número total de caracateres en la linea:5
+** Delimitador en caracater:2 ,linea: 8
+//////// Número total de caracateres en la linea:2
+** Delimitador en caracater:1 ,linea: 9
+//////// Número total de caracateres en la linea:1
+=======
+>>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5

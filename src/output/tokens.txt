@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+<number,>
+<wholeConst,1>
+<ID,a>
+=======
 <function,>
 <ID,padre>
 <separator,openPar>
@@ -7,15 +12,16 @@
 <chain,'1111111111111111111111111111111111111111111111111111111111111111'>
 <let,>
 <ID,b>
+>>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5
 <asigOp,equal>
-<ID,c>
+<wholeConst,1>
+<string,>
+<ID,pp>
+<asigOp,equal>
+<ID,numbe>
 <separator,semicolon>
-<ID,b>
-<autoIncOp,autoinc>
-<separator,semicolon>
-<ID,c>
-<aritOp,minus>
-<ID,b>
-<return,>
-<ID,c>
-<separator,closeBraq>
+<if,>
+<separator,openPar>
+<ID,hola>
+<else,>
+<separator,openBraq>

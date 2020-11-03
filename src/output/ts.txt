@@ -1,3 +1,22 @@
+<<<<<<< HEAD
+Contenido Tabla S�mbolos # 0 :
+* LEXEMA : 'a'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ despl: unknown
+* LEXEMA : 'pp'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ despl: unknown
+* LEXEMA : 'numbe'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ despl: unknown
+* LEXEMA : 'hola'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ despl: unknown
+=======
 Contenido Tabla Símbolos # 0 :
 * LEXEMA : 'padre'
   ATRIBUTOS :
@@ -11,3 +30,4 @@ Contenido Tabla Símbolos # 0 :
   ATRIBUTOS :
 	+ tipo: unknown
 	+ Despl: -1
+>>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5
