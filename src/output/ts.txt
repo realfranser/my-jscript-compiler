@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Contenido Tabla Símbolos # 0 :
 * LEXEMA : 'a'
   ATRIBUTOS :
@@ -15,3 +16,18 @@ Contenido Tabla Símbolos # 0 :
   ATRIBUTOS :
 	+ tipo: unknown
 	+ despl: unknown
+=======
+Contenido Tabla SÃ­mbolos # 0 :
+* LEXEMA : 'padre'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+* LEXEMA : 'c'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+* LEXEMA : 'b'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+>>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5

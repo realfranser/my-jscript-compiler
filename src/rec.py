@@ -13,31 +13,90 @@ openComment = False
 tsOgNumber = 0
 tsAcNumber = 0
 
-def generarTS():
-	global tsAcNumber
-	lineaNumeroTS = 'Contenido Tabla Símbolos # '+str(tsAcNumber)+' :\n'
-	TSFile.write(lineaNumeroTS)
-	tsAcNumber = tsAcNumber + 1
+TS = []
+
+class Simbolo:
+	def __init__ (self,numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
+		# tipo Simbolo , Tabla de Simbolos matriz de 'Simbolo',
+		self.numTabla = numTabla # Tabla a la que pertenece el simbolo
+		self.lexema = lexema # lexema de linea 
+		self.tipo = tipo 	 # tipo de identificador ej: int, boolean ,'cadena'
+		self.despl = despl   # direccion relativa
+		self.numParam = numParam # parametros subprograma
+		self.tipoParam = tipoParam # lista tipos parametros subprograma
+		self.modoParam = tipoRetorno # lista modo de paso parametro subprograma
+		self.tipoRetorno = tipoRetorno  # tipo devuelto por funcion
+		self.etiqFuncion = etiqFuncion # Etiqueta tipo funcion
+		self.param = param # Parametro no pasado por valor
+
+
+def getSimbolosTabla(tabla,numTabla):
+	sol= []
+	for i in tabla:
+		if i.numTabla == numTabla:
+			sol.append(i)
+	return sol
+
+def getNumTabla(tabla):
+	sol= []
+	for i in tabla:
+		if not(i.numTabla in sol):
+			sol.append(i.numTabla)
+	return sol
+
+def getLexema(tabla,lexema):
+	for i in tabla:
+		if i.lexema == lexema:
+			return True
+	return False
+
+def addToTS(numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
+	if getLexema(TS,lexema) == False:
+		TS.append(Simbolo(numTabla,lexema,tipo,despl,numParam,tipoParam,modoParam,tipoRetorno,etiqFuncion))
+
+def writeTS(tabla):
+	nums = getNumTabla(tabla)
+	for tsNumber in nums:
+		lineaNumeroTS = 'Contenido Tabla Símbolos # '+str(tsNumber)+' :\n'
+		TSFile.write(lineaNumeroTS)
+		for simbolo in tabla:
+			if(simbolo.numTabla == tsNumber):
+				lineaLexemaTS = '* LEXEMA : \''+simbolo.lexema+'\'\n'
+				TSFile.write(lineaLexemaTS)
+				lineaAtributoTS = '  ATRIBUTOS :\n'
+				TSFile.write(lineaAtributoTS)
+				if simbolo.tipo != None:
+					lineaTS = '	+ tipo: ' + simbolo.tipo +'\n'
+					TSFile.write(lineaTS)
+
+				if simbolo.despl != 0:
+					lineaTS = '	+ Despl: ' + str(simbolo.despl) +'\n'
+					TSFile.write(lineaTS)
+
+				if simbolo.numParam != 0:
+					lineaTS = '	+ numParam: ' + str(imbolo.numParam) +'\n'
+					TSFile.write(lineaTS)
+
+				if simbolo.tipoParam and simbolo.modoParam:
+						counter = 1
+						for j in simbolo.tipoParam , i in simbolo.modoParam:
+							lineaTS = '	+ TipoParam'+str(counter)+': ' + j +'\n'
+							TSFile.write(lineaTS)
+							lineaTS = '	+ ModoParam'+str(counter)+': ' + i +'\n'
+							TSFile.write(lineaTS)
+
+				if simbolo.tipoRetorno != None:
+					lineaTS = '	+ TipoRetorno: ' + simbolo.tipoRetorno +'\n'
+					TSFile.write(lineaTS)
+
+				if simbolo.etiqFuncion != None:
+					lineaTS = '	+ tipo: ' + simbolo.etiqFuncion +'\n'
+					TSFile.write(lineaTS)
+
+				if simbolo.param != None:
+					lineaTS = '	+ tipo: ' + simbolo.param +'\n'
+					TSFile.write(lineaTS)
 	
-def lexemaTS(lexema):
-	lineaLexemaTS = '* LEXEMA : \''+lexema+'\'\n'
-	TSFile.write(lineaLexemaTS)
-	atributoTS()
-		
-def atributoTS():
-	lineaAtributoTS = '  ATRIBUTOS :\n'
-	TSFile.write(lineaAtributoTS)
-	# Esto es solo para la primera entrega habra que cambiarlo cuando hagamos el sintactico
-	valor = 'unknown'
-	lineaATipoTS = '	+ tipo: ' + valor +'\n'
-	TSFile.write(lineaATipoTS)
-	valor = 'unknown'
-	lineaADesplTS = '	+ despl: ' + valor +'\n'
-	TSFile.write(lineaADesplTS)
-
-
-
-
 								
 def generarToken(tokenCode,atribute):
 	found =False
@@ -53,7 +112,7 @@ def generarToken(tokenCode,atribute):
 							break
 			if found == False:
 				token = '<ID,' + atribute + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
-				lexemaTS(atribute)
+				addToTS(0,atribute,'unknown',-1) ################# Editar cuando hagamos semantico
 
 		else:	
 			token = '<' + tokenCode + ',' + atribute + '>\n' 
@@ -104,7 +163,11 @@ def analizadorLinea(line, lineCounter):
 					print('!! Atención: */ comentario en bloque cerrado en caracter: '+
 															str(cerradoEnCaracter)+' ,linea: '+str(lineCounter))
 
+<<<<<<< HEAD
 		elif leerChar(lista) == '\s' or leerChar(lista) == '\n' or leerChar(lista) == '\t':
+=======
+		elif leerChar(lista) == '\s' or leerChar(lista) == '\n' or leerChar(lista) == ' ' or leerChar(lista) == '\t':
+>>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
 			print('** Delimitador en caracater:'+str(contadorCaracter)+' ,linea: '+str(lineCounter))
@@ -209,9 +272,12 @@ def analizadorLinea(line, lineCounter):
 			if(seCierra == False):
 				generarError('++ Error: \' cadena no se cierra en ningun momento,abierto en caracter: '
 																+str(aperturaEnCaracter) +' ,linea: ' + str(lineCounter))
-
 			else:
-			  generarToken('chain',cadena)
+				if len(cadena)<67:
+					generarToken('chain',cadena)
+				else:
+			  		generarError('++ Error: \' cadena supera los 64 caracteres por: '
+																+str(len(cadena)-66) +' ,en la linea: ' + str(lineCounter))
 
 		elif leerChar(lista).isdigit()== True:
 			numero = leerChar(lista)
@@ -273,7 +339,7 @@ def analizadorLinea(line, lineCounter):
 			  generarError('++ Error: / esta solo en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 
 		else:
-			generarError('++ Error: Caracter no reconocido:'+ leerChar(lista) + ' en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
+			generarError('++ Error: Caracter no reconocido:['+ leerChar(lista) + '] en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
 
@@ -285,7 +351,7 @@ def analizadorLinea(line, lineCounter):
 						
 
 def main():
-	global tokenFile,errorFile,openComment,TSFile,tsAcNumber,tsOgNumber
+	global tokenFile,errorFile,openComment,TSFile,tsAcNumber,tsOgNumber,TS
 	
 	# Parses argument, and requires the user to provide one file
 	parser = argparse.ArgumentParser(add_help=True)
@@ -306,12 +372,13 @@ def main():
 		lineCounter = 0;
 		lines = test.readlines()
 		tokenLines = lines # backup so the OG list is not modified in case we need it
-		generarTS()
+		#generarTS()
 		while tokenLines:
 			lineCounter= lineCounter+1
 			analizadorLinea(leerLinea(tokenLines),lineCounter)
 			tokenLines = tokenLines[1:]
 	# clean up , close files
+		writeTS(TS)
 	test.close()
 	errorFile.close()
 	tokenFile.close()
