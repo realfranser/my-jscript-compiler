@@ -234,7 +234,7 @@ AUTÓMATA FINITO DETERMINISTA
     \fill [black] (24.48,-12.67) -- (25.12,-13.36) -- (25.38,-12.4);
     \draw [black] (21.5,-9.4) -- (21.5,-5.5);
     \fill [black] (21.5,-5.5) -- (21,-6.3) -- (22,-6.3);
-    \draw (22,-7.45) node [right] {$o.c.$};
+    \draw (22,-7.45) node [right] {$o.c$};%------------------------------------------- Otros caracteres ---- Caso 1-27 ---------------------------------------------------
     \draw [black] (33.422,-29.132) arc (-165.21371:-184.34188:38.536);
     \fill [black] (32.26,-16.38) -- (31.7,-17.14) -- (32.69,-17.22);
     \draw (31.68,-22.88) node [left] {$l$};
@@ -624,6 +624,49 @@ El valor de los atributos y numero de tabla seran corregidos con el valor real m
         + despl: unknown
     
 \end{verbatim}
+\newpage
+\begin{center}
+    CASOS DE PRUEBA\\
+\end{center}
+Prueba 1: \textit{CORRECTO}
+\begin{verbatim}
 
+\end{verbatim}
+number a = 1;
+string pp = 'hola';
 
+/* hola
+
+disculpa*/
+if (a && a) {
+    a = 2;
+}
 \end{document}
+Tokens
+\begin{verbatim}
+<number,>
+<ID,a>
+<asigOp,equal>
+<wholeConst,1>
+<separator,semicolon>
+<string,>
+<ID,pp>
+<asigOp,equal>
+<chain,'hola'>
+\end{verbatim}}
+TS
+\begin{verbatim}
+    Contenido Tabla Símbolos # 0 :
+    * LEXEMA : 'a'
+      ATRIBUTOS :
+        + tipo: unknown
+        + despl: unknown
+    * LEXEMA : 'pp'
+      ATRIBUTOS :
+        + tipo: unknown
+        + despl: unknown
+\end{verbatim}}
+Errores
+\begin{verbatim}
+
+\end{verbatim}}

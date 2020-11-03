@@ -52,8 +52,8 @@ def getLexema(tabla,lexema):
 
 def addToTS(numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
 	if getLexema(TS,lexema) == False:
-		TS.append(Simbolo(numTabla,lexema,tipo,despl,numParam,tipoParam,modoParam,tipoRetorno,etiqFuncion))
-
+		TS.append(Simbolo(numTabla,lexema,tipo,despl,numParam,tipoParam,modoParam,tipoRetorno,etiqFuncion)) # ACTUALIZAR !!! en caso de que ya exista actualizar el valor
+	
 def writeTS(tabla):
 	nums = getNumTabla(tabla)
 	for tsNumber in nums:
@@ -74,7 +74,7 @@ def writeTS(tabla):
 					TSFile.write(lineaTS)
 
 				if simbolo.numParam != 0:
-					lineaTS = '	+ numParam: ' + str(imbolo.numParam) +'\n'
+					lineaTS = '	+ numParam: ' + str(simbolo.numParam) +'\n'
 					TSFile.write(lineaTS)
 
 				if simbolo.tipoParam and simbolo.modoParam:
@@ -163,11 +163,7 @@ def analizadorLinea(line, lineCounter):
 					print('!! Atención: */ comentario en bloque cerrado en caracter: '+
 															str(cerradoEnCaracter)+' ,linea: '+str(lineCounter))
 
-<<<<<<< HEAD
-		elif leerChar(lista) == '\s' or leerChar(lista) == '\n' or leerChar(lista) == '\t':
-=======
 		elif leerChar(lista) == '\s' or leerChar(lista) == '\n' or leerChar(lista) == ' ' or leerChar(lista) == '\t':
->>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
 			print('** Delimitador en caracater:'+str(contadorCaracter)+' ,linea: '+str(lineCounter))
