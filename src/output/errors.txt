@@ -1,18 +1,1 @@
-++ Error: Caracter no reconocido:  en caracter: 6 ,linea: 1
-++ Error: Caracter no reconocido:  en caracter: 9 ,linea: 1
-++ Error: Caracter no reconocido:  en caracter: 11 ,linea: 1
-++ Error: Caracter no reconocido:  en caracter: 6 ,linea: 2
-++ Error: Caracter no reconocido:  en caracter: 9 ,linea: 2
-++ Error: Caracter no reconocido:  en caracter: 11 ,linea: 2
-++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 13 ,linea: 2
-++ Error: Caracter no reconocido:  en caracter: 2 ,linea: 4
-++ Error: Caracter no reconocido:  en caracter: 0 ,linea: 5
-++ Error: Caracter no reconocido:  en caracter: 1 ,linea: 5
-++ Error: Caracter no reconocido:  en caracter: 2 ,linea: 5
-++ Error: Caracter no reconocido:  en caracter: 3 ,linea: 5
-++ Error: Caracter no reconocido:  en caracter: 8 ,linea: 5
-++ Error: Caracter no reconocido:  en caracter: 0 ,linea: 7
-++ Error: Caracter no reconocido:  en caracter: 1 ,linea: 7
-++ Error: Caracter no reconocido:  en caracter: 2 ,linea: 7
-++ Error: Caracter no reconocido:  en caracter: 3 ,linea: 7
-++ Error: & esta solo en caracter: 1 ,linea: 8
+++ Error: & esta solo en caracter: 1 ,linea: 1

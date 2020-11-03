@@ -54,6 +54,7 @@
      do  
   }
 }
+%-----------------------------------------Definicion de tipos---------------------------------
 \begin{center}
     TOKENS
 \end{center}
@@ -99,7 +100,7 @@
 \begin{center}
     GRAMÁTICA
 \end{center}
-
+%-----------------------------------------Gramatica---------------------------------------------------
 \begin{verbatim}
 S:--> del S | dA | lB | +C | -D | /F  | ( | ) | { | } | =G | !G | , | ; | &H | 'J
 A:--> dA |lambda
@@ -113,7 +114,7 @@ G:--> = | lambda
 H:--> &
 J:--> eJ | '
 
-
+%-----------------------------------------Automata----------------------------------------------------
 d -- digito
 l -- letra minuscula
 del -- delimitador(blanco, tab, EOL)
@@ -346,6 +347,8 @@ ACCIONES SEMÁNTICAS\\
 \noindent
 \textbf{Leer:}Se lee en todos los estados menos en los que pone o.c.\\
 \textbf{Errores}:  Cualquier transicion no declarada dara error.\\
+
+%-----------------------------------------Casos semanticos---------------------------------------------
 
 \textbf{Caso 0-1:}
 \begin{verbatim}
@@ -610,6 +613,7 @@ ACCIONES SEMÁNTICAS\\
 \end{verbatim}
 
 \vspace*{1cm}
+%----------------------------------------------------Tablas de simbolos-----------------------------------------
 
 \begin{center}
     TABLA DE SIMBOLOS\\
@@ -625,12 +629,13 @@ El valor de los atributos y numero de tabla seran corregidos con el valor real m
     
 \end{verbatim}
 \newpage
+%-----------------------------------------------------Casos de pruebas--------------------------------------------------
 
 \begin{center}
     CASOS DE PRUEBA\\
 \end{center}
 
-Prueba 1: \textit{CORRECTO}
+Prueba 1: \textit{CASO CORRECTO} %------PRUEBA 1-----------
 \begin{flushleft}
 Código:
 \begin{verbatim}
@@ -673,20 +678,14 @@ Errores
 \begin{verbatim}
 
 \end{verbatim}
+\end{flushleft}
 
-\newpage
-
-Prueba 2: \textit{CORRECTO}
+Prueba 2: \textit{CASO CORRECTO}%------PRUEBA 2-----------
 \begin{flushleft}
 Código:
 \begin{verbatim}
-    <<<<<<< HEAD
-    +function padre(c) {
-    
-    =======
     function padre(c) {
-        '1111111111111111111111111111111111111111111111111111111111111111'
-    >>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5
+
         let b = c;
         b++;
     
@@ -698,29 +697,257 @@ Código:
 
 Tokens:
 \begin{verbatim}
+    <function,>
+    <ID,padre>
+    <separator,openPar>
+    <ID,c>
+    <separator,closePar>
+    <separator,openBraq>
+    <let,>
+    <ID,b>
+    <asigOp,equal>
+    <ID,c>
+    <separator,semicolon>
+    <ID,b>
+    <autoIncOp,autoinc>
+    <separator,semicolon>
+    <ID,c>
+    <aritOp,minus>
+    <ID,b>
+    <return,>
+    <ID,c>
+    <separator,closeBraq>    
+\end{verbatim}
+    TS:
+\begin{verbatim}
+    Contenido Tabla Símbolos # 0 :
+    * LEXEMA : 'padre'
+      ATRIBUTOS :
+        + tipo: unknown
+        + Despl: -1
+    * LEXEMA : 'c'
+      ATRIBUTOS :
+        + tipo: unknown
+        + Despl: -1
+    * LEXEMA : 'b'
+      ATRIBUTOS :
+        + tipo: unknown
+        + Despl: -1   
+\end{verbatim}
+Errores
+\end{flushleft}
+
+Prueba 3: \textit{CASO CORRECTO}%------PRUEBA 3-----------
+\begin{flushleft}
+Código:
+\begin{verbatim}
+boolean verdadero = true;
+boolean grupo14 = true;
+boolean aprovado = true;
+do {
+    verdadero = false;
+    if (true) {
+        verdadero = true
+    }
+
+} while (grupo14 = aprovado)
+\end{verbatim}
+
+Tokens:
+\begin{verbatim}
+    <boolean,>
+    <ID,verdadero>
+    <asigOp,equal>
+    <true,>
+    <separator,semicolon>
+    <boolean,>
+    <ID,grupo14>
+    <asigOp,equal>
+    <true,>
+    <separator,semicolon>
+    <boolean,>
+    <ID,aprovado>
+    <asigOp,equal>
+    <true,>
+    <separator,semicolon>
+    <do,>
+    <separator,openBraq>
+    <ID,verdadero>
+    <asigOp,equal>
+    <false,>
+    <separator,semicolon>
+    <if,>
+    <separator,openPar>
+    <true,>
+    <separator,closePar>
+    <separator,openBraq>
+    <ID,verdadero>
+    <asigOp,equal>
+    <true,>
+    <separator,closeBraq>
+    <separator,closeBraq>
+    <while,>
+    <separator,openPar>
+    <ID,grupo14>
+    <asigOp,equal>
+    <ID,aprovado>
+    <separator,closePar>    
+\end{verbatim}
+    TS:
+\begin{verbatim}
+    Contenido Tabla Símbolos # 0 :
+    * LEXEMA : 'verdadero'
+      ATRIBUTOS :
+        + tipo: unknown
+        + Despl: -1
+    * LEXEMA : 'grupo14'
+      ATRIBUTOS :
+        + tipo: unknown
+        + Despl: -1
+    * LEXEMA : 'aprovado'
+      ATRIBUTOS :
+        + tipo: unknown
+        + Despl: -1
+\end{verbatim}
+Errores:
+\begin{verbatim}
+
+\end{verbatim}
+\end{flushleft}
+Prueba 4: \textit{CASO INCORRECTO}%------PRUEBA 4-----------
+\begin{flushleft}
+Código:
+\begin{verbatim}
+    number 1a = 1
+string pp = 'hola
+numbe;
+if (hola
+    else {
+
+    
+&
+
+
+\end{verbatim}
+
+Tokens:
+\begin{verbatim}
     <number,>
+    <wholeConst,1>
     <ID,a>
     <asigOp,equal>
     <wholeConst,1>
-    <separator,semicolon>
     <string,>
     <ID,pp>
     <asigOp,equal>
-    <chain,'hola'>
+    <ID,numbe>
+    <separator,semicolon>
+    <if,>
+    <separator,openPar>
+    <ID,hola>
+    <else,>
+    <separator,openBraq>    
 \end{verbatim}
     TS:
 \begin{verbatim}
     Contenido Tabla Símbolos # 0 :
     * LEXEMA : 'a'
       ATRIBUTOS :
-        + tipo: unknown
-        + despl: unknown
+	    + tipo: unknown
+	    + Despl: -1
     * LEXEMA : 'pp'
       ATRIBUTOS :
-        + tipo: unknown
-        + despl: unknown
+	    + tipo: unknown
+	    + Despl: -1
+    * LEXEMA : 'numbe'
+      ATRIBUTOS :
+	    + tipo: unknown
+	    + Despl: -1
+    * LEXEMA : 'hola'
+      ATRIBUTOS :
+	    + tipo: unknown
+	    + Despl: -1
 \end{verbatim}
-Errores
+Errores:
+\begin{verbatim}
+    ++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 13 ,linea: 2
+    ++ Error: & esta solo en caracter: 1 ,linea: 8
+    
+\end{verbatim}
+\end{flushleft}
+Prueba 5: \textit{CASO INCORRECTO}%------PRUEBA 5-----------
+\begin{flushleft}
+Código:
+\begin{verbatim}
+    1manolo == >
+
+    - -
+
+
+    'Esto esta escrito un sabado por la tarde
+
+/*Sin embargo
+ha sido un poco tedioso
+\end{verbatim}
+
+Tokens:
+\begin{verbatim}
+    <wholeConst,1>
+    <ID,manolo>
+    <relOp,equals>
+    <aritOp,minus>
+    <aritOp,minus>
+\end{verbatim}
+    TS:
+\begin{verbatim}
+    Contenido Tabla Símbolos # 0 :
+    * LEXEMA : 'manolo'
+      ATRIBUTOS :
+        + tipo: unknown
+        + Despl: -1     
+\end{verbatim}
+Errores:
+\begin{verbatim}
+    ++ Error: Caracter no reconocido:[>] en caracter: 11 ,linea: 1
+    ++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 5 ,linea: 6    
+\end{verbatim}
+\end{flushleft}
+
+Prueba 6: \textit{CASO INCORRECTO}%------PRUEBA 6-----------
+\begin{flushleft}
+Código:
+\begin{verbatim}
+    &
+    !!
+    ===
+    else
+    if
+    {{
+        ((
+               
+\end{verbatim}
+
+Tokens:
+\begin{verbatim}
+    <logOp,not>
+    <logOp,not>
+    <relOp,equals>
+    <asigOp,equal>
+    <else,>
+    <if,>
+    <separator,openBraq>
+    <separator,openBraq>
+    <separator,openPar>
+    <separator,openPar>
+\end{verbatim}
+    TS:
+\begin{verbatim}
+
+\end{verbatim}
+Errores:
+\begin{verbatim}
+    ++ Error: & esta solo en caracter: 1 ,linea: 1
+\end{verbatim}
 \end{flushleft}
 \end{document}
     }

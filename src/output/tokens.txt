@@ -1,27 +1,10 @@
-<<<<<<< HEAD
-<number,>
-<wholeConst,1>
-<ID,a>
-=======
-<function,>
-<ID,padre>
-<separator,openPar>
-<ID,c>
-<separator,closePar>
-<separator,openBraq>
-<chain,'1111111111111111111111111111111111111111111111111111111111111111'>
-<let,>
-<ID,b>
->>>>>>> 2dcf85a89a1ab950b0fb03f9b14cc988b22f99c5
+<logOp,not>
+<logOp,not>
+<relOp,equals>
 <asigOp,equal>
-<wholeConst,1>
-<string,>
-<ID,pp>
-<asigOp,equal>
-<ID,numbe>
-<separator,semicolon>
-<if,>
-<separator,openPar>
-<ID,hola>
 <else,>
+<if,>
 <separator,openBraq>
+<separator,openBraq>
+<separator,openPar>
+<separator,openPar>

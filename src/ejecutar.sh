@@ -1,13 +1,17 @@
-python3 rec.py -f tests/test2/test.js
+python3 rec.py -f tests/test6/test.js
+echo ---------------------------------
+echo ---------- codigo ---------------
+echo ---------------------------------
+cat tests/test6/test.js
 echo ---------------------------------
 echo ---------- tokens ---------------
 echo ---------------------------------
 cat output/tokens.txt
 echo ---------------------------------
-echo ---------- errors ---------------
-echo ---------------------------------
-cat output/errors.txt
-echo ---------------------------------
 echo ------------ ts -----------------
 echo ---------------------------------
 cat output/ts.txt
+echo ---------------------------------
+echo ---------- errors ---------------
+echo ---------------------------------
+cat output/errors.txt
