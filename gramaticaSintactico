@@ -39,18 +39,18 @@ Producciones = {
     CUERPO -> if  openPar CONDICION closePar SENTENCIA semicolon               
     CUERPO -> do openBraq BLOQUE closeBraq while  openPar CONDICION  closePar              
     
-                                                       //  ---- Podemos declara sentecias ---- 
+    //  ---- Podemos declara sentecias ---- 
     SENTENCIA -> id  igual  EXPRESION                  // identificador = expresion 
     SENTENCIA -> id  openPar  PARAMETROSFUN  closePar  // llamamos a una funcion con sus parametros
-    SENTENCIA -> id alert openPar EXPRESION closePar   // Crea una alerta 
-	SENTENCIA -> return  RETURNVALUE                   // devolveria un returnvaule
+    SENTENCIA -> id alert openPar EXPRESION closePar   // Crea una alertaS
+    SENTENCIA -> return  RETURNVALUE                   // devolveria un returnvaule
     
-                                       //  ---- Con esto podemos encadenar ----
+    //  ---- Con esto podemos encadenar ----
     BLOQUE -> CUERPO                   // Por un lado encadenar los if y las cosas de dentro
     BLOQUE -> SENTENCIA BLOQUE         // Con en esto podemos encadenar sentencias
     BLOQUE ->                          // Terminamos 
     
-                                       // ---- Posibles expresiones ----
+     // ---- Posibles expresiones ----
     EXPRESION -> ARITMETICA semicolon  // una operacion aritmetica y ;
     EXPRESION -> not TYPES semicolon   // una negacion de un TYPE y ; 
     EXPRESION -> TYPES semicolon       // un TYPES a secas
