@@ -37,7 +37,7 @@ Producciones = {
     CUERPO -> let TIPO id semicolon                                            
     CUERPO -> if  openPar CONDICION closePar openBraq BLOQUE closeBraq         
     CUERPO -> if  openPar CONDICION closePar SENTENCIA semicolon               
-    CUERPO -> do openBraq BLOQUE closeBraq while  openPar CONDICION  closePar              
+    CUERPO -> do  openBraq BLOQUE closeBraq while  openPar CONDICION  closePar              
     
     //  ---- Podemos declara sentecias ---- 
     SENTENCIA -> id  igual  EXPRESION                  // identificador = expresion 
@@ -76,6 +76,8 @@ Producciones = {
     TYPES-> id openPar  LLAMADAFUN  closePar semicolon // LLamada a una funcion
 
     //  ---- Como tratamos los datos que introduciomos auna funcion ----
+    
+    
     PARAMETROSFUN -> id  PARAMETROSFUN2 // Tiene que tener un id como minimo
     PARAMETROSFUN2 -> colon PARAMETROSFUN // para encadenar usaremos las comas
     PARAMETROSFUN2 ->  // y si queremos terminar salimos
@@ -84,3 +86,122 @@ Producciones = {
     TIPO -> string 
     TIPO -> number
     TIPO -> boolean
+
+---------------------------- LEYENDA ---------------------------------------------------
+
+MAIN -> M
+PROGRAMA -> P
+FUNCION -> F
+CUERPO -> C
+SENTENCIA -> S
+BLOQUE -> B    
+EXPRESION -> E
+CONDICION -> N  
+CONDICION2 -> N'
+ARITMETICA -> A
+TYPES -> T
+PARAMETROSFUN -> R
+PARAMETROSFUN2 -> R'
+TIPO -> Y
+
+---------------------------------Aqui escribiremos toda la gramática utilizada en el análisis sintáctico---------
+
+Aquí escribiremos toda la gramática utilizada en el análisis sintáctico
+
+No terminales:
+{
+    M, P, F, C, S, B, E, N, N',
+    A, Y, R, R', Y
+}
+
+Axioma: M
+
+Terminales:
+{
+alert,boolean, else, function, if, input, let, number, return, string, while, false, true, do,
+autoInc, Número, Posición(Número), Número, equal, colon, semicolon, openPar, closePar, openBraq,
+closeBraq, plus, minus, and, not, notEquals, equals
+}
+
+Producciones = {
+
+    M -> P P      
+
+    P -> C P | F P | lambda                   
+
+    F -> function id openPar R closePar openBraq  C closeBraq 
+
+    C -> if openPar N closePar C' | let Y id semicolon | do openBraq B closeBraq while  openPar N  closePar
+    C' ->  openBraq B closeBraq | S semicolon               
+    
+    S -> id S' | return  RETURNVALUE  
+    S' ->  igual E |  openPar R closePar | 
+          alert openPar E closePar                 
+
+    B -> C | S B | lambda                          
+
+    E -> A semicolon | not T semicolon | T semicolon | lambda
+
+    N -> T N' 
+    N' ->  notEquals T N'' |  equals T N'' 
+    N'' -> && N | lambda                                 
+     
+    A -> T A'          
+    A' -> plus T A |  minus T A |  autoInc           
+
+
+    T -> id T' | ent | cad | true | false 
+    T' -> openPar LLAMADAFUN closePar semicolon | lambda
+    
+    R -> id  R' 
+
+    R' -> colon R | lambda
+
+    Y -> string | number | boolean
+
+
+
+
+    
+    -------------------------------------------------------------------------------------------------
+    |                FIRST                           |                      Follow                  |
+-----------------------------------------------------------------------------------------------------
+| M  |   eol  eof  let  if  do   function   lambda    |                        $                     |
+-----------------------------------------------------------------------------------------------------
+| P  |   eol  eof  let  if  do   function   lambda    |                        $                     |
+-----------------------------------------------------------------------------------------------------
+| F  |   function  id openPar                         |          closePar openBraq close             |
+-----------------------------------------------------------------------------------------------------
+| C  |    let if do                                   |    string number boolean openPar    eol      |
+-----------------------------------------------------------------------------------------------------
+| C' |    let if do                                   |    string number boolean openPar    eol      |
+-----------------------------------------------------------------------------------------------------
+| S  |              id        Return                  |  alert openPar igual  lambda                 |
+-----------------------------------------------------------------------------------------------------
+| S' |              id        Return                  |  alert openPar igual  lambda                 |
+-----------------------------------------------------------------------------------------------------
+| B  |                             lambda             |                                              |
+-----------------------------------------------------------------------------------------------------
+| E  |     id | ent | cad | true | false | not        |          semicolon, lambda                   |
+-----------------------------------------------------------------------------------------------------
+| N  |       id | ent | cad | true | false            |                                              |
+-----------------------------------------------------------------------------------------------------
+| N' |                                                |                                              |
+-----------------------------------------------------------------------------------------------------
+| N''|                                                |                                              |
+-----------------------------------------------------------------------------------------------------
+| A  |      id | ent | cad | true | false             |                                              |
+-----------------------------------------------------------------------------------------------------
+| A' |      id | ent | cad | true | false             |                                              |
+-----------------------------------------------------------------------------------------------------
+| T  |      id | ent | cad | true | false             |                                              |
+-----------------------------------------------------------------------------------------------------
+| T' |      id | ent | cad | true | false             |                                              |
+-----------------------------------------------------------------------------------------------------
+| R  |   id openPar colon                             |   id                                         |
+-----------------------------------------------------------------------------------------------------
+| R' |   id lambda                                    | colon                                        |
+-----------------------------------------------------------------------------------------------------
+| Y  |                                                |                                              |
+-----------------------------------------------------------------------------------------------------
+
