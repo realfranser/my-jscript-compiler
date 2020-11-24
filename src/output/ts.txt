@@ -1,0 +1,5 @@
+Contenido Tabla Símbolos # 0 :
+* LEXEMA : 'manolo'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1

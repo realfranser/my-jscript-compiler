@@ -1,1 +1,4 @@
-++ Error: & esta solo en caracter: 1 ,linea: 1
+++ Error: Caracter no reconocido:[>] en caracter: 11 ,linea: 1
+++ Error: ' cadena no se cierra en linea,abierto en caracter: 5 ,linea: 6
+++ Error: /* comentario en bloque no se cierra, abierto en caracter: 2 ,linea: 8
+++ Error: ' cadena no se cierra en linea,abierto en caracter: 1 ,linea: 11

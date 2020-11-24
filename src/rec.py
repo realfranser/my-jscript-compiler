@@ -53,7 +53,8 @@ def getLexema(tabla,lexema):
 def addToTS(numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
 	if getLexema(TS,lexema) == False:
 		TS.append(Simbolo(numTabla,lexema,tipo,despl,numParam,tipoParam,modoParam,tipoRetorno,etiqFuncion)) # ACTUALIZAR !!! en caso de que ya exista actualizar el valor
-	
+	return len(TS)
+
 def writeTS(tabla):
 	nums = getNumTabla(tabla)
 	for tsNumber in nums:
@@ -79,10 +80,11 @@ def writeTS(tabla):
 
 				if simbolo.tipoParam and simbolo.modoParam:
 						counter = 1
-						for j in simbolo.tipoParam , i in simbolo.modoParam:
+						for j in simbolo.tipoParam :
+							#for i in simbolo.modoParam:   ------ revisar in da future
 							lineaTS = '	+ TipoParam'+str(counter)+': ' + j +'\n'
 							TSFile.write(lineaTS)
-							lineaTS = '	+ ModoParam'+str(counter)+': ' + i +'\n'
+							lineaTS = '	+ ModoParam'+str(counter)+': ' + j +'\n'
 							TSFile.write(lineaTS)
 
 				if simbolo.tipoRetorno != None:
@@ -107,12 +109,13 @@ def generarToken(tokenCode,atribute):
 				if (i['tokenCode'] == 'reservedWord'):
 					for k in i['tokenList']:
 						if k['atribute']==atribute:
-							token = '<' + atribute + ',>\n'
+							token = '<reservedWord,' + atribute + '>\n'
 							found = True
 							break
 			if found == False:
-				token = '<ID,' + atribute + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
-				addToTS(0,atribute,'unknown',-1) ################# Editar cuando hagamos semantico
+				pos = addToTS(0,atribute,'unknown',-1) ################# Editar cuando hagamos semantico
+				token = '<ID,' + str(pos) + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
+				
 
 		else:	
 			token = '<' + tokenCode + ',' + atribute + '>\n' 
@@ -163,7 +166,7 @@ def analizadorLinea(line, lineCounter):
 					print('!! Atención: */ comentario en bloque cerrado en caracter: '+
 															str(cerradoEnCaracter)+' ,linea: '+str(lineCounter))
 
-		elif leerChar(lista) == '\s' or leerChar(lista) == '\n' or leerChar(lista) == ' ' or leerChar(lista) == '\t':
+		elif leerChar(lista) == '\n' or leerChar(lista) == ' ' or leerChar(lista) == '\t':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
 			print('** Delimitador en caracater:'+str(contadorCaracter)+' ,linea: '+str(lineCounter))
@@ -263,16 +266,24 @@ def analizadorLinea(line, lineCounter):
 					lista = lista[1:]
 					break
 				else:
-					contadorCaracter = contadorCaracter+1
-					lista = lista[1:]
-			if(seCierra == False):
-				generarError('++ Error: \' cadena no se cierra en ningun momento,abierto en caracter: '
+					if leerChar(lista) == '\r' or leerChar(lista) =='\n':
+						generarError('++ Error: \' cadena no se cierra en linea,abierto en caracter: '
 																+str(aperturaEnCaracter) +' ,linea: ' + str(lineCounter))
-			else:
-				if len(cadena)<67:
-					generarToken('chain',cadena)
-				else:
-			  		generarError('++ Error: \' cadena supera los 64 caracteres por: '
+						contadorCaracter = contadorCaracter+1
+						lista = lista[1:]
+						break
+						
+					contadorCaracter = contadorCaracter +1
+					lista = lista[1:]
+					
+					if 	not lista:
+						generarError('++ Error: \' cadena no se cierra en linea,abierto en caracter: '
+																+str(aperturaEnCaracter) +' ,linea: ' + str(lineCounter))
+
+			if len(cadena)<67 and seCierra:
+				generarToken('chain',cadena)
+			elif seCierra:
+			  	generarError('++ Error: \' cadena supera los 64 caracteres por: '
 																+str(len(cadena)-66) +' ,en la linea: ' + str(lineCounter))
 
 		elif leerChar(lista).isdigit()== True:
@@ -317,7 +328,7 @@ def analizadorLinea(line, lineCounter):
 						contadorCaracter = contadorCaracter+1
 						lista = lista[1:]
 						if leerChar(lista) == '/':
-							caracateresontadorCaracter = contadorCaracter+1
+							contadorCaracter = contadorCaracter+1
 							lista = lista[1:]
 							openComment = False
 							break
@@ -328,7 +339,7 @@ def analizadorLinea(line, lineCounter):
 						contadorCaracter = contadorCaracter+1
 						lista = lista[1:]
 				if(openComment == True):
-					print('!! Atención: /* comentario en bloque no se cierra en la linea, abierto en caracter: '+
+					generarError('++ Error: /* comentario en bloque no se cierra, abierto en caracter: '+
 																str(aperturaEnCaracter)+ ' ,linea: ' + str(lineCounter))
 
 			else:
@@ -338,9 +349,6 @@ def analizadorLinea(line, lineCounter):
 			generarError('++ Error: Caracter no reconocido:['+ leerChar(lista) + '] en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-
-	print('//////// Número total de caracateres en la linea:'+str(contadorCaracter))
-
 
 
 
@@ -365,7 +373,7 @@ def main():
 	with open(testFilePath,'r') as test, open(tokenFilePath,'w') as tokenFile, open (errorFilePath,'w') as errorFile, open(TSFilePath,'w') as TSFile:
 		
 		openComment =False
-		lineCounter = 0;
+		lineCounter = 0
 		lines = test.readlines()
 		tokenLines = lines # backup so the OG list is not modified in case we need it
 		#generarTS()
@@ -373,6 +381,44 @@ def main():
 			lineCounter= lineCounter+1
 			analizadorLinea(leerLinea(tokenLines),lineCounter)
 			tokenLines = tokenLines[1:]
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
+	# clean up , close files
 	# clean up , close files
 		writeTS(TS)
 	test.close()

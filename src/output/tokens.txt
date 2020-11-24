@@ -1,10 +1,5 @@
-<logOp,not>
-<logOp,not>
+<wholeConst,1>
+<ID,1>
 <relOp,equals>
-<asigOp,equal>
-<else,>
-<if,>
-<separator,openBraq>
-<separator,openBraq>
-<separator,openPar>
-<separator,openPar>
+<aritOp,minus>
+<aritOp,minus>
