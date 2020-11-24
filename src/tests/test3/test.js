@@ -1,10 +1,10 @@
 boolean verdadero = true;
 boolean grupo14 = true;
-boolean aprovado = true;
+boolean aprobado = true;
 do {
     verdadero = false;
     if (true) {
         verdadero = true
     }
 
-} while (grupo14 = aprovado)
+} while (grupo14 = aprobado)

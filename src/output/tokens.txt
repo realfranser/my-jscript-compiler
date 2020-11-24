@@ -1,5 +1,10 @@
-<wholeConst,1>
+<reservedWord,number>
 <ID,1>
-<relOp,equals>
-<aritOp,minus>
-<aritOp,minus>
+<asigOp,equal>
+<wholeConst,1>
+<separator,semicolon>
+<reservedWord,string>
+<ID,2>
+<asigOp,equal>
+<chain,'hola'>
+<separator,semicolon>

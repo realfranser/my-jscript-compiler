@@ -110,13 +110,17 @@ B:--> lB | dB | _B | lambda
 C:--> + | lambda
 D:--> - | lambda
 F:--> *E
-E:--> cE | *I | / % ---> la profe dice que "| /" es "| / S"
+E:--> cE | *I | /S
 I:--> *I | c'E
 G:--> = | lambda
 H:--> &
 J:--> eJ | '
-
+\end{verbatim}
 %-----------------------------------------Automata----------------------------------------------------
+\begin{center}
+    LEYENDA
+\end{center}
+\begin{verbatim}
 d -- digito
 l -- letra minuscula
 del -- delimitador(blanco, tab, EOL)
@@ -352,54 +356,52 @@ ACCIONES SEMÁNTICAS\\
 
 %-----------------------------------------Casos semanticos---------------------------------------------
 
+\textbf{Caso 0-0:}
+\begin{verbatim}
+    Leer Caracter
+\end{verbatim}
+
 \textbf{Caso 0-1:}
 \begin{verbatim}
-    if siguienteCaracter==d
-        numero=valor(d)
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    número=valor(d), Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 1-1:}
 \begin{verbatim}
-    if siguienteCaracter==d
-        numero=numero+d
-    else 
-        Error("SIMBOLO NO RECONOCIDO")
+    número=número*10+d, Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 1-27:}
 \begin{verbatim}
-    GenerarToken(wholeConst,numero)
+    if número<2^15 
+        GenerarToken(wholeConst,número)
+    else 
+        Error ("Numero fuera de rango, 16 bits")
 \end{verbatim}
 
 \textbf{Caso 0-2:}
 \begin{verbatim}
-    if siguienteCaracter==l 
-        lexema=l
-    else 
-        Error("SIMBOLO NO RECONOCIDO")
+        lexema=l, Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 2-2:}
 \begin{verbatim}
-    if siguienteCaracter== l | d | '_' 
-        lexema=lexema+(l|d|'_')
-    else 
-        Error("SIMBOLO NO RECONOCIDO")
+        lexema=lexema+(l|d|'_'), Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 2-12:}
 \begin{verbatim}
-    GenerarToken(ID,posicionTablaSimbolos)
+    if lexema == reservedWord
+        GenerarToken(reservedWord,lexema)
+    else 
+        if(not enTablaDeSimbolos(lexema)):
+            insertarEnTablaSimbolos(lexema)
+        GenerarToken(ID,posicionTablaSimbolos)
 \end{verbatim}
 
 \textbf{Caso 0-3:}
 \begin{verbatim}
-    if siguienteCaracter=='+'
-        //Nada
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 3-13:}
@@ -409,19 +411,14 @@ ACCIONES SEMÁNTICAS\\
 
 \textbf{Caso 3-14:}
 \begin{verbatim}
-    if siguienteCaracter=='+'
-        GenerarToken(autoIncOp,autoinc)
-    else 
-        Error("SIMBOLO NO RECONOCIDO")
+    GenerarToken(autoIncOp,autoinc)
 \end{verbatim}
 
 \textbf{Caso 0-4:}
 \begin{verbatim}
-    if siguienteCaracter=='-'
-        //Nada
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
+	
 
 \textbf{Caso 4-15:}
 \begin{verbatim}
@@ -430,138 +427,87 @@ ACCIONES SEMÁNTICAS\\
 
 \textbf{Caso 4-16:}
 \begin{verbatim}
-    if siguienteCarcter=='-'
-        GenerarToken(autoIncOp,autoinc)
-    else 
-        Error("SIMBOLO NO RECONOCIDO")
+    GenerarToken(autoDecOp,autoDec)
 \end{verbatim}
 
 \textbf{Caso 0-5:}
 \begin{verbatim}
-    if siguienteCaracter=='/'
-        //NADA
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 5-6:}
 \begin{verbatim}
-    if siguienteCaracater=='*'
-        //NADA
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 6-6:}
 \begin{verbatim}
-    if siguienteCaracater=='c'
-        //NADA
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 6-7:}
 \begin{verbatim}
-    if siguienteCaracater=='*'
-         //NADA
-    else
-         Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 \newpage
 \textbf{Caso 7-6:}
 \begin{verbatim}
-    if siguienteCaracater=='c''
-        //NADA
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 7-0:}
 \begin{verbatim}
-    if siguienteCaracater=='/'
-        //NADA
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 0-26:}
 \begin{verbatim}
-    if siguienteCaracter==','
-        GenerarToken(separator,colon)
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+     GenerarToken(separator,colon)
 \end{verbatim}
 
 \textbf{Caso 0-25:}
 \begin{verbatim}
-    if siguienteCaracter==';'
-        GenerarToken(separator,semicolon)
-    else
-        Error("SIMBOLO NO RECONOCIDO") )
+    GenerarToken(separator,semicolon)
 \end{verbatim}
 
 \textbf{Caso 0-20:}
 \begin{verbatim}
-    if siguienteCaracter=='}'
-        GenerarToken(separator,closeBraq)
-    else
-        Error("SIMBOLO NO RECONOCIDO")  
+    GenerarToken(separator,closeBraq)
 \end{verbatim}
 
 \textbf{Caso 0-19:}
 \begin{verbatim}
-    if siguienteCaracter=='{'
-        GenerarToken(separator,openBraq)
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    GenerarToken(separator,openBraq)
 \end{verbatim}
 
 \textbf{Caso 0-18:}
 \begin{verbatim}
-    if siguienteCaracter==')'
-        GenerarToken(separator,closePar)
-    else
-        Error("SIMBOLO NO RECONOCIDO")  
+    GenerarToken(separator,closePar)
 \end{verbatim}
 
 \textbf{Caso 0-17:}
 \begin{verbatim}
-    if siguienteCaracter=='('
-        GenerarToken(separator,openPar)
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    GenerarToken(separator,openPar)
 \end{verbatim}
 \newpage
 \textbf{Caso 0-10:}
 \begin{verbatim}
-    if siguienteCaracter=='''
-        lexema=''
-    else
-        Error ("SIMBOLO NO RECONOCIDO)
+    Leer Caracter,lexema = ', contador = 1
 \end{verbatim}
 
 \textbf{Caso 10-10:}
 \begin{verbatim}
-    if siguienteCaracter==e
-        lexema=lexema+e
-    else 
-        Error ("SIMBOLO NO RECONOCIDO)
+    lexema=lexema+siguienteCaracter
 \end{verbatim}
 
 \textbf{Caso 10-24:}
 \begin{verbatim}
-    if siguienteCaracater=='''
-        GenerarToken(chain,posicionTablaSimbolos)//revisar
-    else 
-        Error ("SIMBOLO NO RECONOCIDO")
+    GenerarToken(chain,lexema)
 \end{verbatim}
 
 \textbf{Caso 0-8:}
 \begin{verbatim}
-    if siguienteCaracter=='!'
-    
-    else 
-        Error ("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 8-21:}
@@ -571,26 +517,17 @@ ACCIONES SEMÁNTICAS\\
 
 \textbf{Caso 8-22:}
 \begin{verbatim}
-    if siguienteCaracater == '='
-        GenerarToken(relOp,notEquals)
-    else 
-        Error ("SIMBOLO NO RECONOCIDO")  
+    GenerarToken(relOp,notEquals) 
 \end{verbatim}
 
 \textbf{Caso 0-11:}
 \begin{verbatim}
-    if siguienteCaracater == '='
-
-    else 
-        Error ("SIMBOLO NO RECONOCIDO")  
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 11-28:}
 \begin{verbatim}
-    if siguienteCaracater == '='
-        GenerarToken(relOp,equals)
-    else 
-        Error ("SIMBOLO NO RECONOCIDO")  
+    GenerarToken(relOp,equals) 
 \end{verbatim}
 
 \textbf{Caso 11-29:}
@@ -600,10 +537,7 @@ ACCIONES SEMÁNTICAS\\
 \newpage
 \textbf{Caso 0-9:}
 \begin{verbatim}
-    if siguienteCaracter == '&'
-        
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+    Leer Caracter
 \end{verbatim}
 
 \textbf{Caso 9-23:}
@@ -611,7 +545,7 @@ ACCIONES SEMÁNTICAS\\
     if siguienteCaracter == '&'
         GenerarToken(logOp,and)
     else
-        Error("SIMBOLO NO RECONOCIDO")
+        Error("Syntax error. && expected")
 \end{verbatim}
 
 \vspace*{1cm}
@@ -745,14 +679,14 @@ Código:
 \begin{verbatim}
 boolean verdadero = true;
 boolean grupo14 = true;
-boolean aprovado = true;
+boolean aprobado = true;
 do {
     verdadero = false;
     if (true) {
         verdadero = true
     }
 
-} while (grupo14 = aprovado)
+} while (grupo14 = aprobado)
 \end{verbatim}
 
 Tokens:
@@ -874,6 +808,7 @@ Errores:
 \begin{verbatim}
     ++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 13 ,linea: 2
     ++ Error: & esta solo en caracter: 1 ,linea: 8
+  
     
 \end{verbatim}
 \end{flushleft}
@@ -911,7 +846,8 @@ Tokens:
 Errores:
 \begin{verbatim}
     ++ Error: Caracter no reconocido:[>] en caracter: 11 ,linea: 1
-    ++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 5 ,linea: 6    
+    ++ Error: ' cadena no se cierra en ningun momento,abierto en caracter: 5 ,linea: 6 
+    ++ Error: /* comentario en bloque no se cierra   
 \end{verbatim}
 \end{flushleft}
 

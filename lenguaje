@@ -35,7 +35,6 @@ Errores:  Cualquier transicion no declarada dara error.
     if siguienteCaracter==d
         numero=valor(d)
     else
-        Error("SIMBOLO NO RECONOCIDO")
 -----
 1-1:
     if siguienteCaracter==d
@@ -43,7 +42,7 @@ Errores:  Cualquier transicion no declarada dara error.
     else 
         Error("SIMBOLO NO RECONOCIDO")
 -----
-1-11:
+1-27:
     GenerarToken(wholeConst,numero)
 ------
 #######
@@ -51,8 +50,7 @@ Errores:  Cualquier transicion no declarada dara error.
 0-2: 
     if siguienteCaracter==l 
         lexema=l
-    else 
-        Error("SIMBOLO NO RECONOCIDO")
+       
 
 2-2:
     if siguienteCaracter== l | d | '_' 
@@ -69,7 +67,7 @@ Errores:  Cualquier transicion no declarada dara error.
     if siguienteCaracter=='+'
         //Nada
     else
-        Error("SIMBOLO NO RECONOCIDO")
+
 ------
 3-13:
     GenerarToken(aritOp,plus)
@@ -86,7 +84,7 @@ Errores:  Cualquier transicion no declarada dara error.
     if siguienteCaracter=='-'
         //Nada
     else
-        Error("SIMBOLO NO RECONOCIDO")
+
 ------
 4-15:
     GenerarToken(aritOp,minus)
@@ -103,7 +101,7 @@ Errores:  Cualquier transicion no declarada dara error.
     if siguienteCaracter=='/'
         //NADA
     else
-        Error("SIMBOLO NO RECONOCIDO")
+  
 ------
 5-6: 
     if siguienteCaracater=='*'
@@ -140,56 +138,43 @@ Errores:  Cualquier transicion no declarada dara error.
 0-26:
     if siguienteCaracter==','
         GenerarToken(separator,colon)
-    else
-        Error("SIMBOLO NO RECONOCIDO")
+
 ------
 #######
 ------
 0-25:
     if siguienteCaracter==';'
         GenerarToken(separator,semicolon)
-    else
-        Error("SIMBOLO NO RECONOCIDO") 
 ------
 ######
 ------
 0-20:
     if siguienteCaracter=='}'
         GenerarToken(separator,closeBraq)
-    else
-        Error("SIMBOLO NO RECONOCIDO")       
 ------
 #######
 ------
 0-19:
     if siguienteCaracter=='{'
         GenerarToken(separator,openBraq)
-    else
-        Error("SIMBOLO NO RECONOCIDO")
 ------
 ######
 ------
 0-18:
     if siguienteCaracter==')'
-        GenerarToken(separator,closePar)
-    else
-        Error("SIMBOLO NO RECONOCIDO")                  
+        GenerarToken(separator,closePar)             
 ------
 ######3
 ------
 0-17:
     if siguienteCaracter=='('
         GenerarToken(separator,openPar)
-    else
-        Error("SIMBOLO NO RECONOCIDO")
 ------
 #######
 ------
 0-10:
     if siguienteCaracter=='''
         lexema=''
-    else
-        Error ("SIMBOLO NO RECONOCIDO)
 ------
 10-10:
     if siguienteCaracter==e
@@ -205,19 +190,46 @@ Errores:  Cualquier transicion no declarada dara error.
 ------
 #######
 ------
-
 0-8://separar casos =  ! 
-    if siguienteCaracter=='='
+    if siguienteCaracter=='!'
+        // Nada
 
-    else if siguienteCaracater=='!'
-    
+Caso 8-21:
+        GenerarToken(logOp,not)
+ 
+Caso 8-22:
+    if siguienteCaracater == '='
+        GenerarToken(relOp,notEquals)
     else 
-        Error ("SIMBOLO NO RECONOCIDO")
-8-22:   
+        Error ("SIMBOLO NO RECONOCIDO")  
+ 
+
+Caso 0-11:
+    if siguienteCaracater == '='
+      //nada 
+ 
+
+Caso 11-28:
     if siguienteCaracater == '='
         GenerarToken(relOp,equals)
     else 
-        Error ("SIMBOLO NO RECONOCIDO")    
+        Error ("SIMBOLO NO RECONOCIDO")  
+ 
+
+ Caso 11-29:
+        GenerarToken(asigOp,equal)
+ 
+ Caso 0-9:
+    if siguienteCaracter == '&'
+        //Nada
+ 
+
+ Caso 9-23:
+    if siguienteCaracter == '&'
+        GenerarToken(logOp,and)
+    else
+        Error("SIMBOLO NO RECONOCIDO")
+
    
 
 

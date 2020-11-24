@@ -3,7 +3,8 @@ string pp = 'hola';
 
 /* hola
 
-disculpa*/
+
+disculpa
 if (a && a) {
     a = 2;
 }

@@ -9,6 +9,7 @@ tokenFilePath = 'output/tokens.txt'
 errorFilePath = 'output/errors.txt'
 TSFilePath = 'output/ts.txt'
 # Global flag
+lastLine=0
 openComment = False
 tsOgNumber = 0
 tsAcNumber = 0
@@ -141,7 +142,7 @@ def leerLinea(lista):
 	return linea
 
 def analizadorLinea(line, lineCounter):
-	global openComment
+	global openComment,lastLine
 	contadorCaracter = 0
 	lista = line
 	while lista:
@@ -165,6 +166,8 @@ def analizadorLinea(line, lineCounter):
 			if(openComment == False):
 					print('!! Atención: */ comentario en bloque cerrado en caracter: '+
 															str(cerradoEnCaracter)+' ,linea: '+str(lineCounter))
+			if not lista and openComment and (lastLine == lineCounter+1):
+					generarError('++ Error: /* comentario en bloque no se cierra')
 
 		elif leerChar(lista) == '\n' or leerChar(lista) == ' ' or leerChar(lista) == '\t':
 			contadorCaracter = contadorCaracter+1
@@ -339,7 +342,7 @@ def analizadorLinea(line, lineCounter):
 						contadorCaracter = contadorCaracter+1
 						lista = lista[1:]
 				if(openComment == True):
-					generarError('++ Error: /* comentario en bloque no se cierra, abierto en caracter: '+
+					print('!! Atención: /* comentario en bloque no se cierra, abierto en caracter: '+
 																str(aperturaEnCaracter)+ ' ,linea: ' + str(lineCounter))
 
 			else:
@@ -355,7 +358,7 @@ def analizadorLinea(line, lineCounter):
 						
 
 def main():
-	global tokenFile,errorFile,openComment,TSFile,tsAcNumber,tsOgNumber,TS
+	global tokenFile,errorFile,openComment,TSFile,tsAcNumber,tsOgNumber,TS,lastLine
 	
 	# Parses argument, and requires the user to provide one file
 	parser = argparse.ArgumentParser(add_help=True)
@@ -376,6 +379,7 @@ def main():
 		lineCounter = 0
 		lines = test.readlines()
 		tokenLines = lines # backup so the OG list is not modified in case we need it
+		lastLine = len(tokenLines)
 		#generarTS()
 		while tokenLines:
 			lineCounter= lineCounter+1
