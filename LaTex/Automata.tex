@@ -62,41 +62,42 @@
 \fbox{%
   \parbox{\textwidth}{
     \begin{tabular}{l|l}
-        alert	            &\textless alert, \textgreater\\
-        boolean	            &\textless boolean, \textgreater\\
-        else	            &\textless  else, \textgreater\\
-        function	        &\textless function, \textgreater\\
-        if	                &\textless if, \textgreater\\
-        input	            &\textless input, \textgreater\\
-        let	                &\textless let, \textgreater\\
-        number	            &\textless number, \textgreater\\
-        return	            &\textless return, \textgreater\\
-        string	            &\textless string, \textgreater\\
-        while	            &\textless while, \textgreater\\
-        false	            &\textless false, \textgreater\\
-        true	            &\textless true, \textgreater\\
-        do	                &\textless do, \textgreater\\
-        autoInc	            &\textless Autoincremento (++), \textgreater\\
-        Número	            &\textless constante entera, \textgreater\\
-        Posición(Número)	&\textless Cadena ('), \textgreater\\
-        Número	            &\textless Identificador, \textgreater\\
-        equal	            &\textless =, \textgreater\\
-        colon	            &\textless ,, \textgreater\\
-        semicolon	        &\textless ;, \textgreater\\
-        openPar	            &\textless (, \textgreater\\
-        closePar	        &\textless ), \textgreater\\
-        openBraq	        &\textless \{, \textgreater\\
-        closeBraq	        &\textless \}, \textgreater\\
-        plus	            &\textless +, \textgreater\\
-        minus	            &\textless -, \textgreater\\
-        and	                &\textless \&\&, \textgreater\\
-        not	                &\textless !, \textgreater\\
-        notEquals	        &\textless !=, \textgreater\\
-        equals	            &\textless ==, \textgreater
+        alert	            &\textless reservedWord, alert \textgreater\\
+        boolean	            &\textless reservedWord, boolean \textgreater\\
+        else	            &\textless reservedWord, else \textgreater\\
+        function	        &\textless reservedWord, function \textgreater\\
+        if	                &\textless reservedWord, if \textgreater\\
+        input	            &\textless reservedWord, input \textgreater\\
+        let	                &\textless reservedWord, let, \textgreater\\
+        number	            &\textless reservedWord, number \textgreater\\
+        return	            &\textless reservedWord, return \textgreater\\
+        string	            &\textless reservedWord, string \textgreater\\
+        while	            &\textless reservedWord, while \textgreater\\
+        false	            &\textless reservedWord, false \textgreater\\
+        true	            &\textless reservedWord, true \textgreater\\
+        do	                &\textless reservedWord, do \textgreater\\
+        Autoincremento (++) &\textless autoIncOp, autoInc \textgreater\\
+        constante entera	&\textless wholeConst, Número\textgreater\\
+        Posición(Número)	&\textless chain, Posición(Número) \textgreater\\
+        Identificador	    &\textless ID, Número\textgreater\\
+        =	                &\textless asigOp, equal \textgreater\\
+        ,	                &\textless separator, colon \textgreater\\
+        ;	                &\textless separator, semicolon\textgreater\\
+        (                   &\textless separator,openPar \textgreater\\
+        )	                &\textless separator,closePar \textgreater\\
+       	\}                  &\textless  separator,openBraq \textgreater\\
+        \{\                  &\textless separator,closeBraq \textgreater\\
+        Suma (+)	        &\textless aritOp,plus\textgreater\\
+        Resta (-)	        &\textless aritOp,minus \textgreater\\
+        Y lógico (\&\&)	    &\textless logOp,and \textgreater\\
+        Negación (!)	    &\textless logOp,not \textgreater\\
+        Distinto (!=)	    &\textless relOp,notEquals \textgreater\\
+        Igual (==)	        &\textless relOp,equals \textgreater
         
     \end{tabular}
   }
 }
+
 \newpage
 \begin{center}
     GRAMÁTICA
@@ -109,7 +110,7 @@ B:--> lB | dB | _B | lambda
 C:--> + | lambda
 D:--> - | lambda
 F:--> *E
-E:--> cE | *I | /
+E:--> cE | *I | / % ---> la profe dice que "| /" es "| / S"
 I:--> *I | c'E
 G:--> = | lambda
 H:--> &
