@@ -382,44 +382,8 @@ def main():
 			analizadorLinea(leerLinea(tokenLines),lineCounter)
 			tokenLines = tokenLines[1:]
 	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
-	# clean up , close files
+
+		writeTS(TS)
 		writeTS(TS)
 	test.close()
 	errorFile.close()
