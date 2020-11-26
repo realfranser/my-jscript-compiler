@@ -205,3 +205,56 @@ Producciones = {
 | Y  |                                                |                                              |
 -----------------------------------------------------------------------------------------------------
 
+Nueva gramatica sintactico siguiendo pautas del profesoR
+
+Expresiones
+__________________________________
+
+E -> E && R | R
+R -> R == U | R != U | U
+U -> U + V | U - V | V
+V -> ID | ( E ) | ID ( L ) | ENT | CAD | TRUE | FALSE | !V | V++
+
+
+Sentencias Simples
+__________________________________
+
+S -> ID = E ;
+S -> ID ( L ) ;
+S -> ALERT ( E ) ;
+S -> INPUT ( ID ) ;
+S -> RETURN X ;
+
+L -> E Q | λ
+Q -> , E Q | λ
+X -> E | λ
+
+
+Sentencias Compuestas
+__________________________________
+
+B -> IF ( E ) S
+B -> LET T ID
+B -> S
+B -> DO { C } WHILE ( E );
+
+T -> NUMBER | BOOLEAN | STRING
+
+
+Declaraciones de Funciones
+__________________________________
+
+F -> FUNCTION H ID ( A ) { C }
+
+H -> T | λ
+A -> T ID K | λ
+K -> , T ID K | λ
+C -> B C | λ
+
+
+Estructura de un programa = Axioma
+__________________________________
+
+P -> B P 
+P -> F P
+P -> λ
