@@ -14,7 +14,8 @@ openComment = False
 tsOgNumber = 0
 tsAcNumber = 0
 
-TS = []
+TS = [] #lista tabla de simbolos
+TL = [] #lista tokens
 
 class Simbolo:
 	def __init__ (self,numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
@@ -29,7 +30,10 @@ class Simbolo:
 		self.tipoRetorno = tipoRetorno  # tipo devuelto por funcion
 		self.etiqFuncion = etiqFuncion # Etiqueta tipo funcion
 		self.param = param # Parametro no pasado por valor
-
+class Token:
+	def __init__(self,tokenCode,atribute):
+		self.tokenCode = tokenCode
+		self.atribute = atribute
 
 def getSimbolosTabla(tabla,numTabla):
 	sol= []
@@ -50,6 +54,7 @@ def getLexema(tabla,lexema):
 		if i.lexema == lexema:
 			return True
 	return False
+
 
 def addToTS(numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
 	if getLexema(TS,lexema) == False:
@@ -111,16 +116,18 @@ def generarToken(tokenCode,atribute):
 					for k in i['tokenList']:
 						if k['atribute']==atribute:
 							token = '<reservedWord,' + atribute + '>\n'
+							TL.append(Token('reservedWord',atribute))
 							found = True
 							break
 			if found == False:
 				pos = addToTS(0,atribute,'unknown',-1) ################# Editar cuando hagamos semantico
 				token = '<ID,' + str(pos) + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
+				TL.append(Token('ID',atribute))
 				
 
 		else:	
 			token = '<' + tokenCode + ',' + atribute + '>\n' 
-		
+			TL.append(Token(tokenCode,atribute))
 		tokenFile.write(token)
 		sourceTokenFile.close()
 
@@ -386,8 +393,6 @@ def main():
 			analizadorLinea(leerLinea(tokenLines),lineCounter)
 			tokenLines = tokenLines[1:]
 	# clean up , close files
-
-		writeTS(TS)
 		writeTS(TS)
 	test.close()
 	errorFile.close()

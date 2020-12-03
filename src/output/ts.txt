@@ -7,12 +7,3 @@ Contenido Tabla Símbolos # 0 :
   ATRIBUTOS :
 	+ tipo: unknown
 	+ Despl: -1
-Contenido Tabla Símbolos # 0 :
-* LEXEMA : 'a'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ Despl: -1
-* LEXEMA : 'pp'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ Despl: -1
