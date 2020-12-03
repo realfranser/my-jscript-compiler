@@ -1,9 +1,0 @@
-<number,>
-<ID,a>
-<asigOp,equal>
-<wholeConst,1>
-<separator,semicolon>
-<string,>
-<ID,pp>
-<asigOp,equal>
-<chain,'hola'>

@@ -1,212 +1,264 @@
-Aquí escribiremos toda la gramática utilizada en el análisis sintáctico
-
-No terminales:
-{
-    Main, Programa, Funcion, Cuerpo, Sentencia, Bloque, Exprexion, Condicion, Condicion2,
-    Aritmetica, Types, ParametrosFun, ParametrosFun2, Tipo
-}
-
-Axioma: Main
-
-Terminales:
-{
-alert,boolean, else, function, if, input, let, number, return, string, while, false, true, do,
-autoInc, Número, Posición(Número), Número, equal, colon, semicolon, openPar, closePar, openBraq,
-closeBraq, plus, minus, and, not, notEquals, equals
-}
+NoTerminales = { E R U V S L Q X B T F H A K C P V1 S1 E1 R1 U1 }
+Axioma = P
+Terminales = { && == != + - ID ( ) ENT CAD TRUE FALSE ! ++ ALERT INPUT RETURN DO WHILE , ; = NUMBER BOOLEAN STRING FUNCTION LET { } IF }
 
 Producciones = {
 
-    MAIN -> PROGRAMA PROGRAMA      // Siempre tiene que abrirse un programa (como minimo) 
-    
-                                   //  ---- Puedo llamar: ----
-    PROGRAMA -> CUERPO PROGRAMA    // A un cuerpo de porgrama
-    PROGRAMA -> FUNCION PROGRAMA   // A una funcion  
-    PROGRAMA ->                    // O terminar
+E -> R E1
+E1 -> && R E1
+E1 -> lambda
+
+R -> U R1
+R1 -> == U R1
+R1 -> != U R1
+R1 -> lambda
+
+U -> V U1
+U1 -> + V U1
+U1 -> - V U1
+U1 -> lambda
+
+V -> ID V1
+V1 -> ( L )
+V1 -> ++
+V1 -> lambda
+
+V -> ( E ) 
+V -> ENT 
+V -> CAD 
+V -> TRUE 
+V -> FALSE 
+V -> ! ID 
 
 
-    FUNCION -> function id openPar PARAMETROSFUN closePar openBraq  CUERPO closeBraq 
 
 
-//  ---- Dentro del cuerpo podemos ---- 
-// Definir una varible
-// hacer if simples
-// hacer if de una sola linea (sin corchetes)
-// hacer un do While 
+S -> ID S1
+S -> ALERT ( E ) ;
+S -> INPUT ( ID ) ;
+S -> RETURN X ;
+S1 -> = E ;
+S1 -> ( L ) ;
 
-    CUERPO -> let TIPO id semicolon                                            
-    CUERPO -> if  openPar CONDICION closePar openBraq BLOQUE closeBraq         
-    CUERPO -> if  openPar CONDICION closePar SENTENCIA semicolon               
-    CUERPO -> do  openBraq BLOQUE closeBraq while  openPar CONDICION  closePar              
-    
-    //  ---- Podemos declara sentecias ---- 
-    SENTENCIA -> id  igual  EXPRESION                  // identificador = expresion 
-    SENTENCIA -> id  openPar  PARAMETROSFUN  closePar  // llamamos a una funcion con sus parametros
-    SENTENCIA -> id alert openPar EXPRESION closePar   // Crea una alertaS
-    SENTENCIA -> return  RETURNVALUE                   // devolveria un returnvaule
-    
-    //  ---- Con esto podemos encadenar ----
-    BLOQUE -> CUERPO                   // Por un lado encadenar los if y las cosas de dentro
-    BLOQUE -> SENTENCIA BLOQUE         // Con en esto podemos encadenar sentencias
-    BLOQUE ->                          // Terminamos 
-    
-     // ---- Posibles expresiones ----
-    EXPRESION -> ARITMETICA semicolon  // una operacion aritmetica y ;
-    EXPRESION -> not TYPES semicolon   // una negacion de un TYPE y ; 
-    EXPRESION -> TYPES semicolon       // un TYPES a secas
-    EXPRESION ->                       // o terminar
+L -> E Q 
+L -> lambda
 
-    //  ---- Posibles condiciones ----
-    CONDICION -> TYPES notequals TYPES CONDICION2      // Puede ser diferente
-    CONDICION -> TYPES equals TYPES CONDICION2         // Puede ser igual 
-    CONDICION2 -> and CONDICION                        // Pueden encadenarse varias condiciones
-    CONDICION2 ->                                      // Podemos terminar
-     
-    // ---- Operaciones que se puede hacer a los id ----
-    ARITMETICA -> TYPES plus TYPES ARITMETICA   // a + b      
-    ARITMETICA -> TYPES minus TYPES ARITMETICA  // a - b
-    ARITMETICA -> TYPES autoInc                 // a++
+Q -> , E Q 
+Q -> lambda
 
-    // ---- Elementos de entradas de una expresion ---- 
-    TYPES-> id     // identificador
-    TYPES-> ent    // entero
-    TYPES-> cad    // cadena 
-    TYPES -> true  // Verdadero
-    TYPES -> false // Falso
-    TYPES-> id openPar  LLAMADAFUN  closePar semicolon // LLamada a una funcion
+X -> E 
+X -> lambda
 
-    //  ---- Como tratamos los datos que introduciomos auna funcion ----
-    
-    
-    PARAMETROSFUN -> id  PARAMETROSFUN2 // Tiene que tener un id como minimo
-    PARAMETROSFUN2 -> colon PARAMETROSFUN // para encadenar usaremos las comas
-    PARAMETROSFUN2 ->  // y si queremos terminar salimos
+B -> IF ( E ) S
+B -> LET T ID
+B -> S
+B -> DO { C } WHILE ( E ) ;
 
-    //  ---- Tipos de datos que podemos tener ----
-    TIPO -> string 
-    TIPO -> number
-    TIPO -> boolean
+T -> NUMBER 
+T -> BOOLEAN 
+T -> STRING
 
----------------------------- LEYENDA ---------------------------------------------------
+F -> FUNCTION H ID ( A ) { C }
 
-MAIN -> M
-PROGRAMA -> P
-FUNCION -> F
-CUERPO -> C
-SENTENCIA -> S
-BLOQUE -> B    
-EXPRESION -> E
-CONDICION -> N  
-CONDICION2 -> N'
-ARITMETICA -> A
-TYPES -> T
-PARAMETROSFUN -> R
-PARAMETROSFUN2 -> R'
-TIPO -> Y
+H -> T 
+H -> lambda
 
----------------------------------Aqui escribiremos toda la gramática utilizada en el análisis sintáctico---------
+A -> T ID K 
+A -> lambda
 
-Aquí escribiremos toda la gramática utilizada en el análisis sintáctico
+K -> , T ID K 
+K -> lambda
 
-No terminales:
-{
-    M, P, F, C, S, B, E, N, N',
-    A, Y, R, R', Y
+C -> B C 
+C -> lambda
+
+P -> B P 
+P -> F P
+P -> lambda
 }
 
-Axioma: M
-
-Terminales:
-{
-alert,boolean, else, function, if, input, let, number, return, string, while, false, true, do,
-autoInc, Número, Posición(Número), Número, equal, colon, semicolon, openPar, closePar, openBraq,
-closeBraq, plus, minus, and, not, notEquals, equals
-}
-
-Producciones = {
-
-    M -> P P      
-
-    P -> C P | F P | lambda                   
-
-    F -> function id openPar R closePar openBraq  C closeBraq 
-
-    C -> if openPar N closePar C' | let Y id semicolon | do openBraq B closeBraq while  openPar N  closePar
-    C' ->  openBraq B closeBraq | S semicolon               
-    
-    S -> id S' | return  RETURNVALUE  
-    S' ->  igual E |  openPar R closePar | 
-          alert openPar E closePar                 
-
-    B -> C | S B | lambda                          
-
-    E -> A semicolon | not T semicolon | T semicolon | lambda
-
-    N -> T N' 
-    N' ->  notEquals T N'' |  equals T N'' 
-    N'' -> && N | lambda                                 
-     
-    A -> T A'          
-    A' -> plus T A |  minus T A |  autoInc           
+/*First y follows de la gramatica LL(1)*/
 
 
-    T -> id T' | ent | cad | true | false 
-    T' -> openPar LLAMADAFUN closePar semicolon | lambda
-    
-    R -> id  R' 
+Análisis LL1 de x.ll1
 
-    R' -> colon R | lambda
+Analizando símbolo A
+Analizando producción A -> T ID K
+Analizando símbolo T
+Analizando producción T -> NUMBER
+FIRST de T -> NUMBER  =  { NUMBER }
+Analizando producción T -> BOOLEAN
+FIRST de T -> BOOLEAN  =  { BOOLEAN }
+Analizando producción T -> STRING
+FIRST de T -> STRING  =  { STRING }
+FIRST de T  =  { BOOLEAN NUMBER STRING }
+FIRST de A -> T ID K  =  { BOOLEAN NUMBER STRING }
+Analizando producción A -> lambda
+FIRST de A -> lambda  =  { lambda }
+FIRST de A  =  { BOOLEAN NUMBER STRING lambda }
+Calculando FOLLOW de A
+FOLLOW de A  =  { ) }
+Analizando símbolo B
+Analizando producción B -> IF ( E ) S
+FIRST de B -> IF ( E ) S  =  { IF }
+Analizando producción B -> LET T ID
+FIRST de B -> LET T ID  =  { LET }
+Analizando producción B -> S
+Analizando símbolo S
+Analizando producción S -> ID S1
+FIRST de S -> ID S1  =  { ID }
+Analizando producción S -> ALERT ( E ) ;
+FIRST de S -> ALERT ( E ) ;  =  { ALERT }
+Analizando producción S -> INPUT ( ID ) ;
+FIRST de S -> INPUT ( ID ) ;  =  { INPUT }
+Analizando producción S -> RETURN X ;
+FIRST de S -> RETURN X ;  =  { RETURN }
+FIRST de S  =  { ALERT ID INPUT RETURN }
+FIRST de B -> S  =  { ALERT ID INPUT RETURN }
+Analizando producción B -> DO { C } WHILE ( E ) ;
+FIRST de B -> DO { C } WHILE ( E ) ;  =  { DO }
+FIRST de B  =  { ALERT DO ID IF INPUT LET RETURN }
+Analizando símbolo C
+Analizando producción C -> B C
+FIRST de C -> B C  =  { ALERT DO ID IF INPUT LET RETURN }
+Analizando producción C -> lambda
+FIRST de C -> lambda  =  { lambda }
+FIRST de C  =  { ALERT DO ID IF INPUT LET RETURN lambda }
+Calculando FOLLOW de C
+FOLLOW de C  =  { } }
+Analizando símbolo E
+Analizando producción E -> R E1
+Analizando símbolo R
+Analizando producción R -> U R1
+Analizando símbolo U
+Analizando producción U -> V U1
+Analizando símbolo V
+Analizando producción V -> ID V1
+FIRST de V -> ID V1  =  { ID }
+Analizando producción V -> ( E )
+FIRST de V -> ( E )  =  { ( }
+Analizando producción V -> ENT
+FIRST de V -> ENT  =  { ENT }
+Analizando producción V -> CAD
+FIRST de V -> CAD  =  { CAD }
+Analizando producción V -> TRUE
+FIRST de V -> TRUE  =  { TRUE }
+Analizando producción V -> FALSE
+FIRST de V -> FALSE  =  { FALSE }
+Analizando producción V -> ! ID
+FIRST de V -> ! ID  =  { ! }
+FIRST de V  =  { ! ( CAD ENT FALSE ID TRUE }
+FIRST de U -> V U1  =  { ! ( CAD ENT FALSE ID TRUE }
+FIRST de U  =  { ! ( CAD ENT FALSE ID TRUE }
+FIRST de R -> U R1  =  { ! ( CAD ENT FALSE ID TRUE }
+FIRST de R  =  { ! ( CAD ENT FALSE ID TRUE }
+FIRST de E -> R E1  =  { ! ( CAD ENT FALSE ID TRUE }
+FIRST de E  =  { ! ( CAD ENT FALSE ID TRUE }
+Analizando símbolo E1
+Analizando producción E1 -> && R E1
+FIRST de E1 -> && R E1  =  { && }
+Analizando producción E1 -> lambda
+FIRST de E1 -> lambda  =  { lambda }
+FIRST de E1  =  { && lambda }
+Calculando FOLLOW de E1
+Calculando FOLLOW de E
+Analizando símbolo Q
+Analizando producción Q -> , E Q
+FIRST de Q -> , E Q  =  { , }
+Analizando producción Q -> lambda
+FIRST de Q -> lambda  =  { lambda }
+FIRST de Q  =  { , lambda }
+Calculando FOLLOW de Q
+Calculando FOLLOW de L
+FOLLOW de L  =  { ) }
+FOLLOW de Q  =  { ) }
+Calculando FOLLOW de X
+FOLLOW de X  =  { ; }
+FOLLOW de E  =  { ) , ; }
+FOLLOW de E1  =  { ) , ; }
+Analizando símbolo F
+Analizando producción F -> FUNCTION H ID ( A ) { C }
+FIRST de F -> FUNCTION H ID ( A ) { C }  =  { FUNCTION }
+FIRST de F  =  { FUNCTION }
+Analizando símbolo H
+Analizando producción H -> T
+FIRST de H -> T  =  { BOOLEAN NUMBER STRING }
+Analizando producción H -> lambda
+FIRST de H -> lambda  =  { lambda }
+FIRST de H  =  { BOOLEAN NUMBER STRING lambda }
+Calculando FOLLOW de H
+FOLLOW de H  =  { ID }
+Analizando símbolo K
+Analizando producción K -> , T ID K
+FIRST de K -> , T ID K  =  { , }
+Analizando producción K -> lambda
+FIRST de K -> lambda  =  { lambda }
+FIRST de K  =  { , lambda }
+Calculando FOLLOW de K
+FOLLOW de K  =  { ) }
+Analizando símbolo L
+Analizando producción L -> E Q
+FIRST de L -> E Q  =  { ! ( CAD ENT FALSE ID TRUE }
+Analizando producción L -> lambda
+FIRST de L -> lambda  =  { lambda }
+FIRST de L  =  { ! ( CAD ENT FALSE ID TRUE lambda }
+Analizando símbolo P
+Analizando producción P -> B P
+FIRST de P -> B P  =  { ALERT DO ID IF INPUT LET RETURN }
+Analizando producción P -> F P
+FIRST de P -> F P  =  { FUNCTION }
+Analizando producción P -> lambda
+FIRST de P -> lambda  =  { lambda }
+FIRST de P  =  { ALERT DO FUNCTION ID IF INPUT LET RETURN lambda }
+Calculando FOLLOW de P
+FOLLOW de P  =  {  $ (final de cadena) }
+Analizando símbolo R1
+Analizando producción R1 -> == U R1
+FIRST de R1 -> == U R1  =  { == }
+Analizando producción R1 -> != U R1
+FIRST de R1 -> != U R1  =  { != }
+Analizando producción R1 -> lambda
+FIRST de R1 -> lambda  =  { lambda }
+FIRST de R1  =  { != == lambda }
+Calculando FOLLOW de R1
+Calculando FOLLOW de R
+FOLLOW de R  =  { && ) , ; }
+FOLLOW de R1  =  { && ) , ; }
+Analizando símbolo S1
+Analizando producción S1 -> = E ;
+FIRST de S1 -> = E ;  =  { = }
+Analizando producción S1 -> ( L ) ;
+FIRST de S1 -> ( L ) ;  =  { ( }
+FIRST de S1  =  { ( = }
+Analizando símbolo U1
+Analizando producción U1 -> + V U1
+FIRST de U1 -> + V U1  =  { + }
+Analizando producción U1 -> - V U1
+FIRST de U1 -> - V U1  =  { - }
+Analizando producción U1 -> lambda
+FIRST de U1 -> lambda  =  { lambda }
+FIRST de U1  =  { + - lambda }
+Calculando FOLLOW de U1
+Calculando FOLLOW de U
+FOLLOW de U  =  { != && ) , ; == }
+FOLLOW de U1  =  { != && ) , ; == }
+Analizando símbolo V1
+Analizando producción V1 -> ( L )
+FIRST de V1 -> ( L )  =  { ( }
+Analizando producción V1 -> ++
+FIRST de V1 -> ++  =  { ++ }
+Analizando producción V1 -> lambda
+FIRST de V1 -> lambda  =  { lambda }
+FIRST de V1  =  { ( ++ lambda }
+Calculando FOLLOW de V1
+Calculando FOLLOW de V
+FOLLOW de V  =  { != && ) + , - ; == }
+FOLLOW de V1  =  { != && ) + , - ; == }
+Analizando símbolo X
+Analizando producción X -> E
+FIRST de X -> E  =  { ! ( CAD ENT FALSE ID TRUE }
+Analizando producción X -> lambda
+FIRST de X -> lambda  =  { lambda }
+FIRST de X  =  { ! ( CAD ENT FALSE ID TRUE lambda }
 
-    Y -> string | number | boolean
-
-
-
-
-    
-    -------------------------------------------------------------------------------------------------
-    |                FIRST                           |                      Follow                  |
------------------------------------------------------------------------------------------------------
-| M  |   eol  eof  let  if  do   function   lambda    |                        $                     |
------------------------------------------------------------------------------------------------------
-| P  |   eol  eof  let  if  do   function   lambda    |                        $                     |
------------------------------------------------------------------------------------------------------
-| F  |   function  id openPar                         |          closePar openBraq close             |
------------------------------------------------------------------------------------------------------
-| C  |    let if do                                   |    string number boolean openPar    eol      |
------------------------------------------------------------------------------------------------------
-| C' |    let if do                                   |    string number boolean openPar    eol      |
------------------------------------------------------------------------------------------------------
-| S  |              id        Return                  |  alert openPar igual  lambda                 |
------------------------------------------------------------------------------------------------------
-| S' |                               |                                                                  |
------------------------------------------------------------------------------------------------------
-| B  |                             lambda             |                                              |
------------------------------------------------------------------------------------------------------
-| E  |     id | ent | cad | true | false | not        |          semicolon, lambda                   |
------------------------------------------------------------------------------------------------------
-| N  |       id | ent | cad | true | false            |                                              |
------------------------------------------------------------------------------------------------------
-| N' |                                                |                                              |
------------------------------------------------------------------------------------------------------
-| N''|                                                |                                              |
------------------------------------------------------------------------------------------------------
-| A  |      id | ent | cad | true | false             |                                              |
------------------------------------------------------------------------------------------------------
-| A' |      id | ent | cad | true | false             |                                              |
------------------------------------------------------------------------------------------------------
-| T  |      id | ent | cad | true | false             |                                              |
------------------------------------------------------------------------------------------------------
-| T' |      id | ent | cad | true | false             |                                              |
------------------------------------------------------------------------------------------------------
-| R  |   id openPar colon                             |   id                                         |
------------------------------------------------------------------------------------------------------
-| R' |   id lambda                                    | colon                                        |
------------------------------------------------------------------------------------------------------
-| Y  |                                                |                                              |
------------------------------------------------------------------------------------------------------
-
-
-
-
-Expresiones
-
+Análisis concluido satisfactoriamente

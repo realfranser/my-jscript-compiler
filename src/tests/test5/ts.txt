@@ -1,9 +1,0 @@
-Contenido Tabla Símbolos # 0 :
-* LEXEMA : 'a'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ despl: unknown
-* LEXEMA : 'pp'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ despl: unknown
