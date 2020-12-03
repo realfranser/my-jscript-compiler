@@ -16,6 +16,7 @@ tsAcNumber = 0
 
 TS = [] #lista tabla de simbolos
 TL = [] #lista tokens
+parse=[]
 
 class Simbolo:
 	def __init__ (self,numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
@@ -359,6 +360,299 @@ def analizadorLinea(line, lineCounter):
 			generarError('++ Error: Caracter no reconocido:['+ leerChar(lista) + '] en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
+
+
+
+def A_sint():
+	global sig_token , TLcopy
+	TLcopy = TL
+	sig_token = TLcopy[0].atributo
+	P(); # deduzco que es el axioma , en las diapositivas no pone nada
+	if sig_token != '$' # esto no se si es asi porque no se de donde sacamos el $ ya que en la TL no tenemos ningun $ a no ser que haya que añadirlo como ultimo token(sigo las diapositivas)
+		errorParse('A_sint')
+def equipara(t):
+	global TLcopy
+	if sig_tok == t:
+		TLcopy = TLcopy[1:]
+		sig_token = TLcopy[0].atributo
+	else
+		errorParse('equipara')
+
+
+def errorParse(error):
+	#habra que cambiarlo
+	print('Error en regla %s',error)
+	exit()
+
+# Una función para cada no terminal (y una rama para cada regla)
+
+def E():
+	 parse.add(1)
+	 R()
+	 E1()
+
+def E1():
+	global sig_token
+	if sig_token == '&&':
+		parse.add(2)
+		equipara('&&')
+		R()
+		E1()
+	elif sig_token == ')' or sig_token == ',' or sig_token == ';' or sig_token == '$': # FOLLOW de E1  =  { ) , ; }
+		parse.add(3)
+	else:
+		errorParse('E1')
+
+def R():
+	parse.add(4)
+	U()
+	R1()
+
+def R1():
+	global sig_token
+	if sig_token == '==':
+		parse.add(5)
+		equipara('==')
+		U()
+		R1()
+	elif sig_token == '!=':
+		parse.add(6)
+		equipara('!=')
+		U()
+		R1()
+	elif sig_token == '&&' or sig_token == ')' or sig_token == ',' or sig_token == ';' or sig_token == '$':
+		parse.add(7)
+	else
+		errorParse('R1')
+
+
+def U():
+	parse.add(8)
+	V()
+	U1()
+
+def U1():
+	global sig_token
+	if sig_token == '+':
+		parse.add(9)
+		equipara('+')
+		V()
+		U1()
+	elif sig_token == '-':
+		parse.add(10)
+		equipara('-')
+		V()
+		U1()
+	elif sig_token == '!=' or sig_token == '&&' or sig_token == ')' or sig_token == ',' or sig_token == ';' or sig_token == '==' or sig_token == '$':
+		parse.add(11)
+	else
+		errorParse('R2')
+
+def V():
+	 if sig_token == 'ID'
+	 	parse.add(12)
+	 	equipara('ID')
+	 	V1()
+	 elif sig_token == '(':
+	 	parse.add(16)
+	 	equipara('(')
+	 	E()
+	 	equipara(')')
+	 elif sig_token == 'ENT'
+	 	parse.add(17)
+	 	equipara('ENT')
+	 elif sig_token == 'CAD'
+	 	parse.add(17)
+	 	equipara('CAD')
+	 elif sig_token == 'TRUE'
+	 	parse.add(17)
+	 	equipara('TRUE')
+	 elif sig_token == 'FALSE'
+	 	parse.add(17)
+	 	equipara('FALSE')
+	 elif sig_token == '!'
+	 	parse.add(18)
+	 	equipara('!')
+	 	equipara('ID')
+
+
+def V1():
+	if sig_token == '(':
+	 	parse.add(13)
+	 	equipara('(')
+	 	L()
+	 	equipara(')')
+	elif sig_token == '++':
+	 	parse.add(14)
+	 	equipara('++')
+	elif sig_token == '!=' or sig_token == '&&' or sig_token == ')' or sig_token == '+' or sig_token == ',' or sig_token == '-' or sig_token == ';' or sig_token == '==' or sig_token == '$':
+		parse.add(15)
+	else:
+		errorParse('V1')
+
+
+
+def S():
+	if sig_token == 'ID':
+		parse.add(19)
+		equipara('ID')
+		S1()
+
+	elif sig_token == 'ALERT':
+		parse.add(22)
+		equipara('ALERT')
+		equipara('(')
+		E()
+		equipara(')')
+		equipara(';') 
+	elif sig_token == 'INPUT':
+		parse.add(23)
+		equipara('INPUT')
+		equipara('(')
+		equipara('ID')
+		equipara(')')
+		equipara(';')
+	elif sig_token == 'RETURN':
+		parse.add(24)
+		equipara('RETURN')
+		X()
+		equipara(';')
+def S1(): 
+	if sig_token == '=':
+		parse.add(20)
+		equipara('=')
+		E()
+		equipara(';')
+	elif sig_token == '(':
+		parse.add(21)
+		equipara('(')
+		L()
+		equipara(')')
+		equipara(';')
+	else:              # parece que no hay follow de s1 comprobar
+		errorParse('S1')
+
+
+def L():
+	if sig_token == '$':
+		parse.add(25)
+	else:
+		parse.add(26)
+		E()
+		Q()
+
+def Q():
+	if sig_token == ',':
+		parse.add(27)
+		equipara(',')
+		E()
+		Q()
+	elif sig_token == ')' or sig_token == '$':
+		parse.add(28)
+	else 
+		errorParse('Q')
+
+def X():
+	if sig_token == '$':
+		parse.add(29)
+	else:
+		parse.add(30)
+		E()
+
+def B():
+	if sig_token == 'IF':
+		parse.add(31)
+		equipara('IF')
+		equipara('(')
+		E()
+		equipara(')')
+		S()
+	elif sig_token == 'LET':
+		parse.add(32)
+		equipara('LET')
+		T()
+		equipara('ID')
+	elif sig_token == 'DO':
+	 	parse.add(33)
+	 	equipara('DO')
+	 	equipara('{')
+	 	C()
+	 	equipara('}')
+	 	equipara('WHILE')
+	 	equipara('(')
+	 	E()
+	 	equipara(')')
+	 	equipara(';')
+	else:
+		parse.add(34)
+		S()
+
+def T(): 
+	if sig_token == 'NUMBER':
+		parse.add(35)
+		equipara('NUMBER')
+	elif sig_token == 'BOOLEAN':
+		parse.add(36)
+		equipara('BOOLEAN')
+	elif sig_token == 'STRING':
+		parse.add(37)
+		equipara('STRING')
+
+def F():
+	if sig_token == 'FUNCTION':
+		parse.add(38)
+		equipara('FUNCTION')
+		H()
+		equipara('ID')
+		equipara('(')
+		A()
+		equipara(')')
+		equipara('{')
+		C()
+		equipara('}')
+
+
+def H():
+	if sig_token == '$':
+		parse.add(39)
+	else:
+		parse.add(40)
+		T()
+def A():
+	if sig_token == '$':
+		parse.add(41)
+	else:
+		parse.add(42)
+		T()
+		equipara('ID')
+		K()
+
+def K():
+ 	if sig_token == ',':
+ 		parse.add(43)
+ 		equipara(',')
+ 		T()
+ 		equipara('ID')
+ 		K()
+ 	elif sig_token == $:
+ 		parse.add(44)
+ 	else:
+ 		errorParse('K')
+def C():
+	if sig_token == '$':
+		parse.add(45)
+	else
+		parse.add(46)
+		B()
+		C()
+def P():
+	if sig_token == '$':
+		parse.add(47)
+	else:
+		
+
+
+
 
 
 
