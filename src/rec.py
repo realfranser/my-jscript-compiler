@@ -692,7 +692,7 @@ def P():
 		F()
 		P()
 	elif sig_token == '$':
-		parse.append(52)
+		pass
 		#hemos terminado
 		# habra que añadir a TL un dolar al final para saber que hemos acabado el archivo
 	else:
