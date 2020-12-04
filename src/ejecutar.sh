@@ -1,8 +1,8 @@
-python3 rec.py -f tests/a.txt
+python3 rec.py -f tests/s.txt
 echo ---------------------------------
 echo ---------- codigo ---------------
 echo ---------------------------------
-cat tests/a.txt
+cat tests/s.txt
 echo ---------------------------------
 echo ---------- tokens ---------------
 echo ---------------------------------

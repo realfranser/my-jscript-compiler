@@ -68,7 +68,7 @@ def addToTS(numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam
 def writeTS(tabla):
 	nums = getNumTabla(tabla)
 	for tsNumber in nums:
-		lineaNumeroTS = 'Contenido Tabla Símbolos # '+str(tsNumber)+' :\n'
+		lineaNumeroTS = 'Contenido Tabla Simbolos # '+str(tsNumber)+' :\n'
 		TSFile.write(lineaNumeroTS)
 		for simbolo in tabla:
 			if(simbolo.numTabla == tsNumber):
@@ -87,7 +87,6 @@ def writeTS(tabla):
 				if simbolo.numParam != 0:
 					lineaTS = '	+ numParam: ' + str(simbolo.numParam) +'\n'
 					TSFile.write(lineaTS)
-
 				if simbolo.tipoParam and simbolo.modoParam:
 						counter = 1
 						for j in simbolo.tipoParam :
@@ -124,7 +123,7 @@ def generarToken(tokenCode,atribute):
 							found = True
 							break
 			if found == False:
-				pos = addToTS(0,atribute,'unknown',-1) ################# Editar cuando hagamos semantico
+				pos = addToTS(0,atribute) ################# Editar cuando hagamos semantico
 				token = '<ID,' + str(pos) + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
 				TL.append('ID')
 				
