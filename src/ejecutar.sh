@@ -1,8 +1,8 @@
-python3 rec.py -f tests/s.txt
+python3 rec.py -f pruebasDraco/s.txt
 echo ---------------------------------
 echo ---------- codigo ---------------
 echo ---------------------------------
-cat tests/s.txt
+cat pruebasDraco/s.txt
 echo ---------------------------------
 echo ---------- tokens ---------------
 echo ---------------------------------

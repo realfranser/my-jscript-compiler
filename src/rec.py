@@ -270,7 +270,7 @@ def analizadorLinea(line, lineCounter):
 			generarToken('separator','closePar')
 
 		elif leerChar(lista)== '\'':
-			cadena = leerChar(lista)
+			cadena = '\"'
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
 			seCierra = False
@@ -298,6 +298,8 @@ def analizadorLinea(line, lineCounter):
 																+str(aperturaEnCaracter) +' ,linea: ' + str(lineCounter))
 
 			if len(cadena)<67 and seCierra:
+				cadena = cadena[:-1]
+				cadena = cadena + '\"'
 				generarToken('chain',cadena)
 			elif seCierra:
 			  	generarError('++ Error: \' cadena supera los 64 caracteres por: '
@@ -691,7 +693,7 @@ def P():
 		F()
 		P()
 	elif sig_token == '$':
-		pass
+		parse.append(52)
 		#hemos terminado
 		# habra que añadir a TL un dolar al final para saber que hemos acabado el archivo
 	else:

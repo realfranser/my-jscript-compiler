@@ -1,9 +1,9 @@
 Contenido Tabla Simbolos # 0 :
-* LEXEMA : 'a'
+* LEXEMA : 'texto'
   ATRIBUTOS :
-* LEXEMA : 'b'
+* LEXEMA : 'print'
   ATRIBUTOS :
-* LEXEMA : 'bbb'
+* LEXEMA : 'msg'
   ATRIBUTOS :
-* LEXEMA : 'c'
+* LEXEMA : 'pideTexto'
   ATRIBUTOS :
