@@ -1,5 +1,9 @@
 Contenido Tabla Símbolos # 0 :
-* LEXEMA : 'a'
+* LEXEMA : 'x'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+* LEXEMA : 'z'
   ATRIBUTOS :
 	+ tipo: unknown
 	+ Despl: -1
@@ -7,23 +11,11 @@ Contenido Tabla Símbolos # 0 :
   ATRIBUTOS :
 	+ tipo: unknown
 	+ Despl: -1
-* LEXEMA : 'int'
+* LEXEMA : 'esto_es_un_nombre_de_variable_global_de_tipo_entero'
   ATRIBUTOS :
 	+ tipo: unknown
 	+ Despl: -1
-* LEXEMA : 'operacion'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ Despl: -1
-* LEXEMA : 'num1'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ Despl: -1
-* LEXEMA : 'num2'
-  ATRIBUTOS :
-	+ tipo: unknown
-	+ Despl: -1
-* LEXEMA : 'pp'
+* LEXEMA : 'y'
   ATRIBUTOS :
 	+ tipo: unknown
 	+ Despl: -1

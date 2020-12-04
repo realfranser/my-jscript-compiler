@@ -34,7 +34,7 @@ class Simbolo:
 		self.param = param # Parametro no pasado por valor
 
 def writeParse(parse):
-	parseFile.write('Descendente Recursivo ')
+	parseFile.write('Descendente')
 	for p in parse:
 		parseFile.write(' ')
 		parseFile.write(str(p))

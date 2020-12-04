@@ -1,8 +1,8 @@
-python3 rec.py -f tests/p.js
+python3 rec.py -f tests/a.txt
 echo ---------------------------------
 echo ---------- codigo ---------------
 echo ---------------------------------
-cat tests/p.js
+cat tests/a.txt
 echo ---------------------------------
 echo ---------- tokens ---------------
 echo ---------------------------------
