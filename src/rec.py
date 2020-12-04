@@ -387,9 +387,12 @@ def errorParse(error):
 # Una función para cada no terminal (y una rama para cada regla)
 
 def E():
-	 parse.add(1)
-	 R()
-	 E1()
+	if sig_token == '!' or sig_token == '(' or sig_token == 'CAD' or sig_token == 'ENT' or sig_token == 'FALSE' or sig_token == 'ID' or sig_token == 'TRUE' :
+		parse.add(1) # hay que cambiar estos numeros en funcion del automata sintactico que debemos crear
+		R()
+		E1()
+	else:
+		errorParse('E')
 
 def E1():
 	global sig_token
@@ -398,15 +401,18 @@ def E1():
 		equipara('&&')
 		R()
 		E1()
-	elif sig_token == ')' or sig_token == ',' or sig_token == ';' or sig_token == '$': # FOLLOW de E1  =  { ) , ; }
+	elif sig_token == ')' or sig_token == ',' or sig_token == ';': # FOLLOW de E1  =  { ) , ; }
 		parse.add(3)
 	else:
 		errorParse('E1')
 
 def R():
-	parse.add(4)
-	U()
-	R1()
+	if sig_token == '!' or sig_token == '(' or sig_token =='CAD' or sig_token =='ENT' or sig_token =='FALSE' or sig_token =='ID' or sig_token =='TRUE':
+		parse.add(4)
+		U()
+		R1()
+	else:
+		errorParse('R')
 
 def R1():
 	global sig_token
@@ -420,16 +426,19 @@ def R1():
 		equipara('!=')
 		U()
 		R1()
-	elif sig_token == '&&' or sig_token == ')' or sig_token == ',' or sig_token == ';' or sig_token == '$':
+	elif sig_token == '&&' or sig_token == ')' or sig_token == ',' or sig_token == ';':
 		parse.add(7)
 	else
 		errorParse('R1')
 
 
 def U():
-	parse.add(8)
-	V()
-	U1()
+	if sig_token == '!' or sig_token == '(' or sig_token =='CAD' or sig_token =='ENT' or sig_token =='FALSE' or sig_token =='ID' or sig_token =='TRUE':
+		parse.add(8)
+		V()
+		U1()
+	else:
+		errorParse('U')
 
 def U1():
 	global sig_token
@@ -443,7 +452,7 @@ def U1():
 		equipara('-')
 		V()
 		U1()
-	elif sig_token == '!=' or sig_token == '&&' or sig_token == ')' or sig_token == ',' or sig_token == ';' or sig_token == '==' or sig_token == '$':
+	elif sig_token == '!=' or sig_token == '&&' or sig_token == ')' or sig_token == ',' or sig_token == ';' or sig_token == '==':
 		parse.add(11)
 	else
 		errorParse('R2')
@@ -485,7 +494,7 @@ def V1():
 	elif sig_token == '++':
 	 	parse.add(14)
 	 	equipara('++')
-	elif sig_token == '!=' or sig_token == '&&' or sig_token == ')' or sig_token == '+' or sig_token == ',' or sig_token == '-' or sig_token == ';' or sig_token == '==' or sig_token == '$':
+	elif sig_token == '!=' or sig_token == '&&' or sig_token == ')' or sig_token == '+' or sig_token == ',' or sig_token == '-' or sig_token == ';' or sig_token == '==':
 		parse.add(15)
 	else:
 		errorParse('V1')
@@ -534,12 +543,14 @@ def S1():
 
 
 def L():
-	if sig_token == '$':
+	if sig_token == '!' or sig_token == '(' or sig_token =='CAD' or sig_token =='ENT' or sig_token =='FALSE' or sig_token =='ID' or sig_token =='TRUE':
 		parse.add(25)
-	else:
-		parse.add(26)
 		E()
 		Q()
+	elif sig_token == ')':
+		parse.add(26)
+	else:
+		errorParse('L')
 
 def Q():
 	if sig_token == ',':
@@ -547,17 +558,19 @@ def Q():
 		equipara(',')
 		E()
 		Q()
-	elif sig_token == ')' or sig_token == '$':
+	elif sig_token == ')':
 		parse.add(28)
 	else 
 		errorParse('Q')
 
 def X():
-	if sig_token == '$':
+	if sig_token == '!' or sig_token == '(' or sig_token =='CAD' or sig_token =='ENT' or sig_token =='FALSE' or sig_token =='ID' or sig_token =='TRUE':
 		parse.add(29)
-	else:
-		parse.add(30)
 		E()
+	elif
+		parse.add(30)
+	else:
+		errorParse('X')
 
 def B():
 	if sig_token == 'IF':
@@ -583,9 +596,11 @@ def B():
 	 	E()
 	 	equipara(')')
 	 	equipara(';')
-	else:
+	elif sig_token == 'ALERT' or sig_token == 'ID' or sig_token == 'INPUT' or sig_token == 'RETURN':
 		parse.add(34)
 		S()
+	else:
+		errorParse('B')
 
 def T(): 
 	if sig_token == 'NUMBER':
@@ -597,6 +612,8 @@ def T():
 	elif sig_token == 'STRING':
 		parse.add(37)
 		equipara('STRING')
+	else:
+		errorParse('T')
 
 def F():
 	if sig_token == 'FUNCTION':
@@ -610,23 +627,30 @@ def F():
 		equipara('{')
 		C()
 		equipara('}')
+	else:
+		errorParse('F')
 
 
 def H():
-	if sig_token == '$':
+	if sig_token == 'BOOLEAN' or sig_token == 'NUMBER' or sig_token == 'STRING':
 		parse.add(39)
-	else:
-		parse.add(40)
 		T()
-def A():
-	if sig_token == '$':
-		parse.add(41)
+	elif sig_token == 'ID':
+		parse.add(40)
 	else:
-		parse.add(42)
+		errorParse('H')
+		
+def A():
+	if sig_token == 'BOOLEAN' or sig_token == 'NUMBER' or sig_token == 'STRING':
+		parse.add(41)
 		T()
 		equipara('ID')
 		K()
-
+	elif sig_token == ')':
+		parse.add(42)
+	else:
+		errorParse('A')
+		
 def K():
  	if sig_token == ',':
  		parse.add(43)
@@ -634,21 +658,34 @@ def K():
  		T()
  		equipara('ID')
  		K()
- 	elif sig_token == $:
+ 	elif sig_token == ')':
  		parse.add(44)
  	else:
  		errorParse('K')
+
 def C():
-	if sig_token == '$':
+	if sig_token == 'ALERT' or if sig_token == 'DO' or if sig_token == 'ID' or if sig_token == 'IF' or if sig_token =='INPUT' or if sig_token =='LET' or if sig_token =='RETURN':
 		parse.add(45)
-	else
-		parse.add(46)
 		B()
 		C()
-def P():
-	if sig_token == '$':
-		parse.add(47)
+	elif sig_token == '}':
+		parse.add(46)
 	else:
+		errorParse('C')
+
+def P():
+	if sig_token == 'ALERT' or if sig_token == 'DO' or if sig_token == 'ID' or if sig_token == 'IF' or if sig_token =='INPUT' or if sig_token =='LET' or if sig_token =='RETURN':
+		parse.add(47)
+		B()
+		P()
+	elif sig_token == 'FUNCTION':
+		parse.add(48)
+		F()
+		P()
+	elif sig_token == '$'
+		equipara('$') # habra que añadir a TL un dolar al final para saber que hemos acabado el archivo
+	else:
+		errorParse('P')
 		
 
 

@@ -1,0 +1,81 @@
+++++++++
+First
+++++++++
+
+FIRST de T  =  { BOOLEAN NUMBER STRING }
+
+FIRST de A  =  { BOOLEAN NUMBER STRING lambda }
+
+FIRST de S  =  { ALERT ID INPUT RETURN }
+
+FIRST de B  =  { ALERT DO ID IF INPUT LET RETURN }
+
+FIRST de C  =  { ALERT DO ID IF INPUT LET RETURN lambda }
+
+FIRST de V  =  { ! ( CAD ENT FALSE ID TRUE }
+
+FIRST de U  =  { ! ( CAD ENT FALSE ID TRUE }
+
+FIRST de R  =  { ! ( CAD ENT FALSE ID TRUE }
+
+FIRST de E  =  { ! ( CAD ENT FALSE ID TRUE }
+
+FIRST de E1  =  { && lambda }
+
+FIRST de Q  =  { , lambda }
+
+FIRST de F  =  { FUNCTION }
+
+FIRST de H  =  { BOOLEAN NUMBER STRING lambda }
+
+FIRST de K  =  { , lambda }
+
+FIRST de L  =  { ! ( CAD ENT FALSE ID TRUE lambda }
+
+FIRST de P  =  { ALERT DO FUNCTION ID IF INPUT LET RETURN lambda }
+
+FIRST de R1  =  { != == lambda }
+
+FIRST de S1  =  { ( = }
+
+FIRST de U1  =  { + - lambda }
+
+FIRST de V1  =  { ( ++ lambda }
+
+FIRST de X  =  { ! ( CAD ENT FALSE ID TRUE lambda }
+
++++++++++++
+Follow
++++++++++++
+
+FOLLOW de A  =  { ) }
+
+FOLLOW de C  =  { } }
+
+FOLLOW de L  =  { ) }
+
+FOLLOW de Q  =  { ) }
+
+FOLLOW de X  =  { ; }
+
+FOLLOW de E  =  { ) , ; }
+
+FOLLOW de E1  =  { ) , ; }
+
+FOLLOW de H  =  { ID }
+
+FOLLOW de K  =  { ) }
+
+FOLLOW de P  =  {  $ (final de cadena) }
+
+FOLLOW de R  =  { && ) , ; }
+
+FOLLOW de R1  =  { && ) , ; }
+
+FOLLOW de U  =  { != && ) , ; == }
+
+FOLLOW de U1  =  { != && ) , ; == }
+
+FOLLOW de V  =  { != && ) + , - ; == }
+
+FOLLOW de V1  =  { != && ) + , - ; == }
