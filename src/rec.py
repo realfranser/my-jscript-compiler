@@ -8,6 +8,7 @@ sourceTokenFilePath = 'sources/tokens.json'
 tokenFilePath = 'output/tokens.txt'
 errorFilePath = 'output/errors.txt'
 TSFilePath = 'output/ts.txt'
+parseFilePath = 'output/parse.txt'
 # Global flag
 lastLine=0
 openComment = False
@@ -31,6 +32,12 @@ class Simbolo:
 		self.tipoRetorno = tipoRetorno  # tipo devuelto por funcion
 		self.etiqFuncion = etiqFuncion # Etiqueta tipo funcion
 		self.param = param # Parametro no pasado por valor
+
+def writeParse(parse):
+	parseFile.write('Descendente Recursivo ')
+	for p in parse:
+		parseFile.write(' ')
+		parseFile.write(str(p))
 
 def getSimbolosTabla(tabla,numTabla):
 	sol= []
@@ -389,7 +396,7 @@ def errorParse(error):
 
 def E():
 	if sig_token == 'not' or sig_token == 'openPar' or sig_token == 'chain' or sig_token == 'wholeConst' or sig_token == 'false' or sig_token == 'ID' or sig_token == 'true' :
-		parse.append(1) # hay que cambiar estos numeros en funcion del automata sintactico que debemos crear
+		parse.append(1) 
 		R()
 		E1()
 	else:
@@ -464,18 +471,18 @@ def V():
 	 	equipara('ID')
 	 	V1()
 	 elif sig_token == 'openPar':
-	 	parse.append(16)
+	 	parse.append(13)
 	 	equipara('openPar')
 	 	E()
 	 	equipara('closePar')
 	 elif sig_token == 'wholeConst':
-	 	parse.append(17)
+	 	parse.append(14)
 	 	equipara('wholeConst')
 	 elif sig_token == 'chain':
-	 	parse.append(17)
+	 	parse.append(15)
 	 	equipara('chain')
 	 elif sig_token == 'true':
-	 	parse.append(17)
+	 	parse.append(16)
 	 	equipara('true')
 	 elif sig_token == 'false':
 	 	parse.append(17)
@@ -488,15 +495,15 @@ def V():
 
 def V1():
 	if sig_token == 'openPar':
-	 	parse.append(13)
+	 	parse.append(19)
 	 	equipara('openPar')
 	 	L()
 	 	equipara('closePar')
 	elif sig_token == 'autoInc':
-	 	parse.append(14)
+	 	parse.append(20)
 	 	equipara('autoInc')
 	elif sig_token == 'notEquals' or sig_token == 'and' or sig_token == 'closePar' or sig_token == 'plus' or sig_token == 'colon' or sig_token == 'minus' or sig_token == 'semicolon' or sig_token == 'equals':
-		parse.append(15)
+		parse.append(21)
 	else:
 		errorParse('V1')
 
@@ -504,37 +511,37 @@ def V1():
 
 def S():
 	if sig_token == 'ID':
-		parse.append(19)
+		parse.append(22)
 		equipara('ID')
 		S1()
 
 	elif sig_token == 'alert':
-		parse.append(22)
+		parse.append(23)
 		equipara('alert')
 		equipara('openPar')
 		E()
 		equipara('closePar')
 		equipara('semicolon') 
 	elif sig_token == 'input':
-		parse.append(23)
+		parse.append(24)
 		equipara('input')
 		equipara('openPar')
 		equipara('ID')
 		equipara('closePar')
 		equipara('semicolon')
 	elif sig_token == 'return':
-		parse.append(24)
+		parse.append(25)
 		equipara('return')
 		X()
 		equipara('semicolon')
 def S1(): 
 	if sig_token == 'equal':
-		parse.append(20)
+		parse.append(26)
 		equipara('equal')
 		E()
 		equipara('semicolon')
 	elif sig_token == 'openPar':
-		parse.append(21)
+		parse.append(27)
 		equipara('openPar')
 		L()
 		equipara('closePar')
@@ -545,50 +552,53 @@ def S1():
 
 def L():
 	if sig_token == 'not' or sig_token == 'openPar' or sig_token =='chain' or sig_token =='wholeConst' or sig_token =='false' or sig_token =='ID' or sig_token =='true':
-		parse.append(25)
+		parse.append(28)
 		E()
 		Q()
 	elif sig_token == 'closePar':
-		parse.append(26)
+		parse.append(29)
 	else:
 		errorParse('L')
 
 def Q():
 	if sig_token == 'colon':
-		parse.append(27)
+		parse.append(30)
 		equipara('colon')
 		E()
 		Q()
 	elif sig_token == 'closePar':
-		parse.append(28)
+		parse.append(31)
 	else :
 		errorParse('Q')
 
 def X():
 	if sig_token == 'not' or sig_token == 'openPar' or sig_token =='chain' or sig_token =='wholeConst' or sig_token =='false' or sig_token =='ID' or sig_token =='true':
-		parse.append(29)
+		parse.append(32)
 		E()
 	elif sig_token == 'semicolon':
-		parse.append(30)
+		parse.append(33)
 	else:
 		errorParse('X')
 
 def B():
 	if sig_token == 'if':
-		parse.append(31)
+		parse.append(34)
 		equipara('if')
 		equipara('openPar')
 		E()
 		equipara('closePar')
 		S()
 	elif sig_token == 'let':
-		parse.append(32)
+		parse.append(35)
 		equipara('let')
 		T()
 		equipara('ID')
 		equipara('semicolon')
+	elif sig_token == 'alert' or sig_token == 'ID' or sig_token == 'input' or sig_token == 'return':
+		parse.append(36)
+		S()
 	elif sig_token == 'do':
-	 	parse.append(33)
+	 	parse.append(37)
 	 	equipara('do')
 	 	equipara('openBraq')
 	 	C()
@@ -598,28 +608,25 @@ def B():
 	 	E()
 	 	equipara('closePar')
 	 	equipara('semicolon')
-	elif sig_token == 'alert' or sig_token == 'ID' or sig_token == 'input' or sig_token == 'return':
-		parse.append(34)
-		S()
 	else:
 		errorParse('B')
 
 def T(): 
 	if sig_token == 'number':
-		parse.append(35)
+		parse.append(38)
 		equipara('number')
 	elif sig_token == 'boolean':
-		parse.append(36)
+		parse.append(39)
 		equipara('boolean')
 	elif sig_token == 'string':
-		parse.append(37)
+		parse.append(40)
 		equipara('string')
 	else:
 		errorParse('T')
 
 def F():
 	if sig_token == 'function':
-		parse.append(38)
+		parse.append(41)
 		equipara('function')
 		H()
 		equipara('ID')
@@ -635,59 +642,59 @@ def F():
 
 def H():
 	if sig_token == 'boolean' or sig_token == 'number' or sig_token == 'string':
-		parse.append(39)
+		parse.append(42)
 		T()
 	elif sig_token == 'ID':
-		parse.append(40)
+		parse.append(43)
 	else:
 		errorParse('H')
 		
 def A():
 	if sig_token == 'boolean' or sig_token == 'number' or sig_token == 'string':
-		parse.append(41)
+		parse.append(44)
 		T()
 		equipara('ID')
 		K()
 	elif sig_token == 'closePar':
-		parse.append(42)
+		parse.append(45)
 	else:
 		errorParse('A')
 		
 def K():
  	if sig_token == 'colon':
- 		parse.append(43)
+ 		parse.append(46)
  		equipara('colon')
  		T()
  		equipara('ID')
  		K()
  	elif sig_token == 'closePar':
- 		parse.append(44)
+ 		parse.append(47)
  	else:
  		errorParse('K')
 
 def C():
 	if sig_token == 'alert' or  sig_token == 'do' or  sig_token == 'ID' or sig_token == 'if' or  sig_token =='input' or  sig_token =='let' or  sig_token =='return':
-		parse.append(45)
+		parse.append(48)
 		B()
 		C()
 	elif sig_token == 'closeBraq':
-		parse.append(46)
+		parse.append(49)
 	else:
 		errorParse('C')
 
 def P():
 	if sig_token == 'alert' or  sig_token == 'do' or  sig_token == 'ID' or  sig_token == 'if' or  sig_token =='input' or  sig_token =='let' or  sig_token =='return':
-		parse.append(47)
+		parse.append(50)
 		B()
 		P()
 	elif sig_token == 'function':
-		parse.append(48)
+		parse.append(51)
 		F()
 		P()
 	elif sig_token == '$':
-		print('fin')
+		parse.append(52)
 		#hemos terminado
-		#equipara('$') # habra que añadir a TL un dolar al final para saber que hemos acabado el archivo
+		# habra que añadir a TL un dolar al final para saber que hemos acabado el archivo
 	else:
 		errorParse('P')
 		
@@ -700,7 +707,7 @@ def P():
 						
 
 def main():
-	global tokenFile,errorFile,openComment,TSFile,tsAcNumber,tsOgNumber,TS,lastLine
+	global tokenFile,errorFile,openComment,TSFile,tsAcNumber,tsOgNumber,TS,lastLine,parse, parseFile
 	
 	# Parses argument, and requires the user to provide one file
 	parser = argparse.ArgumentParser(add_help=True)
@@ -715,7 +722,7 @@ def main():
     # These paths can be changed at the begining of the file.
     #
 
-	with open(testFilePath,'r') as test, open(tokenFilePath,'w') as tokenFile, open (errorFilePath,'w') as errorFile, open(TSFilePath,'w') as TSFile:
+	with open(testFilePath,'r') as test, open(tokenFilePath,'w') as tokenFile, open (errorFilePath,'w') as errorFile, open(TSFilePath,'w') as TSFile , open(parseFilePath,'w') as parseFile:
 		
 		openComment =False
 		lineCounter = 0
@@ -732,9 +739,7 @@ def main():
 		TL.append('$')
 		print(*TL)
 		A_sint()
-		print('--- parse ---\n')
-		print(parse)
-		print('\n-------------\n')
+		writeParse(parse)
 	test.close()
 	errorFile.close()
 	tokenFile.close()
