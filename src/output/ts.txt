@@ -3,6 +3,26 @@ Contenido Tabla Símbolos # 0 :
   ATRIBUTOS :
 	+ tipo: unknown
 	+ Despl: -1
+* LEXEMA : 'b'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+* LEXEMA : 'int'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+* LEXEMA : 'operacion'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+* LEXEMA : 'num1'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
+* LEXEMA : 'num2'
+  ATRIBUTOS :
+	+ tipo: unknown
+	+ Despl: -1
 * LEXEMA : 'pp'
   ATRIBUTOS :
 	+ tipo: unknown
