@@ -105,3 +105,99 @@ F 		FUNCTION										..
 H 		BOOLEAN NUMBER STRING lambda  					.. ID
 K		, lambda										.. )
 P		ALERT DO FUNCTION ID IF INPUT LET RETURN lambda .. $ (final de cadena)
+
+Analisis de las intersecciones (@ es el simbolo de interseccion)
+Para P:
+    -B: {ALERT DO ID IF INPUT LET RETURN}
+    -F: {FUNCTION}
+    -lambda: lambda
+    Interseccion: 
+        -First(BP) @ First(FP) @ First(lambda) = Vacio
+        -First(BP) @ Follow(P) @ First(FP) = Vacio
+		
+Para C:
+    -B:{ALERT DO ID IF INPUT LET RETURN}
+    -lambda: lambda
+        -First(BC) @ First(lambda) = Vacio
+        -First(BC) @ Follow(C) = Vacio
+
+Para K:
+    
+        -First(,T ID K) @ First(lambda) = Vacio
+        -First(,T ID K) @ Follow(A) = Vacio
+
+Para H:
+    -T: {BOOLEAN NUMBER STRING}
+    -lambda: lambda
+        -First(T) @ First(lambda) = Vacio        
+		-First(T) @ Follow(H) = Vacio
+
+Para F:
+
+Para T:
+    
+        -First(NUMBER) @ First(BOOLEAN) @ First(STRING) = Vacio
+        
+Para B:
+    -S: {ID ALERT INPUT RETURN}
+        -First(IF ( E ) S) @ First(LET T ID) @ First(S) @ First(DO { C } WHILE ( E );) = Vacio
+
+Para X:
+    -E: {! ( CAD ENT FALSE ID TRUE}
+    -lambda: lambda
+	    -First(E) @ First(lambda) = Vacio
+	    -First(E) @ Follow(X) = Vacio
+
+Para Q: 
+	-lambda: lambda
+    	-First(, E Q) @ First(lambda) = Vacio
+	    -First(, E Q) @ Follow(Q) = Vacio
+
+      
+Para L:
+	-E:{! ( CAD ENT FALSE ID TRUE}
+    -lambda: lambda
+        -First(E Q) @ First(lambda) = Vacio 
+		-First(E Q) @ Follow(L) = Vacio  
+
+Para S1: 
+		-First(= E ;) @ First(( L ) ;) = Vacio
+
+Para S:
+		-First(RETURN X ;) @ First(INPUT ( ID ) ;) @ First(ALERT ( E ) ;) @ First(ID S1) = Vacio
+
+Para V1: 
+    -lambda: lambda
+		-First(( L )) @ First(++) @ First(lambda) = Vacio
+		-First(( L )) @ First(++) @ Follow(V1) = Vacio
+
+Para V: 
+		-First(ID V1) @ First(( E )) @ First(ENT) @ First(CAD) @ First(TRUE) @ First(FALSE) @ First(! ID) = Vacio
+
+Para U1: 
+	- lambda: lambda
+		-First(+ V U1) @ First(- V U1) @ First(lambda) = Vacio
+		-First(+ V U1) @ First(- V U1) @ Follow(U1) = Vacio
+
+Para U:
+
+Para E:
+
+Para E1:
+    -lambda: lambda
+        -First(&& R E1) @ First(lambda) = Vacio
+        -First(&& R E1) @ Follow(E1) = Vacio
+Para R:
+
+Para R1:
+    -lambda: lambda
+        -First(== U R1)@ First(!= U R1)@ First(!= U R1) = Vacio
+        -First(== U R1)@ First(!= U R1)@ Follow(R1) = Vacio
+        
+
+
+
+
+
+
+			
