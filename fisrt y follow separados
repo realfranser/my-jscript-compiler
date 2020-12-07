@@ -79,3 +79,29 @@ FOLLOW de U1  =  { != && ) , ; == }
 FOLLOW de V  =  { != && ) + , - ; == }
 
 FOLLOW de V1  =  { != && ) + , - ; == }
+
+
+Tabla completa de firsts y follows
+
+			First 											Follow
+A		BOOLEAN NUMBER STRING lambda	 				.. )
+T		BOOLEAN NUMBER STRING 	    	 				..	
+B		ALERT DO ID IF INPUT LET RETURN	 				..
+S 		ALERT ID INPUT RETURN			 				.. 
+S1		( =												.. 
+C		ALERT DO ID IF INPUT LET RETURN lambda			.. }
+E		! ( CAD ENT FALSE ID TRUE						.. ) , ; 
+E1		&& lambda										.. ) , ;
+V 		! ( CAD ENT FALSE ID TRUE						.. != && ) + , - ; ==
+V1		( ++ lambda										.. != && ) + , - ; ==
+U		! ( CAD ENT FALSE ID TRUE						.. != && ) , ; ==
+U1		+ - lambda										.. != && ) , ; ==
+R 		! ( CAD ENT FALSE ID TRUE						.. && ) , ;
+R1		!= == lambda									.. && ) , ;
+Q		, lambda										.. )
+L 		! ( CAD ENT FALSE ID TRUE lambda				.. )
+X		! ( CAD ENT FALSE ID TRUE lambda				.. ;
+F 		FUNCTION										.. 
+H 		BOOLEAN NUMBER STRING lambda  					.. ID
+K		, lambda										.. )
+P		ALERT DO FUNCTION ID IF INPUT LET RETURN lambda .. $ (final de cadena)
