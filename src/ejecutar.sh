@@ -1,8 +1,12 @@
-python3 rec.py -f pruebasDraco/s.txt
+python3 rec.py -f pruebasDraco/a.txt
+echo
+echo
+echo Prueba 
+echo begin{verbatim}
 echo ---------------------------------
 echo ---------- codigo ---------------
 echo ---------------------------------
-cat pruebasDraco/s.txt
+cat pruebasDraco/a.txt
 echo ---------------------------------
 echo ---------- tokens ---------------
 echo ---------------------------------
@@ -12,6 +16,12 @@ echo ------------ ts -----------------
 echo ---------------------------------
 cat output/ts.txt
 echo ---------------------------------
+echo ----------- parse ---------------
+echo ---------------------------------
+cat output/parse.txt
+echo
+echo ---------------------------------
 echo ---------- errors ---------------
 echo ---------------------------------
 cat output/errors.txt
+echo end{verbatim}

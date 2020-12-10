@@ -1,9 +1,11 @@
 Contenido Tabla Simbolos # 0 :
-* LEXEMA : 'texto'
+* LEXEMA : 'x'
   ATRIBUTOS :
-* LEXEMA : 'print'
+* LEXEMA : 'z'
   ATRIBUTOS :
-* LEXEMA : 'msg'
+* LEXEMA : 'b'
   ATRIBUTOS :
-* LEXEMA : 'pideTexto'
+* LEXEMA : 'esto_es_un_nombre_de_variable_global_de_tipo_entero'
+  ATRIBUTOS :
+* LEXEMA : 'y'
   ATRIBUTOS :

@@ -390,7 +390,9 @@ def equipara(t):
 
 def errorParse(error):
 	#habra que cambiarlo
-	print('Error en regla',error)
+	error = 'ErrorSintactico: Error en regla'+error
+	generarError(error)
+	
 	exit()
 
 # Una función para cada no terminal (y una rama para cada regla)
