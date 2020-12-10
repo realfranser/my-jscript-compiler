@@ -1,4 +1,4 @@
-python3 rec.py -f pruebasDraco/a.txt
+python3 rec.py -f pruebasDraco/pp.txt
 echo
 echo
 echo Prueba 
@@ -6,7 +6,7 @@ echo begin{verbatim}
 echo ---------------------------------
 echo ---------- codigo ---------------
 echo ---------------------------------
-cat pruebasDraco/a.txt
+cat pruebasDraco/pp.txt
 echo ---------------------------------
 echo ---------- tokens ---------------
 echo ---------------------------------

@@ -78,7 +78,7 @@
         do	                &\textless reservedWord, do \textgreater\\
         Autoincremento (++) &\textless autoIncOp, autoInc \textgreater\\
         constante entera	&\textless wholeConst, Número\textgreater\\
-        Posición(Número)	&\textless chain, Posición(Número) \textgreater\\
+        Posición(Número)	&\textless chain,  CAdena("c*")\textgreater\\
         Identificador	    &\textless ID, Número\textgreater\\
         =	                &\textless asigOp, equal \textgreater\\
         ,	                &\textless separator, colon \textgreater\\
@@ -560,15 +560,76 @@ El valor de los atributos y numero de tabla seran corregidos con el valor real m
     Contenido Tabla Símbolos # N :
     * LEXEMA : 'x'
       ATRIBUTOS :
-        + tipo: unknown
-        + despl: unknown
-    
 \end{verbatim}
+
+\vspace{3cm}
+\newpage
+Gramática Analizador Sintáctico
+\begin{verbatim}
+NoTerminales = { E R U V S L Q X B T F H A K C P V1 S1 E1 R1 U1 }
+Terminales = { && == != + - ID ( ) ENT CAD TRUE FALSE ! ++ ALERT INPUT RETURN DO WHILE , ; = NUMBER BOOLEAN STRING FUNCTION LET { } IF }
+Axioma = P
+Producciones = {
+E -> R E1
+E1 -> && R E1
+E1 -> lambda
+R -> U R1
+R1 -> == U R1
+R1 -> != U R1
+R1 -> lambda
+U -> V U1
+U1 -> + V U1
+U1 -> - V U1
+U1 -> lambda
+V -> ID V1
+V -> ( E ) 
+V -> ENT 
+V -> CAD 
+V -> TRUE 
+V -> FALSE 
+V -> ! ID
+V1 -> ( L )
+V1 -> ++
+V1 -> lambda
+S -> ID S1
+S -> ALERT ( E ) ;
+S -> INPUT ( ID ) ;
+S -> RETURN X ;
+S1 -> = E ;
+S1 -> ( L ) ;
+L -> E Q 
+L -> lambda
+Q -> , E Q 
+Q -> lambda
+X -> E 
+X -> lambda
+B -> IF ( E ) S 
+B -> LET T ID ;
+B -> S
+B -> DO { C } WHILE ( E ) ;
+T -> NUMBER 
+T -> BOOLEAN 
+T -> STRING
+F -> FUNCTION H ID ( A ) { C }
+H -> T 
+H -> lambda
+A -> T ID K 
+A -> lambda
+K -> , T ID K 
+K -> lambda
+C -> B C 
+C -> lambda
+P -> B P 
+P -> F P
+P -> lambda
+}
+\end{verbatim}
+
 \newpage
 %-----------------------------------------------------Casos de pruebas--------------------------------------------------
 
 \begin{center}
-    CASOS DE PRUEBA\\
+    CASOS DE PRUEBA: Atencion !!!! añadir parse.txt y arbol de vast\\
 \end{center}
 
 Prueba 1: \textit{CASO CORRECTO} %------PRUEBA 1-----------
@@ -887,53 +948,6 @@ Errores:
     ++ Error: & esta solo en caracter: 1 ,linea: 1
 \end{verbatim}
 \end{flushleft}
-\vspace{3cm}
-\newpage
-Gramática Analizador Sintáctico
-\begin{verbatim}
-    Expresiones
-    __________________________________
-    E -> E && R | R
-    R -> R == U | R != U | U
-    U -> U + V | U - V | V
-    V -> ID | ( E ) | ID ( L ) | ENT | CAD | TRUE | FALSE | !V | V++
-    
-    Sentencias Simples
-    __________________________________
-    S -> ID = E ;
-    S -> ID ( L ) ;
-    S -> ALERT ( E ) ;
-    S -> INPUT ( ID ) ;
-    S -> RETURN X ;
-    
-    L -> E Q | lambda
-    Q -> , E Q | lambda
-    X -> E | lambda
-    
-    Sentencias Compuestas
-    __________________________________
-    B -> IF ( E ) S
-    B -> LET T ID
-    B -> S
-    B -> DO { C } WHILE ( E );
-    
-    T -> NUMBER | BOOLEAN | STRING
-    
-    Declaraciones de Funciones
-    __________________________________
-    F -> FUNCTION H ID ( A ) { C }
-    
-    H -> T | lambda
-    A -> T ID K | lambda
-    K -> , T ID K | lambda
-    C -> B C | lambda
 
-    Estructura de un programa = Axioma
-    __________________________________
-    P -> B P 
-    P -> F P
-    P -> lambda
-
-\end{verbatim}
 \end{document}
     }

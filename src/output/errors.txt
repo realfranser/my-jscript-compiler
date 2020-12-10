@@ -1,0 +1,1 @@
+ErrorSintactico: Error en reglaR2
