@@ -7,6 +7,27 @@ T -> BOOLEAN		...	T.tipo 	:= log
 				T.ancho := 1
 
 T -> STRING		...	T.tipo 	:= str
-				T.ancho 
+				T.ancho := 64
 
-H -> T			...	H.tipo 	:= T.tipo	
+H -> T			...	H.tipo 	:= T.tipo
+  -> lambda			H.long	:= 0;	H.pos = vacio
+
+X -> E			... 	X.tipo	:= E.tipo
+  -> lambda			X.long	:= 0;	X.pos = vacio
+
+B -> S			...	B.tipo	:= S.tipo
+
+V -> ID V1		...	V.long	:= 1 + V1.long; V.pos	:= ID.pos xor	V1.pos
+
+E1 -> lambda		...	E1.long	:= 0;	E1.pos = vacio
+
+R1 -> lambda		...	R1.long	:= 0;	R1.pos = vacio
+
+U1 -> lambda		...	U1.long	:= 0;	U1.pos = vacio
+
+V1 -> lambda		...	V1.long	:= 0;	V1.pos = vacio
+
+L -> lambda		...	L.long	:= 0;	L.pos = vacio
+
+Q -> lambda		...	Q.long	:= 0;	Q.pos = vacio
+
