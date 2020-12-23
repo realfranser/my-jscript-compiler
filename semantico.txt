@@ -1,0 +1,12 @@
+
+
+T -> NUMBER		...	T.tipo  := ent
+				T.ancho := 2
+
+T -> BOOLEAN		...	T.tipo 	:= log
+				T.ancho := 1
+
+T -> STRING		...	T.tipo 	:= str
+				T.ancho 
+
+H -> T			...	H.tipo 	:= T.tipo	
