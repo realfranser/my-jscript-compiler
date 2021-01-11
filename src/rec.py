@@ -375,30 +375,30 @@ def analizadorLinea(line, lineCounter):
 
 
 sig_token = ''
-linea = 0
+lineaSint = 0
 def A_sint():
-	global sig_token , TLcopy , linea
+	global sig_token , TLcopy , lineaSint
 	TLcopy = TL
 	sig_token = TLcopy[0].token
-	linea = TLcopy[0].linea
+	lineaSint = TLcopy[0].linea
 	P(); # deduzco que es el axioma , en las diapositivas no pone nada
 	if sig_token != '$':
-		errorParse('A_sint',linea)
+		errorParse('A_sint',lineaSint)
 
 def equipara(t):
-	global TLcopy,sig_token,linea
+	global TLcopy,sig_token,lineaSint
 	if sig_token == t:
 		TLcopy = TLcopy[1:]
 		sig_token = TLcopy[0].token
-		linea = TLcopy[0].linea
+		lineaSint = TLcopy[0].linea
 	else:
-		errorParse('equipara',linea)
+		errorParse('equipara',lineaSint)
 
 
 def errorParse(error):
 	#habra que cambiarlo
-	error = 'ErrorSintactico: Error antes de token \''+error.token + '\',linea:' + str(error.linea-1)
-	generarError(error)
+	eP = 'ErrorSintactico: Error antes de token \''+error.token + '\',linea:' + str(error.linea-1)
+	generarError(eP)
 	
 	exit()
 
@@ -410,7 +410,7 @@ def E():
 		R()
 		E1()
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def E1():
 	global sig_token
@@ -422,7 +422,7 @@ def E1():
 	elif sig_token == 'closePar' or sig_token == 'colon' or sig_token == 'semicolon': # FOLLOW de E1  =  { ) , ; }
 		parse.append(3)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def R():
 	if sig_token == 'not' or sig_token == 'openPar' or sig_token =='chain' or sig_token =='wholeConst' or sig_token =='false' or sig_token =='ID' or sig_token =='true':
@@ -447,7 +447,7 @@ def R1():
 	elif sig_token == 'and' or sig_token == 'closePar' or sig_token == 'colon' or sig_token == 'semicolon':
 		parse.append(7)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 
 def U():
@@ -456,7 +456,7 @@ def U():
 		V()
 		U1()
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def U1():
 	global sig_token
@@ -473,7 +473,7 @@ def U1():
 	elif sig_token == 'notEquals' or sig_token == 'and' or sig_token == 'closePar' or sig_token == 'colon' or sig_token == 'semicolon' or sig_token == 'equals':
 		parse.append(11)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def V():
 	 if sig_token == 'ID':
@@ -515,7 +515,7 @@ def V1():
 	elif sig_token == 'notEquals' or sig_token == 'and' or sig_token == 'closePar' or sig_token == 'plus' or sig_token == 'colon' or sig_token == 'minus' or sig_token == 'semicolon' or sig_token == 'equals':
 		parse.append(21)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 
 
@@ -556,8 +556,8 @@ def S1():
 		L()
 		equipara('closePar')
 		equipara('semicolon')
-	else:              # parece que no hay follow de s1 comprobar
-		errorParse(Token(sig_token,linea))
+	else:              
+		errorParse(Token(sig_token,lineaSint))
 
 
 def L():
@@ -568,7 +568,7 @@ def L():
 	elif sig_token == 'closePar':
 		parse.append(29)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def Q():
 	if sig_token == 'colon':
@@ -579,7 +579,7 @@ def Q():
 	elif sig_token == 'closePar':
 		parse.append(31)
 	else :
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def X():
 	if sig_token == 'not' or sig_token == 'openPar' or sig_token =='chain' or sig_token =='wholeConst' or sig_token =='false' or sig_token =='ID' or sig_token =='true':
@@ -588,7 +588,7 @@ def X():
 	elif sig_token == 'semicolon':
 		parse.append(33)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def B():
 	if sig_token == 'if':
@@ -619,7 +619,7 @@ def B():
 	 	equipara('closePar')
 	 	equipara('semicolon')
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def T(): 
 	if sig_token == 'number':
@@ -632,7 +632,7 @@ def T():
 		parse.append(40)
 		equipara('string')
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def F():
 	if sig_token == 'function':
@@ -647,7 +647,7 @@ def F():
 		C()
 		equipara('closeBraq')
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 
 def H():
@@ -657,7 +657,7 @@ def H():
 	elif sig_token == 'ID':
 		parse.append(43)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 		
 def A():
 	if sig_token == 'boolean' or sig_token == 'number' or sig_token == 'string':
@@ -668,7 +668,7 @@ def A():
 	elif sig_token == 'closePar':
 		parse.append(45)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 		
 def K():
  	if sig_token == 'colon':
@@ -680,7 +680,7 @@ def K():
  	elif sig_token == 'closePar':
  		parse.append(47)
  	else:
- 		errorParse(Token(sig_token,linea))
+ 		errorParse(Token(sig_token,lineaSint))
 
 def C():
 	if sig_token == 'alert' or  sig_token == 'do' or  sig_token == 'ID' or sig_token == 'if' or  sig_token =='input' or  sig_token =='let' or  sig_token =='return':
@@ -690,7 +690,7 @@ def C():
 	elif sig_token == 'closeBraq':
 		parse.append(49)
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def P():
 	if sig_token == 'alert' or  sig_token == 'do' or  sig_token == 'ID' or  sig_token == 'if' or  sig_token =='input' or  sig_token =='let' or  sig_token =='return':
@@ -706,7 +706,7 @@ def P():
 		#hemos terminado
 		# habra que añadir a TL un dolar al final para saber que hemos acabado el archivo
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 		
 
 
@@ -746,8 +746,7 @@ def main():
 			tokenLines = tokenLines[1:]
 	# clean up , close files
 		writeTS(TS)
-		TL.append(Token('$',lastLine))
-		print(*TL)
+		TL.append(Token('$',lastLine)) # se añade para saber que se ha terminado el archivo
 		A_sint()
 		writeParse(parse)
 	test.close()
