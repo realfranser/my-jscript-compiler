@@ -397,7 +397,7 @@ def equipara(t):
 
 def errorParse(error):
 	#habra que cambiarlo
-	error = 'ErrorSintactico: Error en token \''+error.token + '\',linea:' + str(error.linea)
+	error = 'ErrorSintactico: Error antes de token \''+error.token + '\',linea:' + str(error.linea-1)
 	generarError(error)
 	
 	exit()

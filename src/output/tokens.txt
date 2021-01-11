@@ -35,12 +35,12 @@
 <ID,4>
 <asigOp,equal>
 <wholeConst,3333>
+<separator,semicolon>
 <ID,4>
 <asigOp,equal>
 <ID,4>
 <aritOp,plus>
 <ID,4>
-<separator,semicolon>
 <reservedWord,alert>
 <separator,openPar>
 <ID,4>

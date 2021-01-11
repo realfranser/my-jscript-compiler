@@ -1,1 +1,1 @@
-ErrorSintactico: Error en token 'ID',linea:9
+ErrorSintactico: Error antes de token 'alert',linea:9
