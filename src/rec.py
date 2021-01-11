@@ -383,7 +383,7 @@ def A_sint():
 	linea = TLcopy[0].linea
 	P(); # deduzco que es el axioma , en las diapositivas no pone nada
 	if sig_token != '$':
-		errorParse('A_sint')
+		errorParse('A_sint',linea)
 
 def equipara(t):
 	global TLcopy,sig_token,linea
@@ -392,7 +392,7 @@ def equipara(t):
 		sig_token = TLcopy[0].token
 		linea = TLcopy[0].linea
 	else:
-		errorParse('equipara')
+		errorParse('equipara',linea)
 
 
 def errorParse(error):
