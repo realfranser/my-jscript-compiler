@@ -2,7 +2,7 @@ python3 rec.py -f pruebasDraco/pp.txt
 echo
 echo
 echo Prueba 
-echo begin{verbatim}
+
 echo ---------------------------------
 echo ---------- codigo ---------------
 echo ---------------------------------
@@ -24,4 +24,4 @@ echo ---------------------------------
 echo ---------- errors ---------------
 echo ---------------------------------
 cat output/errors.txt
-echo end{verbatim}
+

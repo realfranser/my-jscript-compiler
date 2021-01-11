@@ -1,1 +1,1 @@
-ErrorSintactico: Error en reglaR2
+ErrorSintactico: Error en token 'ID',linea:9

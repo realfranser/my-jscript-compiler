@@ -32,6 +32,10 @@ class Simbolo:
 		self.tipoRetorno = tipoRetorno  # tipo devuelto por funcion
 		self.etiqFuncion = etiqFuncion # Etiqueta tipo funcion
 		self.param = param # Parametro no pasado por valor
+class Token:
+	def __init__(self,token,linea):
+		self.token = token
+		self.linea = linea
 
 def writeParse(parse):
 	parseFile.write('Descendente')
@@ -109,7 +113,7 @@ def writeTS(tabla):
 					TSFile.write(lineaTS)
 	
 								
-def generarToken(tokenCode,atribute):
+def generarToken(tokenCode,atribute,linea):
 	found =False
 	with  open(sourceTokenFilePath) as sourceTokenFile:
 		data = json.load(sourceTokenFile)
@@ -119,21 +123,21 @@ def generarToken(tokenCode,atribute):
 					for k in i['tokenList']:
 						if k['atribute']==atribute:
 							token = '<reservedWord,' + atribute + '>\n'
-							TL.append(atribute)
+							TL.append(Token(atribute,linea))
 							found = True
 							break
 			if found == False:
 				pos = addToTS(0,atribute) ################# Editar cuando hagamos semantico
 				token = '<ID,' + str(pos) + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
-				TL.append('ID')
+				TL.append(Token('ID',linea))
 				
 
 		else:	
 			token = '<' + tokenCode + ',' + atribute + '>\n'
 			if(tokenCode == 'chain' or tokenCode == 'wholeConst'):
-				TL.append(tokenCode)
+				TL.append(Token(tokenCode,linea))
 			else:
-				TL.append(atribute)
+				TL.append(Token(atribute,linea))
 
 		tokenFile.write(token)
 		sourceTokenFile.close()
@@ -195,9 +199,9 @@ def analizadorLinea(line, lineCounter):
 			if leerChar(lista) == '+':
 				contadorCaracter = contadorCaracter+1
 				lista = lista[1:]
-				generarToken('autoIncOp','autoinc')
+				generarToken('autoIncOp','autoinc',lineCounter)
 			else:
-				generarToken('aritOp','plus')
+				generarToken('aritOp','plus',lineCounter)
 
 		elif leerChar(lista) == '-':
 			contadorCaracter = contadorCaracter+1
@@ -205,9 +209,9 @@ def analizadorLinea(line, lineCounter):
 			if leerChar(lista) == '-':
 				contadorCaracter = contadorCaracter+1
 				lista = lista[1:]
-				generarToken('autoDecOp','autodec')
+				generarToken('autoDecOp','autodec',lineCounter)
 			else:
-				generarToken('aritOp','minus')
+				generarToken('aritOp','minus',lineCounter)
 
 		elif leerChar(lista) == '=':
 			contadorCaracter = contadorCaracter+1
@@ -215,9 +219,9 @@ def analizadorLinea(line, lineCounter):
 			if leerChar(lista) == '=':
 				contadorCaracter = contadorCaracter+1
 				lista = lista[1:]
-				generarToken('relOp','equals')
+				generarToken('relOp','equals',lineCounter)
 			else:
-				generarToken('asigOp','equal')
+				generarToken('asigOp','equal',lineCounter)
 
 		elif leerChar(lista) == '!':
 			contadorCaracter = contadorCaracter+1
@@ -225,9 +229,9 @@ def analizadorLinea(line, lineCounter):
 			if leerChar(lista) == '=':
 				contadorCaracter = contadorCaracter+1
 				lista = lista[1:]
-				generarToken('relOp','notEquals')
+				generarToken('relOp','notEquals',lineCounter)
 			else:
-				generarToken('logOp','not')
+				generarToken('logOp','not',lineCounter)
 
 		elif leerChar(lista)=='&':
 			contadorCaracter = contadorCaracter+1
@@ -235,39 +239,39 @@ def analizadorLinea(line, lineCounter):
 			if leerChar(lista) == '&':
 				contadorCaracter = contadorCaracter+1
 				lista = lista[1:]
-				generarToken('logOp','and')
+				generarToken('logOp','and',lineCounter)
 			else:
 				generarError('++ Error: & esta solo en caracter: '+str(contadorCaracter)+' ,linea: '+str(lineCounter))
 
 		elif leerChar(lista) == ',':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-			generarToken('separator','colon')
+			generarToken('separator','colon',lineCounter)
 
 		elif leerChar(lista) == ';':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-			generarToken('separator','semicolon')
+			generarToken('separator','semicolon',lineCounter)
 
 		elif leerChar(lista) == '{':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-			generarToken('separator','openBraq')
+			generarToken('separator','openBraq',lineCounter)
 
 		elif leerChar(lista) == '}':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-			generarToken('separator','closeBraq')
+			generarToken('separator','closeBraq',lineCounter)
 
 		elif leerChar(lista) == '(':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-			generarToken('separator','openPar')
+			generarToken('separator','openPar',lineCounter)
 
 		elif leerChar(lista) == ')':
 			contadorCaracter = contadorCaracter+1
 			lista = lista[1:]
-			generarToken('separator','closePar')
+			generarToken('separator','closePar',lineCounter)
 
 		elif leerChar(lista)== '\'':
 			cadena = '\"'
@@ -300,7 +304,7 @@ def analizadorLinea(line, lineCounter):
 			if len(cadena)<67 and seCierra:
 				cadena = cadena[:-1]
 				cadena = cadena + '\"'
-				generarToken('chain',cadena)
+				generarToken('chain',cadena,lineCounter)
 			elif seCierra:
 			  	generarError('++ Error: \' cadena supera los 64 caracteres por: '
 																+str(len(cadena)-66) +' ,en la linea: ' + str(lineCounter))
@@ -317,7 +321,7 @@ def analizadorLinea(line, lineCounter):
 				else:
 					break
 
-			generarToken('wholeConst',numero)	
+			generarToken('wholeConst',numero,lineCounter)	
 
 		elif leerChar(lista).isalpha()== True:
 			alphanum = leerChar(lista)
@@ -331,7 +335,7 @@ def analizadorLinea(line, lineCounter):
 				else:
 					break
 
-			generarToken('reservedWord',alphanum)
+			generarToken('reservedWord',alphanum,lineCounter)
 
 
 		elif leerChar(lista)== '/':
@@ -371,26 +375,29 @@ def analizadorLinea(line, lineCounter):
 
 
 sig_token = ''
+linea = 0
 def A_sint():
-	global sig_token , TLcopy
+	global sig_token , TLcopy , linea
 	TLcopy = TL
-	sig_token = TLcopy[0]
+	sig_token = TLcopy[0].token
+	linea = TLcopy[0].linea
 	P(); # deduzco que es el axioma , en las diapositivas no pone nada
 	if sig_token != '$':
 		errorParse('A_sint')
 
 def equipara(t):
-	global TLcopy,sig_token
+	global TLcopy,sig_token,linea
 	if sig_token == t:
 		TLcopy = TLcopy[1:]
-		sig_token = TLcopy[0]
+		sig_token = TLcopy[0].token
+		linea = TLcopy[0].linea
 	else:
 		errorParse('equipara')
 
 
 def errorParse(error):
 	#habra que cambiarlo
-	error = 'ErrorSintactico: Error en regla'+error
+	error = 'ErrorSintactico: Error en token \''+error.token + '\',linea:' + str(error.linea)
 	generarError(error)
 	
 	exit()
@@ -403,7 +410,7 @@ def E():
 		R()
 		E1()
 	else:
-		errorParse('E')
+		errorParse(Token(sig_token,linea))
 
 def E1():
 	global sig_token
@@ -415,7 +422,7 @@ def E1():
 	elif sig_token == 'closePar' or sig_token == 'colon' or sig_token == 'semicolon': # FOLLOW de E1  =  { ) , ; }
 		parse.append(3)
 	else:
-		errorParse('E1')
+		errorParse(Token(sig_token,linea))
 
 def R():
 	if sig_token == 'not' or sig_token == 'openPar' or sig_token =='chain' or sig_token =='wholeConst' or sig_token =='false' or sig_token =='ID' or sig_token =='true':
@@ -423,7 +430,7 @@ def R():
 		U()
 		R1()
 	else:
-		errorParse('R')
+		errorParse(Token(sig_token,linea))
 
 def R1():
 	global sig_token
@@ -440,7 +447,7 @@ def R1():
 	elif sig_token == 'and' or sig_token == 'closePar' or sig_token == 'colon' or sig_token == 'semicolon':
 		parse.append(7)
 	else:
-		errorParse('R1')
+		errorParse(Token(sig_token,linea))
 
 
 def U():
@@ -449,7 +456,7 @@ def U():
 		V()
 		U1()
 	else:
-		errorParse('U')
+		errorParse(Token(sig_token,linea))
 
 def U1():
 	global sig_token
@@ -466,7 +473,7 @@ def U1():
 	elif sig_token == 'notEquals' or sig_token == 'and' or sig_token == 'closePar' or sig_token == 'colon' or sig_token == 'semicolon' or sig_token == 'equals':
 		parse.append(11)
 	else:
-		errorParse('R2')
+		errorParse(Token(sig_token,linea))
 
 def V():
 	 if sig_token == 'ID':
@@ -508,7 +515,7 @@ def V1():
 	elif sig_token == 'notEquals' or sig_token == 'and' or sig_token == 'closePar' or sig_token == 'plus' or sig_token == 'colon' or sig_token == 'minus' or sig_token == 'semicolon' or sig_token == 'equals':
 		parse.append(21)
 	else:
-		errorParse('V1')
+		errorParse(Token(sig_token,linea))
 
 
 
@@ -550,7 +557,7 @@ def S1():
 		equipara('closePar')
 		equipara('semicolon')
 	else:              # parece que no hay follow de s1 comprobar
-		errorParse('S1')
+		errorParse(Token(sig_token,linea))
 
 
 def L():
@@ -561,7 +568,7 @@ def L():
 	elif sig_token == 'closePar':
 		parse.append(29)
 	else:
-		errorParse('L')
+		errorParse(Token(sig_token,linea))
 
 def Q():
 	if sig_token == 'colon':
@@ -572,7 +579,7 @@ def Q():
 	elif sig_token == 'closePar':
 		parse.append(31)
 	else :
-		errorParse('Q')
+		errorParse(Token(sig_token,linea))
 
 def X():
 	if sig_token == 'not' or sig_token == 'openPar' or sig_token =='chain' or sig_token =='wholeConst' or sig_token =='false' or sig_token =='ID' or sig_token =='true':
@@ -581,7 +588,7 @@ def X():
 	elif sig_token == 'semicolon':
 		parse.append(33)
 	else:
-		errorParse('X')
+		errorParse(Token(sig_token,linea))
 
 def B():
 	if sig_token == 'if':
@@ -612,7 +619,7 @@ def B():
 	 	equipara('closePar')
 	 	equipara('semicolon')
 	else:
-		errorParse('B')
+		errorParse(Token(sig_token,linea))
 
 def T(): 
 	if sig_token == 'number':
@@ -625,7 +632,7 @@ def T():
 		parse.append(40)
 		equipara('string')
 	else:
-		errorParse('T')
+		errorParse(Token(sig_token,linea))
 
 def F():
 	if sig_token == 'function':
@@ -640,7 +647,7 @@ def F():
 		C()
 		equipara('closeBraq')
 	else:
-		errorParse('F')
+		errorParse(Token(sig_token,linea))
 
 
 def H():
@@ -650,7 +657,7 @@ def H():
 	elif sig_token == 'ID':
 		parse.append(43)
 	else:
-		errorParse('H')
+		errorParse(Token(sig_token,linea))
 		
 def A():
 	if sig_token == 'boolean' or sig_token == 'number' or sig_token == 'string':
@@ -661,7 +668,7 @@ def A():
 	elif sig_token == 'closePar':
 		parse.append(45)
 	else:
-		errorParse('A')
+		errorParse(Token(sig_token,linea))
 		
 def K():
  	if sig_token == 'colon':
@@ -673,7 +680,7 @@ def K():
  	elif sig_token == 'closePar':
  		parse.append(47)
  	else:
- 		errorParse('K')
+ 		errorParse(Token(sig_token,linea))
 
 def C():
 	if sig_token == 'alert' or  sig_token == 'do' or  sig_token == 'ID' or sig_token == 'if' or  sig_token =='input' or  sig_token =='let' or  sig_token =='return':
@@ -683,7 +690,7 @@ def C():
 	elif sig_token == 'closeBraq':
 		parse.append(49)
 	else:
-		errorParse('C')
+		errorParse(Token(sig_token,linea))
 
 def P():
 	if sig_token == 'alert' or  sig_token == 'do' or  sig_token == 'ID' or  sig_token == 'if' or  sig_token =='input' or  sig_token =='let' or  sig_token =='return':
@@ -699,7 +706,7 @@ def P():
 		#hemos terminado
 		# habra que añadir a TL un dolar al final para saber que hemos acabado el archivo
 	else:
-		errorParse('P')
+		errorParse(Token(sig_token,linea))
 		
 
 
@@ -739,7 +746,7 @@ def main():
 			tokenLines = tokenLines[1:]
 	# clean up , close files
 		writeTS(TS)
-		TL.append('$')
+		TL.append(Token('$',lastLine))
 		print(*TL)
 		A_sint()
 		writeParse(parse)
