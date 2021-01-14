@@ -1,7 +1,6 @@
 NoTerminales = { E R U V S L Q X B T F H A K C P V1 S1 E1 R1 U1 }
 Axioma = P
 Terminales = { && == != + - ID ( ) ENT CAD TRUE FALSE ! ++ ALERT INPUT RETURN DO WHILE , ; = NUMBER BOOLEAN STRING FUNCTION LET { } IF }
-
 Producciones = {
 
 E -> R E1
