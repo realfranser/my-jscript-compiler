@@ -15,9 +15,35 @@ openComment = False
 tsOgNumber = 0
 tsAcNumber = 0
 
+lista_tablas = []
+#cucu cantaba la rana
+pila_tablas = [
+	nombre1: pos1,
+	nombre2: pos2,
+	nombre3: pos3
+]
 TS = [] #lista tabla de simbolos
 TL = [] #lista tokens
 parse=[]
+
+class TS:
+	def __init__(self, despl=0, numTS, num_tabla_padre)
+		self.despl = despl
+		self.numTS = numTS
+		self.lista_entradas = []
+		self.num_tabla_padre = num_tabla_padre 
+
+	def insertar_simbolo(self, simbolo):
+		for entrada in self.listaEntradas:
+			if simbolo.lexena == entrada.lexema:
+				#devolver error, elemento ya existe
+				break
+		self.lista_entadas.append(simbolo)
+
+	def actualizar_simbolo(self, simbolo,) 	
+
+	def destruir_TS(self):
+		return self.num_tabla_padre
 
 class Simbolo:
 	def __init__ (self,numTabla,lexema,tipo= None,despl=0,numParam=0,tipoParam=[],modoParam=[],tipoRetorno = None,etiqFuncion = None,param = None):
@@ -709,7 +735,9 @@ def P():
 	else:
 		errorParse(Token(sig_token,lineaSint))
 		
-
+#Semantico
+def Ts ():
+	
 
 
 
