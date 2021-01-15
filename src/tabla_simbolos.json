@@ -1,0 +1,34 @@
+{
+    "TS_ejemplo": [
+        {
+            "lexema": "a",
+            "tipo": "entero",
+            "desplazamiento": 0
+        },
+        {
+            "lexema": "b",
+            "tipo": "entero",
+            "desplazamiento": 2
+        },
+        {
+            "lexema": "proc1",
+            "tipo": "funcion",
+            "num_param": 1,
+            "tipo_param": "entero",
+            "modo_paso": "referencia",
+            "etiqueta": "TS_proc1"
+        }
+    ],
+    "TS_proc1": [
+        {
+            "lexema": "a",
+            "tipo": "entero",
+            "desplazamiento": 0
+        },
+        {
+            "lexema": "b",
+            "tipo": "entero",
+            "desplazamiento": 2
+        }
+    ]
+}
