@@ -1,4 +1,4 @@
-
+/*
 
 T -> NUMBER		...	T.tipo  := ent
 				T.ancho := 2
@@ -31,6 +31,7 @@ L -> lambda		...	L.long	:= 0;	L.pos = vacio
 
 Q -> lambda		...	Q.long	:= 0;	Q.pos = vacio
 
+*/
 
 P' -> { crearTS(despl=0) = TSG } P
 P  -> B P

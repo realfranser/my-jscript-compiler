@@ -32,6 +32,7 @@ class Simbolo:
 		self.tipoRetorno = tipoRetorno  # tipo devuelto por funcion
 		self.etiqFuncion = etiqFuncion # Etiqueta tipo funcion
 		self.param = param # Parametro no pasado por valor
+		
 class Token:
 	def __init__(self,token,linea):
 		self.token = token
@@ -114,6 +115,7 @@ def writeTS(tabla):
 	
 								
 def generarToken(tokenCode,atribute,linea):
+
 	found =False
 	with  open(sourceTokenFilePath) as sourceTokenFile:
 		data = json.load(sourceTokenFile)
@@ -381,9 +383,9 @@ def A_sint():
 	TLcopy = TL
 	sig_token = TLcopy[0].token
 	lineaSint = TLcopy[0].linea
-	P(); # deduzco que es el axioma , en las diapositivas no pone nada
+	P() # deduzco que es el axioma , en las diapositivas no pone nada
 	if sig_token != '$':
-		errorParse('A_sint',lineaSint)
+		errorParse(Token('A_sint',lineaSint))
 
 def equipara(t):
 	global TLcopy,sig_token,lineaSint
@@ -392,14 +394,13 @@ def equipara(t):
 		sig_token = TLcopy[0].token
 		lineaSint = TLcopy[0].linea
 	else:
-		errorParse('equipara',lineaSint)
+		errorParse(Token('equipara',lineaSint))
 
 
 def errorParse(error):
 	#habra que cambiarlo
 	eP = 'ErrorSintactico: Error antes de token \''+error.token + '\',linea:' + str(error.linea-1)
 	generarError(eP)
-	
 	exit()
 
 # Una función para cada no terminal (y una rama para cada regla)
@@ -430,7 +431,7 @@ def R():
 		U()
 		R1()
 	else:
-		errorParse(Token(sig_token,linea))
+		errorParse(Token(sig_token,lineaSint))
 
 def R1():
 	global sig_token
