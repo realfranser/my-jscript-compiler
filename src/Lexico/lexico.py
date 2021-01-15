@@ -52,7 +52,7 @@ def generarToken(token_code, atribute, linea):
 
         else:
             token = '<' + token_code + ',' + atribute + '>\n'
-            if(token_code == 'chain' or token_code == 'wholeConst'):
+            if(token_code == 'chain' or token_code == 'whole_const'):
                 tt = Token(token_code, linea)
                 TL.append(Token(token_code, linea))
             else:
@@ -125,9 +125,9 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '+':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('autoIncOp', 'autoinc', lineCounter)
+                token = generarToken('auto_inc', 'auto_inc', lineCounter)
             else:
-                token = generarToken('aritOp', 'plus', lineCounter)
+                token = generarToken('arit_op', 'plus', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '-':
@@ -138,7 +138,7 @@ def analizadorLinea(lista, lineCounter):
                 lista = lista[1:]
                 token = generarToken('autoDecOp', 'autodec', lineCounter)
             else:
-                token = generarToken('aritOp', 'minus', lineCounter)
+                token = generarToken('arit_op', 'minus', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '=':
@@ -147,9 +147,9 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '=':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('relOp', 'equals', lineCounter)
+                token = generarToken('rel_op', 'equals', lineCounter)
             else:
-                token = generarToken('asigOp', 'equal', lineCounter)
+                token = generarToken('asig_op', 'equal', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '!':
@@ -158,9 +158,9 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '=':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('relOp', 'notEquals', lineCounter)
+                token = generarToken('rel_op', 'notEquals', lineCounter)
             else:
-                token = generarToken('logOp', 'not', lineCounter)
+                token = generarToken('log_op', 'not', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '&':
@@ -169,7 +169,7 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '&':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('logOp', 'and', lineCounter)
+                token = generarToken('log_op', 'and', lineCounter)
             else:
                 generarError('++ Error: & esta solo en caracter: ' +
                              str(contadorCaracter)+' ,linea: '+str(lineCounter))
@@ -190,25 +190,25 @@ def analizadorLinea(lista, lineCounter):
         elif leerChar(lista) == '{':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'openBraq', lineCounter)
+            token = generarToken('separator', 'open_braq', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '}':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'closeBraq', lineCounter)
+            token = generarToken('separator', 'close_braq', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '(':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'openPar', lineCounter)
+            token = generarToken('separator', 'open_par', lineCounter)
             return lista, token
 
         elif leerChar(lista) == ')':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'closePar', lineCounter)
+            token = generarToken('separator', 'close_par', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '\'':
@@ -261,7 +261,7 @@ def analizadorLinea(lista, lineCounter):
                 else:
                     break
 
-            token = generarToken('wholeConst', numero, lineCounter)
+            token = generarToken('whole_const', numero, lineCounter)
             return lista, token
 
         elif leerChar(lista).isalpha() == True:
