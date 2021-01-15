@@ -1,2 +1,1 @@
-# PDL
-PDL repository
+This is the PDL project

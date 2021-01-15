@@ -1,4 +1,4 @@
-python3 rec.py -f pruebasDraco/pp.txt
+python3 rec.py -f ./tests/test$1.js
 echo
 echo
 echo Prueba 
@@ -6,22 +6,22 @@ echo Prueba
 echo ---------------------------------
 echo ---------- codigo ---------------
 echo ---------------------------------
-cat pruebasDraco/pp.txt
+cat ./tests/test$1.js
 echo ---------------------------------
 echo ---------- tokens ---------------
 echo ---------------------------------
-cat output/tokens.txt
+cat ./tests/output/tokens.txt
 echo ---------------------------------
 echo ------------ ts -----------------
 echo ---------------------------------
-cat output/ts.txt
+cat ./tests/output/ts.txt
 echo ---------------------------------
 echo ----------- parse ---------------
 echo ---------------------------------
-cat output/parse.txt
+cat ./tests/output/parse.txt
 echo
 echo ---------------------------------
 echo ---------- errors ---------------
 echo ---------------------------------
-cat output/errors.txt
+cat ./tests/output/errors.txt
 

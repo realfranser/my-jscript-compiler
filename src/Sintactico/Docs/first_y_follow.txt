@@ -1,3 +1,5 @@
+# First y follow separados del analizador sintactico
+
 ++++++++
 First
 ++++++++
@@ -193,11 +195,3 @@ Para R1:
     -lambda: lambda
         -First(== U R1)@ First(!= U R1)@ First(!= U R1) = Vacio
         -First(== U R1)@ First(!= U R1)@ Follow(R1) = Vacio
-        
-
-
-
-
-
-
-			

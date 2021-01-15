@@ -1,3 +1,5 @@
+# Esta es la gramatica del analizador lexico
+
 S:--> del S | dA | lB | +C | -D | /F  | ( | ) | { | } | =G | !G | , | ; | &H | 'J
 A:--> dA |lambda
 B:--> lB | dB | _B | lambda  
@@ -229,16 +231,4 @@ Caso 11-28:
         GenerarToken(logOp,and)
     else
         Error("SIMBOLO NO RECONOCIDO")
-
-   
-
-
-//Jerarquía lógica
-
-//Jerarquía aritmética
-
-//Jerarquía relacional
-
-// ejemplo --> if(pp =2):
-
-
+        
