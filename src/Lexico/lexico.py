@@ -1,4 +1,7 @@
 # Analizador lexico
+import json
+import analizador
+
 
 def analizar(linea):
     """
@@ -27,22 +30,20 @@ def generar_error(fallo):
     pass
 
 
-def generarToken(tokenCode, atribute, linea):
+def generarToken(token_code, atribute, linea):
 
     found = False
-    with open(sourceTokenFilePath) as sourceTokenFile:
-        data = json.load(sourceTokenFile)
-        if tokenCode == 'reservedWord':  # buscar en token.json
-            for i in data['tokens']:
-                if (i['tokenCode'] == 'reservedWord'):
-                    for k in i['tokenList']:
-                        if k['atribute'] == atribute:
-                            token = '<reservedWord,' + atribute + '>\n'
-                            tt = Token(atribute, linea)
-                            TL.append(Token(atribute, linea))
-                            found = True
-                            break
-            if found == False:
+    with open(analizador.file_paths['token_source']) as token_source:
+        token_dict = json.load(token_source)
+        if token_code == 'reserved_word':
+            for reserved in token_dict['reserved_word']:
+                if reserved[atribute] == atribute:
+                    token = '<reserved_word,' + atribute + '>\n'
+                    tt = Token(atribute, linea)
+                    TL.append(Token(atribute, linea))
+                    found = True
+                    break
+            if found == False:  # Esto no tiene ningun sentido
                 pos = addToTS(0, atribute)  # Editar cuando hagamos semantico
                 # el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
                 token = '<ID,' + str(pos) + '>\n'
@@ -50,10 +51,10 @@ def generarToken(tokenCode, atribute, linea):
                 TL.append(Token('ID', linea))
 
         else:
-            token = '<' + tokenCode + ',' + atribute + '>\n'
-            if(tokenCode == 'chain' or tokenCode == 'wholeConst'):
-                tt = Token(tokenCode, linea)
-                TL.append(Token(tokenCode, linea))
+            token = '<' + token_code + ',' + atribute + '>\n'
+            if(token_code == 'chain' or token_code == 'wholeConst'):
+                tt = Token(token_code, linea)
+                TL.append(Token(token_code, linea))
             else:
                 tt = Token(atribute, linea)
                 TL.append(Token(atribute, linea))
@@ -275,7 +276,7 @@ def analizadorLinea(lista, lineCounter):
                 else:
                     break
 
-            token = generarToken('reservedWord', alphanum, lineCounter)
+            token = generarToken('reserved_word', alphanum, lineCounter)
             return lista, token
 
         elif leerChar(lista) == '/':

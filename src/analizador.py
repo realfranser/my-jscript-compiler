@@ -6,6 +6,7 @@
 import json
 import argparse
 
+# ATRIBUTES
 file_paths = {
     "token_source": "assets/tokens.json",
     "token_output": "assets/output/tokens.txt",
@@ -13,6 +14,12 @@ file_paths = {
     "ts": "assets/output/ts.txt",
     "parse": "assets/output/parse.txt"
 }
+
+token_list = []
+tablas_simbolos = {}
+pila_tablas = {}
+
+# CLASSES
 
 
 class Simbolo:
@@ -32,7 +39,8 @@ class Simbolo:
 
 
 def main():
-
+    # declaracion de variables globales
+    global token_file
     # Parses argument, and requires the user to provide one file
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument('-f', type=str, nargs=1,

@@ -1,5 +1,6 @@
 # Este es el analizador sintactico
 from Lexico import lexico
+import analizador
 
 
 def analizar(linea):
@@ -9,4 +10,6 @@ def analizar(linea):
     Pide uno a uno los tokens al analizador lexico
     """
     token = lexico.analizar(linea)
+    analizador.token_list(token)
+    analizador.token_file.write('<reserved_word,' + token.atribute + '>\n'
     return token
