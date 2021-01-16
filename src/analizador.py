@@ -21,9 +21,8 @@ token_list = []
 tablas_simbolos = {}
 pila_tablas = {}
 
+
 # CLASSES
-
-
 class Token:
     def __init__(self, token, linea):
         self.token = token
@@ -35,7 +34,7 @@ class Simbolo:
     Elemento que conforma las tablas de simbolos
     """
 
-    def __init__(self, lexema, tipo=None, despl=0, num_param=0, tipo_param=[], modo_paso=[], tipo_dev=None, etiqueta=None):
+    def __init__(self, lexema, tipo=None, despl=None, num_param=None, tipo_param=[], modo_paso=[], tipo_dev=None, etiqueta=None):
         self.lexema = lexema  # lexema de linea
         self.tipo = tipo 	 # tipo de identificador ej: int, boolean ,'cadena'
         self.despl = despl   # direccion relativa
@@ -74,8 +73,30 @@ class Tabla_Simbolos:
         """
         Hacer el to string para que cada Tabla de Simbolos se printee como es debido
         """
-        pass
+        string = 'Contenido Tabla de Simbolos #'+self.nombre+' :\n'
 
+        for simbolo in self.entradas:
+                string += '* LEXEMA : \''+simbolo.lexema+'\'\n  ATRIBUTOS :\n'
+				string += '	+ Tipo: ' + simbolo.tipo + '\n' if simbolo.tipo != None else ''
+				string += '	+ Despl: ' + str(simbolo.despl) + \
+				                             '\n' if simbolo.despl != None else ''
+				string += '	+ Num_Param: ' + \
+				    str(simbolo.num_param) + '\n' if simbolo.num_param != None else ''
+
+                for i in range(len(simbolo.tipo_parm)):
+					string = '	+ Tipo_Param'+str(i)+': ' + simbolo.tipo_param[i] + '\n'
+					string = '	+ Modo_Paso'+str(i)+': ' + simbolo.modo_paso[i] + '\n'
+
+				if simbolo.tipo_param and simbolo.modo_paso: # Revisar 8 lineas
+						counter = 1
+						for j in simbolo.tipo_param :
+							# for i in simbolo.modoParam:   ------ revisar in da future
+							TSFile.write(lineaTS)
+
+				string += '	+ Tipo_Retorno: ' + simbolo.tipoRetorno +'\n' if simbolo.tipo_retorno != None else ''
+				string += '	+ Tipo: ' + simbolo.etiqFuncion +'\n' if sumbolo.etiqueta != None else ''
+				string += '	+ Tipo: ' + simbolo.param +'\n' if simbolo.param != None else ''
+        return string
 
 # FUNCTIONS
 
