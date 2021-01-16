@@ -1,9 +1,0 @@
-Contenido Tabla Simbolos # 0 :
-* LEXEMA : 'a'
-  ATRIBUTOS :
-* LEXEMA : 'b'
-  ATRIBUTOS :
-* LEXEMA : 'bbb'
-  ATRIBUTOS :
-* LEXEMA : 'c'
-  ATRIBUTOS :
