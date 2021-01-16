@@ -25,9 +25,13 @@ parse = []
 
 
 class Token:
-    def __init__(self, token, linea):
-        self.token = token
+    def __init__(self, entry, key, linea):
+        self.entry = entry
+        self.key = key
         self.linea = linea
+
+    def to_string(self):
+        return '<'+self.entry+','+self.key+'>'
 
 
 class Simbolo:
@@ -65,6 +69,11 @@ class Tabla_Simbolos:
         }
 
     def insertar_simbolo(self, simbolo):
+        """
+        Inserta un nuevo simbolo en la tabla
+        Si el simbolo es de un tipo perteneciente al diccionario sizes
+        se le suma desplazamiento a la tabla modificando asi el atributo del simbolo
+        """
         if simbolo.tipo in self.sizes:
             simbolo.despl = self.desplazamiento
             self.desplazamiento += self.sizes[simbolo.tipo]
@@ -104,7 +113,7 @@ class Tabla_Simbolos:
 
 def main():
     # declaracion de variables globales
-    global token_file, open_comment
+    global token_file, open_comment, line_count
     # Parses argument, and requires the user to provide one file
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument('-f', type=str, nargs=1,
@@ -117,28 +126,31 @@ def main():
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished
     """
-    with open(test_file_path, 'r') as test, open(file_paths["token_output"], 'w') as token_file, open(file_paths["error"], 'w') as error_file, open(file_paths["ts"], 'w') as ts_file, open(file_paths["parse"], 'w') as parse_file:
+    with open(file_paths["token_output"], 'w') as token_file, open(file_paths["error"], 'w') as error_file, open(file_paths["ts"], 'w') as ts_file, open(file_paths["parse"], 'w') as parse_file:
 
         open_comment = False
         line_count = 1
-        # Introduce linea a linea en el analizador sintactico
-        file_lines = test.readLines()
-        while file_lines:
-            # es posible que no sea necesaria la comprobacion file_lines
-            sintactico.analizar(
-                file_lines[0] if file_lines else None, line_count)
-            line_count += 1
-            file_lines[1:]
+
+        sintactico.analizador(test_file_path)
+
         # Escribir en el fichero tabla de simbolos, todas las tablas de simbolos
         for tabla in tablas_simbolos:
             ts_file.write(tabla.to_string+"\n\n")
+
         # Se anyade para ver si ha terminado el archivo
-        token_list.append(Token('$', line_count-1))
+        token_list.append(Token('final', '$', line_count-1))
+
         # Escribir en el fichero parse, todos los parses
         parse_string = 'Descendente'
         for p in parse:
             parse_string += ' '+str(p)
         parse_file.write(parse_string)
+
+        # Escribir en el fichero token_file todos los tokens
+        token_string = ''
+        for token in token_list:
+            token_string += token.to_string
+        token_file.write(token_string)
 
 
 if __name__ == '__main__':

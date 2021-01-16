@@ -1,4 +1,4 @@
-python3 rec.py -f ./tests/test$1.js
+python3 src/master.py -f ./tests/test$1.js
 echo
 echo
 echo Prueba 

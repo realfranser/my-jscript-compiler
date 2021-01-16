@@ -1,6 +1,7 @@
 # Analizador lexico
 import json
-import analizador
+import master
+from master import line_count
 
 
 def analizar(linea):
@@ -20,34 +21,34 @@ def generar_error(fallo):
     pass
 
 
-def generarToken(token_code, atribute, linea):
+def generar_token(token_code, atribute):
 
     found = False
-    with open(analizador.file_paths['token_source']) as token_source:
+    with open(master.file_paths['token_source']) as token_source:
         token_dict = json.load(token_source)
         if token_code == 'reserved_word':
             for reserved in token_dict['reserved_word']:
                 if reserved[atribute] == atribute:
                     token = '<reserved_word,' + atribute + '>\n'
-                    tt = Token(atribute, linea)
-                    TL.append(Token(atribute, linea))
+                    tt = Token(atribute, line_count)
+                    TL.append(Token(atribute, line_count))
                     found = True
                     break
             if found == False:  # Esto no tiene ningun sentido
                 pos = addToTS(0, atribute)  # Editar cuando hagamos semantico
                 # el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
                 token = '<ID,' + str(pos) + '>\n'
-                tt = Token('ID', linea)
-                TL.append(Token('ID', linea))
+                tt = Token('ID', line_count)
+                TL.append(Token('ID', line_count))
 
         else:
             token = '<' + token_code + ',' + atribute + '>\n'
             if(token_code == 'chain' or token_code == 'whole_const'):
-                tt = Token(token_code, linea)
-                TL.append(Token(token_code, linea))
+                tt = Token(token_code, line_count)
+                TL.append(Token(token_code, line_count))
             else:
                 tt = Token(atribute, linea)
-                TL.append(Token(atribute, linea))
+                TL.append(Token(atribute, line_count))
 
         tokenFile.write(token)
         sourceTokenFile.close()
@@ -67,19 +68,19 @@ def leerChar(lista):
     return char
 
 
-def leerLinea(lista):
+def leerlinea(lista):
     linea = None
     if lista:
         linea = lista[0]
     return linea
 
 
-def analizadorLinea(lista, lineCounter):
+def get_token(lista):
     global openComment, lastLine
     contadorCaracter = 0
     token = 'null'
     while lista:
-        if openComment == True:  # comentario abierto en otra llamada
+       if openComment == True:  # comentario abierto en otra llamada
             while lista:
                 if leerChar(lista) == '*':
                     contadorCaracter = contadorCaracter+1
@@ -115,9 +116,9 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '+':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('auto_inc', 'auto_inc', lineCounter)
+                token = generar_token('auto_inc', 'auto_inc', lineCounter)
             else:
-                token = generarToken('arit_op', 'plus', lineCounter)
+                token = generar_token('arit_op', 'plus', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '-':
@@ -126,9 +127,9 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '-':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('autoDecOp', 'autodec', lineCounter)
+                token = generar_token('autoDecOp', 'autodec', lineCounter)
             else:
-                token = generarToken('arit_op', 'minus', lineCounter)
+                token = generar_token('arit_op', 'minus', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '=':
@@ -137,9 +138,9 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '=':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('rel_op', 'equals', lineCounter)
+                token = generar_token('rel_op', 'equals', lineCounter)
             else:
-                token = generarToken('asig_op', 'equal', lineCounter)
+                token = generar_token('asig_op', 'equal', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '!':
@@ -148,9 +149,9 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '=':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('rel_op', 'notEquals', lineCounter)
+                token = generar_token('rel_op', 'notEquals', lineCounter)
             else:
-                token = generarToken('log_op', 'not', lineCounter)
+                token = generar_token('log_op', 'not', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '&':
@@ -159,7 +160,7 @@ def analizadorLinea(lista, lineCounter):
             if leerChar(lista) == '&':
                 contadorCaracter = contadorCaracter+1
                 lista = lista[1:]
-                token = generarToken('log_op', 'and', lineCounter)
+                token = generar_token('log_op', 'and', lineCounter)
             else:
                 generarError('++ Error: & esta solo en caracter: ' +
                              str(contadorCaracter)+' ,linea: '+str(lineCounter))
@@ -168,37 +169,37 @@ def analizadorLinea(lista, lineCounter):
         elif leerChar(lista) == ',':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'colon', lineCounter)
+            token = generar_token('separator', 'colon', lineCounter)
             return lista, token
 
         elif leerChar(lista) == ';':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'semicolon', lineCounter)
+            token = generar_token('separator', 'semicolon', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '{':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'open_braq', lineCounter)
+            token = generar_token('separator', 'open_braq', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '}':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'close_braq', lineCounter)
+            token = generar_token('separator', 'close_braq', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '(':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'open_par', lineCounter)
+            token = generar_token('separator', 'open_par', lineCounter)
             return lista, token
 
         elif leerChar(lista) == ')':
             contadorCaracter = contadorCaracter+1
             lista = lista[1:]
-            token = generarToken('separator', 'close_par', lineCounter)
+            token = generar_token('separator', 'close_par', lineCounter)
             return lista, token
 
         elif leerChar(lista) == '\'':
@@ -232,7 +233,7 @@ def analizadorLinea(lista, lineCounter):
             if len(cadena) < 67 and seCierra:
                 cadena = cadena[:-1]
                 cadena = cadena + '\"'
-                token = generarToken('chain', cadena, lineCounter)
+                token = generar_token('chain', cadena, lineCounter)
 
             elif seCierra:
                 generarError('++ Error: \' cadena supera los 64 caracteres por: '
@@ -251,7 +252,7 @@ def analizadorLinea(lista, lineCounter):
                 else:
                     break
 
-            token = generarToken('whole_const', numero, lineCounter)
+            token = generar_token('whole_const', numero, lineCounter)
             return lista, token
 
         elif leerChar(lista).isalpha() == True:
@@ -266,7 +267,7 @@ def analizadorLinea(lista, lineCounter):
                 else:
                     break
 
-            token = generarToken('reserved_word', alphanum, lineCounter)
+            token = generar_token('reserved_word', alphanum, lineCounter)
             return lista, token
 
         elif leerChar(lista) == '/':
@@ -309,3 +310,5 @@ def analizadorLinea(lista, lineCounter):
         return lista, token
 
     return lista, token
+
+
