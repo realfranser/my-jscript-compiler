@@ -19,10 +19,11 @@ file_paths = {
 
 token_list = []
 tablas_simbolos = {}
-pila_tablas = {}
-
+parse = []
 
 # CLASSES
+
+
 class Token:
     def __init__(self, token, linea):
         self.token = token
@@ -76,26 +77,26 @@ class Tabla_Simbolos:
         string = 'Contenido Tabla de Simbolos #'+self.nombre+' :\n'
 
         for simbolo in self.entradas:
-                string += '* LEXEMA : \''+simbolo.lexema+'\'\n  ATRIBUTOS :\n'
-				string += '	+ Tipo: ' + simbolo.tipo + '\n' if simbolo.tipo != None else ''
-				string += '	+ Despl: ' + str(simbolo.despl) + \
-				                             '\n' if simbolo.despl != None else ''
-				string += '	+ Num_Param: ' + \
-				    str(simbolo.num_param) + '\n' if simbolo.num_param != None else ''
+            string += '* LEXEMA : \''+simbolo.lexema+'\'\n  ATRIBUTOS :\n'
+            string += '	+ Tipo: ' + simbolo.tipo + '\n' if simbolo.tipo != None else ''
+            string += '	+ Despl: ' + \
+                str(simbolo.despl) + '\n' if simbolo.despl != None else ''
+            string += '	+ Num_Param: ' + \
+                str(simbolo.num_param) + \
+                '\n' if simbolo.num_param != None else ''
 
-                for i in range(len(simbolo.tipo_parm)):
-					string = '	+ Tipo_Param'+str(i)+': ' + simbolo.tipo_param[i] + '\n'
-					string = '	+ Modo_Paso'+str(i)+': ' + simbolo.modo_paso[i] + '\n'
+            for i in range(len(simbolo.tipo_parm)):
+                string = '	+ Tipo_Param' + \
+                    str(i)+': ' + simbolo.tipo_param[i] + '\n'
+                string = '	+ Modo_Paso' + \
+                    str(i)+': ' + simbolo.modo_paso[i] + '\n'
 
-				if simbolo.tipo_param and simbolo.modo_paso: # Revisar 8 lineas
-						counter = 1
-						for j in simbolo.tipo_param :
-							# for i in simbolo.modoParam:   ------ revisar in da future
-							TSFile.write(lineaTS)
+            string += '	+ Tipo_Retorno: ' + simbolo.tipoRetorno + \
+                '\n' if simbolo.tipo_retorno != None else ''
+            string += '	+ Tipo: ' + simbolo.etiqFuncion + \
+                '\n' if simbolo.etiqueta != None else ''
+            string += '	+ Tipo: ' + simbolo.param + '\n' if simbolo.param != None else ''
 
-				string += '	+ Tipo_Retorno: ' + simbolo.tipoRetorno +'\n' if simbolo.tipo_retorno != None else ''
-				string += '	+ Tipo: ' + simbolo.etiqFuncion +'\n' if sumbolo.etiqueta != None else ''
-				string += '	+ Tipo: ' + simbolo.param +'\n' if simbolo.param != None else ''
         return string
 
 # FUNCTIONS
@@ -128,12 +129,16 @@ def main():
                 file_lines[0] if file_lines else None, line_count)
             line_count += 1
             file_lines[1:]
-
+        # Escribir en el fichero tabla de simbolos, todas las tablas de simbolos
         for tabla in tablas_simbolos:
-            # Editar esto en funcion de como se requiera
             ts_file.write(tabla.to_string+"\n\n")
-        # se anyade para ver si ha terminado el archivo
+        # Se anyade para ver si ha terminado el archivo
         token_list.append(Token('$', line_count-1))
+        # Escribir en el fichero parse, todos los parses
+        parse_string = 'Descendente'
+        for p in parse:
+            parse_string += ' '+str(p)
+        parse_file.write(parse_string)
 
 
 if __name__ == '__main__':
