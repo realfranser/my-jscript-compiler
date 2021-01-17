@@ -16,7 +16,7 @@ def analizador(file_path):
     Pide uno a uno los tokens al analizador lexico
     """
     with open(file_path, 'r') as file:
-        file_lines = file.readLines()
+        file_lines = file.readlines()
         for line in file_lines:
             while line:
                 line, token = lexico.get_token(line)
