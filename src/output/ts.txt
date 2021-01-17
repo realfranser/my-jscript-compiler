@@ -1,0 +1,21 @@
+Contenido Tabla Simbolos # 0 :
+* LEXEMA : 'a'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
+* LEXEMA : 'b'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
+* LEXEMA : 'bbb'
+  ATRIBUTOS :
+	+ tipo: boolean
+	+ Despl: 1
+* LEXEMA : 'pepe'
+  ATRIBUTOS :
+	+ tipo: funcion
+	+ Despl: 1
+* LEXEMA : 'pepe'
+  ATRIBUTOS :
+	+ tipo: string
+	+ Despl: 64

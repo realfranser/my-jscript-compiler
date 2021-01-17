@@ -4,8 +4,6 @@ let boolean bbb;
 a = 3;
 b = 4;
 let boolean c;
-c = a == b;
-if (c) b = 3333;
-a = a + b;
-alert (a);
-alert(b);
+function pepe ( boolean a ) { 
+f="jkjk" ;
+}
