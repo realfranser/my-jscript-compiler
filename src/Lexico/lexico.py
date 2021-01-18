@@ -2,7 +2,9 @@
 import json
 import master
 from master import line_count, error_file, open_comment, Token
-from Sintactico.sintactico import last_line
+
+# ATRIBUTES
+
 
 # FUNCTIONS
 
@@ -37,7 +39,7 @@ def generar_token(key, value):
         # tabla_simbolos_actual.add(elemento)
         token = Token('ID', pos, line_count)
 
-    master.token_file.write(token.to_string())
+    master.token_list.append(token)
     return token
 
 
@@ -74,7 +76,7 @@ def get_token(lista):
             if(open_comment == False):
                 print('!! Atención: */ comentario en bloque cerrado en caracter: ' +
                       str(cerradoEnCaracter)+' ,linea: '+str(line_count))
-            if not lista and open_comment and (last_line):
+            if not lista and open_comment and (master.last_line):
                 generar_error('++ Error: /* comentario en bloque no se cierra')
                 return lista, token
 

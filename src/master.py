@@ -10,16 +10,23 @@ from Sintactico import sintactico
 
 # ATRIBUTES
 file_paths = {
-    "token_source": "assets/tokens.json",
-    "token_output": "assets/output/tokens.txt",
-    "error": "assets/output/errors.txt",
-    "ts": "assets/output/ts.txt",
-    "parse": "assets/output/parse.txt"
+    "token_source": "src/assets/tokens.json",
+    "token_output": "tests/output/tokens.txt",
+    "error": "tests/output/errors.txt",
+    "ts": "tests/output/ts.txt",
+    "parse": "tests/output/parse.txt"
 }
 
 token_list = []
 tablas_simbolos = {}
 parse = []
+
+# imported by other files
+line_count = 1
+error_file = ''
+open_comment = False
+last_line = False
+
 
 # CLASSES
 
@@ -115,13 +122,13 @@ def main():
     # declaracion de variables globales
     global token_file, open_comment, line_count, error_file
     # Parses argument, and requires the user to provide one file
-    parser = argparse.ArgumentParser(add_help=True)
-    parser.add_argument('-f', type=str, nargs=1,
-                        help='Required filename you want to compile')
-    args = parser.parse_args()
+   # parser = argparse.ArgumentParser(add_help=True)
+    # parser.add_argument('-f', type=str, nargs=1,
+    # help='Required filename you want to compile')
+    #args = parser.parse_args()
 
-    test_file_path = args.f[0]
-
+    #test_file_path = args.f[0]
+    test_file_path = './tests/test1.js'
     """
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished
