@@ -22,11 +22,18 @@ def simbolo_test(simbolo):
     return simbolo
 
 
+def comparador_triple(a, b, c):
+    return a == b == c
+
+
 def main():
     #global lista
     # comprobar(lista)
     # print(sumar_uno(1))
-    print(simbolo_test(1))
+    # print(simbolo_test(1))
+    print(comparador_triple(1, 2, 3))
+    print(comparador_triple(1, 2, 1))
+    print(comparador_triple(1, 1, 1))
 
 
 if __name__ == '__main__':

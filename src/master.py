@@ -23,7 +23,6 @@ parse = []
 
 # imported by other files
 line_count = 1
-error_file = ''
 open_comment = False
 last_line = False
 
@@ -120,7 +119,7 @@ class Tabla_Simbolos:
 
 def main():
     # declaracion de variables globales
-    global token_file, open_comment, line_count, error_file
+    global token_file, open_comment, line_count
     # Parses argument, and requires the user to provide one file
    # parser = argparse.ArgumentParser(add_help=True)
     # parser.add_argument('-f', type=str, nargs=1,
@@ -128,12 +127,12 @@ def main():
     #args = parser.parse_args()
 
     #test_file_path = args.f[0]
-    test_file_path = './tests/test1.js'
+    test_file_path = './tests/test2.js'
     """
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished
     """
-    with open(file_paths["token_output"], 'w') as token_file, open(file_paths["error"], 'w') as error_file, open(file_paths["ts"], 'w') as ts_file, open(file_paths["parse"], 'w') as parse_file:
+    with open(file_paths["token_output"], 'w') as token_file, open(file_paths["ts"], 'w') as ts_file, open(file_paths["parse"], 'w') as parse_file:
 
         open_comment = False
         line_count = 1

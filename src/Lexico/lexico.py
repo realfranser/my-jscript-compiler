@@ -1,7 +1,7 @@
 # Analizador lexico
 import json
 import master
-from master import line_count, error_file, open_comment, Token
+from master import line_count, open_comment, Token
 
 # ATRIBUTES
 
@@ -13,9 +13,9 @@ def generar_error(fallo):
     """
     Le entra de la funcion analizar un error y este devuelve el mensaje de error correspondiente
     """
-    # master.file_paths["error"].write(fallo+'\n') se puede hacer asi???
-    error_file.write(fallo)
-    error_file.write('\n')
+    with open(master.file_paths["error"], 'w') as error_file:
+        message = fallo + '\n'
+        error_file.write(message)
     exit()
 
 
@@ -23,7 +23,7 @@ def generar_token(key, value):
     """
     PUEDE QUE ESTA FUNCION NO HAGA FALTA, SE PUEDE ESCRIBIR EL TOKEN DESDE
     EL SINTACTICO UNA VEZ RECIBIDO
-    MODIFICAR EN TODO CASO YA QUE LA IMPLEMENTACION ES EXTRANYA
+    MODIFICAR EN TOD0 CASO YA QUE LA IMPLEMENTACION ES EXTRANYA
     """
     found = False
     with open(master.file_paths['token_source']) as token_source:
@@ -34,12 +34,13 @@ def generar_token(key, value):
                 token = Token(key, value, line_count)
                 found = True
                 break
-    if not found:  # Esto no tiene ningun sentido
-        pos = 0  # addToTS(0, value)  # Editar cuando hagamos semantico
-        # tabla_simbolos_actual.add(elemento)
-        token = Token('ID', pos, line_count)
+        if not found:  # Esto no tiene ningun sentido
+            pos = 0  # addToTS(0, value)  # Editar cuando hagamos semantico
+            # tabla_simbolos_actual.add(elemento)
+            token = Token('ID', str(pos), line_count)
+    else:
+        token = Token(key, value, line_count)
 
-    master.token_list.append(token)
     return token
 
 
@@ -80,11 +81,15 @@ def get_token(lista):
                 generar_error('++ Error: /* comentario en bloque no se cierra')
                 return lista, token
 
-        elif leer_char(lista) == '\n' or leer_char(lista) == ' ' or leer_char(lista) == '\t':
+        elif leer_char(lista) == '\n':
             contador_caracter += 1
             lista = lista[1:]
-            print('** Delimitador en caracater:' +
-                  str(contador_caracter)+' ,linea: '+str(line_count))
+            return lista, Token('final', 'eol', line_count)
+
+        elif leer_char(lista) == ' ' or leer_char(lista) == '\t':
+            contador_caracter += 1
+            lista = lista[1:]
+            lista, token = get_token(lista)
 
         elif leer_char(lista) == '+':
             contador_caracter += 1
@@ -125,7 +130,7 @@ def get_token(lista):
             if leer_char(lista) == '=':
                 contador_caracter += 1
                 lista = lista[1:]
-                token = generar_token('rel_op', 'notEquals')
+                token = generar_token('rel_op', 'not_equals')
             else:
                 token = generar_token('log_op', 'not')
             return lista, token
@@ -283,6 +288,6 @@ def get_token(lista):
                 lista) + '] en caracter: '+str(contador_caracter)+' ,linea: '+str(line_count))
             contador_caracter += 1
             lista = lista[1:]
-        return lista, token
+        lista, token = get_token(lista)
 
     return lista, token

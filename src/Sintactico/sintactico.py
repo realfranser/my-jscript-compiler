@@ -41,22 +41,24 @@ def pedir_token():
 
         file_lines[0], token = lexico.get_token(file_lines[0])
 
-        if token.key == 'final' and token.entry == 'eol':
+        if token == 'null':
+            token = pedir_token()
+
+        elif token.key == 'final' and token.value == 'eol':
             file_lines = file_lines[1:]
             line_count += 1
             token = pedir_token()
 
-        elif token == 'null':
-            token = pedir_token()
-
+    master.token_list.append(token)
     return token
 
 
 def error_parse(token):
     # Cambiarlo en funcion de la correccion
-    message = 'Error sintactico: '+token.value + \
-        ', en linea: '+str(token.linea)+'\n'
-    master.error_file.write(message)
+    with open(master.file_paths["error"], 'w') as error_file:
+        message = 'Error sintactico: '+token.value + \
+            ', en linea: '+str(token.linea)+'\n'
+        error_file.write(message)
     exit()
 
 
@@ -67,7 +69,9 @@ def error_parse(token):
 def equipara(valor):
     global sig_token
 
-    if sig_token.value == valor:
+    if 'ID' == valor == sig_token.key:
+        sig_token = pedir_token()
+    elif sig_token.value == valor:
         sig_token = pedir_token()
     else:
         error_parse(Token('equipara', 'error', line_count))
@@ -80,7 +84,7 @@ def E(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'openPar' or valor == 'chain' or valor == 'wholeConst' or valor == 'false' or valor == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(1)
         # (not or open_par or chain or whole_const or ...) R E1
         simbolo = R(simbolo)
@@ -101,7 +105,7 @@ def E1(simbolo):
         simbolo = R(simbolo)
         simbolo = E1(simbolo)
     # FOLLOW de E1  =  { ) , ; }
-    elif valor == 'closePar' or valor == 'colon' or valor == 'semicolon':
+    elif valor == 'close_par' or valor == 'colon' or valor == 'semicolon':
         parse.append(3)
     else:
         error_parse(sig_token)
@@ -113,7 +117,7 @@ def R(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'openPar' or valor == 'chain' or valor == 'wholeConst' or valor == 'false' or valor == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(4)
         # (not or open_par or ...) U R1
         simbolo = U(simbolo)
@@ -134,13 +138,13 @@ def R1(simbolo):
         equipara('equals')
         simbolo = U(simbolo)
         simbolo = R1(simbolo)
-    elif valor == 'notEquals':
+    elif valor == 'not_equals':
         parse.append(6)
         # != U R1
-        equipara('notEquals')
+        equipara('not_equals')
         simbolo = U(simbolo)
         simbolo = R1(simbolo)
-    elif valor == 'and' or valor == 'closePar' or valor == 'colon' or valor == 'semicolon':
+    elif valor == 'and' or valor == 'close_par' or valor == 'colon' or valor == 'semicolon':
         parse.append(7)
     else:
         error_parse(sig_token)
@@ -152,7 +156,7 @@ def U(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'openPar' or valor == 'chain' or valor == 'wholeConst' or valor == 'false' or valor == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(8)
         # (not or open_par or ...) V U1
         simbolo = V(simbolo)
@@ -179,7 +183,7 @@ def U1(simbolo):
         equipara('minus')
         simbolo = V(simbolo)
         simbolo = U1(simbolo)
-    elif valor == 'notEquals' or valor == 'and' or valor == 'closePar' or valor == 'colon' or valor == 'semicolon' or valor == 'equals':
+    elif valor == 'not_equals' or valor == 'and' or valor == 'close_par' or valor == 'colon' or valor == 'semicolon' or valor == 'equals':
         parse.append(11)
     else:
         error_parse(sig_token)
@@ -191,21 +195,21 @@ def V(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'ID':
+    if sig_token.key == 'ID':
         parse.append(12)
         # ID V1
         equipara('ID')
         simbolo = V1(simbolo)
-    elif valor == 'openPar':
+    elif valor == 'open_par':
         parse.append(13)
         # ( E )
-        equipara('openPar')
+        equipara('open_par')
         simbolo = E(simbolo)
-        equipara('closePar')
-    elif valor == 'wholeConst':
+        equipara('close_par')
+    elif valor == 'whole_const':
         parse.append(14)
-        # wholeConst
-        equipara('wholeConst')
+        # whole_const
+        equipara('whole_const')
         simbolo = Simbolo('hacer semantico aqui')
     elif valor == 'chain':
         parse.append(15)
@@ -236,17 +240,17 @@ def V1(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'openPar':
+    if valor == 'open_par':
         parse.append(19)
         # ( L )
-        equipara('openPar')
+        equipara('open_par')
         simbolo = L(simbolo)
-        equipara('closePar')
-    elif valor == 'autoInc':
+        equipara('close_par')
+    elif valor == 'auto_inc':
         parse.append(20)
-        # autoInc
-        equipara('autoInc')
-    elif valor == 'notEquals' or valor == 'and' or valor == 'closePar' or valor == 'plus' or valor == 'colon' or valor == 'minus' or valor == 'semicolon' or valor == 'equals':
+        # ++
+        equipara('auto_inc')
+    elif valor == 'not_equals' or valor == 'and' or valor == 'close_par' or valor == 'plus' or valor == 'colon' or valor == 'minus' or valor == 'semicolon' or valor == 'equals':
         parse.append(21)
     else:
         error_parse(sig_token)
@@ -267,17 +271,17 @@ def S(simbolo):
         parse.append(23)
         # alert ( E ) ;
         equipara('alert')
-        equipara('openPar')
+        equipara('open_par')
         simbolo = E(simbolo)
-        equipara('closePar')
+        equipara('close_par')
         equipara('semicolon')
     elif valor == 'input':
         parse.append(24)
         # input ( ID ) ;
         equipara('input')
-        equipara('openPar')
+        equipara('open_par')
         equipara('ID')
-        equipara('closePar')
+        equipara('close_par')
         equipara('semicolon')
     elif valor == 'return':
         parse.append(25)
@@ -301,12 +305,12 @@ def S1(simbolo):
         equipara('equal')
         simbolo = E(simbolo)
         equipara('semicolon')
-    elif valor == 'openPar':
+    elif valor == 'open_par':
         parse.append(27)
         # ( L ) ;
-        equipara('openPar')
+        equipara('open_par')
         simbolo = L(simbolo)
-        equipara('closePar')
+        equipara('close_par')
         equipara('semicolon')
     else:
         error_parse(sig_token)
@@ -318,12 +322,12 @@ def L(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'openPar' or valor == 'chain' or valor == 'wholeConst' or valor == 'false' or valor == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(28)
         # (not or open_par or ...) E Q
         simbolo = E(simbolo)
         simbolo = Q(simbolo)
-    elif valor == 'closePar':
+    elif valor == 'close_par':
         parse.append(29)
     else:
         error_parse(sig_token)
@@ -341,7 +345,7 @@ def Q(simbolo):
         equipara('colon')
         simbolo = E(simbolo)
         simbolo = Q(simbolo)
-    elif valor == 'closePar':
+    elif valor == 'close_par':
         parse.append(31)
     else:
         error_parse(sig_token)
@@ -353,7 +357,7 @@ def X(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'openPar' or valor == 'chain' or valor == 'wholeConst' or valor == 'false' or valor == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(32)
         # (not or open_par or ...) E
         simbolo = E(simbolo)
@@ -386,7 +390,7 @@ def B(simbolo):
         equipara('ID')
         equipara('semicolon')
 
-    elif valor == 'alert' or valor == 'ID' or valor == 'input' or valor == 'return':
+    elif valor == 'alert' or sig_token.key == 'ID' or valor == 'input' or valor == 'return':
         parse.append(36)
         # (alert or ID or input or return) S
         simbolo = S(simbolo)
@@ -441,12 +445,12 @@ def F(simbolo):
         equipara('function')
         simbolo = H(simbolo)
         equipara('ID')
-        equipara('openPar')
+        equipara('open_par')
         simbolo = A(simbolo)
-        equipara('closePar')
-        equipara('openBraq')
+        equipara('close_par')
+        equipara('open_braq')
         simbolo = C(simbolo)
-        equipara('closeBraq')
+        equipara('close_braq')
         # SEMANTICO Y CREAR TABLA DE SIMBOLOS
     else:
         error_parse(sig_token)
@@ -462,7 +466,7 @@ def H(simbolo):
         parse.append(42)
         # (boolean or number or string) T
         simbolo = T(simbolo)
-    elif valor == 'ID':
+    elif sig_token.key == 'ID':
         parse.append(43)
     else:
         error_parse(sig_token)
@@ -480,7 +484,7 @@ def A(simbolo):
         simbolo = T(simbolo)
         equipara('ID')
         simbolo = K(simbolo)
-    elif valor == 'closePar':
+    elif valor == 'close_par':
         parse.append(45)
     else:
         error_parse(sig_token)
@@ -499,7 +503,7 @@ def K(simbolo):
         simbolo = T(simbolo)
         equipara('ID')
         simbolo = K(simbolo)
-    elif valor == 'closePar':
+    elif valor == 'close_par':
         parse.append(47)
     else:
         error_parse(sig_token)
@@ -511,12 +515,12 @@ def C(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'alert' or valor == 'do' or valor == 'ID' or valor == 'if' or valor == 'input' or valor == 'let' or valor == 'return':
+    if valor == 'alert' or valor == 'do' or sig_token.key == 'ID' or valor == 'if' or valor == 'input' or valor == 'let' or valor == 'return':
         parse.append(48)
         # ( alert or do or ... ) B C
         simbolo = B(simbolo)
         simbolo = C(simbolo)
-    elif valor == 'closeBraq':
+    elif valor == 'close_braq':
         parse.append(49)
     else:
         error_parse(sig_token)
@@ -528,7 +532,7 @@ def P(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'alert' or valor == 'do' or valor == 'ID' or valor == 'if' or valor == 'input' or valor == 'let' or valor == 'return':
+    if valor == 'alert' or valor == 'do' or sig_token.key == 'ID' or valor == 'if' or valor == 'input' or valor == 'let' or valor == 'return':
         parse.append(50)
         simbolo = B(simbolo)
         simbolo = P(simbolo)
