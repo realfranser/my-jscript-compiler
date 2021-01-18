@@ -23,37 +23,22 @@ def generar_token(key, value):
     EL SINTACTICO UNA VEZ RECIBIDO
     MODIFICAR EN TODO CASO YA QUE LA IMPLEMENTACION ES EXTRANYA
     """
-    return Token(key, value, line_count)
-#    found = False
-    # with open(master.file_paths['token_source']) as token_source:
-    #token_dict = json.load(token_source)
-    # if key == 'reserved_word':
-    # for reserved in token_dict['reserved_word']:
-    # if reserved[value] == value:
-    #token = '<reserved_word,' + value + '>\n'
-    #tt = Token(value)
-    # TL.append(Token(value))
-    #found = True
-    # break
-    # if found == False:  # Esto no tiene ningun sentido
-    # pos = addToTS(0, value)  # Editar cuando hagamos semantico
-    # el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
-    #token = '<ID,' + str(pos) + '>\n'
-    #tt = Token('ID')
-    # TL.append(Token('ID'))
+    found = False
+    with open(master.file_paths['token_source']) as token_source:
+        token_dict = json.load(token_source)
+    if key == 'reserved_word':
+        for reserved in token_dict["reserved_word"]:
+            if reserved == value:
+                token = Token(key, value, line_count)
+                found = True
+                break
+    if not found:  # Esto no tiene ningun sentido
+        pos = 0  # addToTS(0, value)  # Editar cuando hagamos semantico
+        # tabla_simbolos_actual.add(elemento)
+        token = Token('ID', pos, line_count)
 
-    # else:
-    #token = '<' + key + ',' + value + '>\n'
-    # if(key == 'chain' or key == 'whole_const'):
-    #tt = Token(key)
-    # TL.append(Token(key))
-    # else:
-    #tt = Token(value, linea)
-    # TL.append(Token(value))
-
-    # tokenFile.write(token)
-    # sourceTokenFile.close()
-    # return tt
+    master.token_file.write(token.to_string())
+    return token
 
 
 def leer_char(lista):
@@ -66,25 +51,25 @@ def leer_char(lista):
 def get_token(lista):
     global open_comment
 
-    contadorCaracter = 0
+    contador_caracter = 0
     token = 'null'
     while lista:
         if open_comment == True:  # comentario abierto en otra llamada
             while lista:
                 if leer_char(lista) == '*':
-                    contadorCaracter = contadorCaracter+1
+                    contador_caracter += 1
                     lista = lista[1:]
-                    cerradoEnCaracter = contadorCaracter
+                    cerradoEnCaracter = contador_caracter
                     if leer_char(lista) == '/':
-                        contadorCaracter = contadorCaracter+1
+                        contador_caracter += 1
                         lista = lista[1:]
                         open_comment = False
                         break
                     else:
-                        contadorCaracter = contadorCaracter+1
+                        contador_caracter += 1
                         lista = lista[1:]
                 else:
-                    contadorCaracter = contadorCaracter+1
+                    contador_caracter += 1
                     lista = lista[1:]
             if(open_comment == False):
                 print('!! Atención: */ comentario en bloque cerrado en caracter: ' +
@@ -94,16 +79,16 @@ def get_token(lista):
                 return lista, token
 
         elif leer_char(lista) == '\n' or leer_char(lista) == ' ' or leer_char(lista) == '\t':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             print('** Delimitador en caracater:' +
-                  str(contadorCaracter)+' ,linea: '+str(line_count))
+                  str(contador_caracter)+' ,linea: '+str(line_count))
 
         elif leer_char(lista) == '+':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             if leer_char(lista) == '+':
-                contadorCaracter = contadorCaracter+1
+                contador_caracter += 1
                 lista = lista[1:]
                 token = generar_token('auto_inc', 'auto_inc')
             else:
@@ -111,10 +96,10 @@ def get_token(lista):
             return lista, token
 
         elif leer_char(lista) == '-':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             if leer_char(lista) == '-':
-                contadorCaracter = contadorCaracter+1
+                contador_caracter += 1
                 lista = lista[1:]
                 token = generar_token('autoDecOp', 'autodec')
             else:
@@ -122,10 +107,10 @@ def get_token(lista):
             return lista, token
 
         elif leer_char(lista) == '=':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             if leer_char(lista) == '=':
-                contadorCaracter = contadorCaracter+1
+                contador_caracter += 1
                 lista = lista[1:]
                 token = generar_token('rel_op', 'equals')
             else:
@@ -133,10 +118,10 @@ def get_token(lista):
             return lista, token
 
         elif leer_char(lista) == '!':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             if leer_char(lista) == '=':
-                contadorCaracter = contadorCaracter+1
+                contador_caracter += 1
                 lista = lista[1:]
                 token = generar_token('rel_op', 'notEquals')
             else:
@@ -144,75 +129,75 @@ def get_token(lista):
             return lista, token
 
         elif leer_char(lista) == '&':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             if leer_char(lista) == '&':
-                contadorCaracter = contadorCaracter+1
+                contador_caracter += 1
                 lista = lista[1:]
                 token = generar_token('log_op', 'and')
             else:
                 generar_error('++ Error: & esta solo en caracter: ' +
-                              str(contadorCaracter)+' ,linea: '+str(line_count))
+                              str(contador_caracter)+' ,linea: '+str(line_count))
             return lista, token
 
         elif leer_char(lista) == ',':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             token = generar_token('separator', 'colon')
             return lista, token
 
         elif leer_char(lista) == ';':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             token = generar_token('separator', 'semicolon')
             return lista, token
 
         elif leer_char(lista) == '{':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             token = generar_token('separator', 'open_braq')
             return lista, token
 
         elif leer_char(lista) == '}':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             token = generar_token('separator', 'close_braq')
             return lista, token
 
         elif leer_char(lista) == '(':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             token = generar_token('separator', 'open_par')
             return lista, token
 
         elif leer_char(lista) == ')':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             token = generar_token('separator', 'close_par')
             return lista, token
 
         elif leer_char(lista) == '\'':
             cadena = '\"'
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             seCierra = False
-            aperturaEnCaracter = contadorCaracter
+            aperturaEnCaracter = contador_caracter
             while lista:
                 cadena = cadena + leer_char(lista)
                 if leer_char(lista) == '\'':
                     seCierra = True
-                    contadorCaracter = contadorCaracter+1
+                    contador_caracter += 1
                     lista = lista[1:]
                     break
                 else:
                     if leer_char(lista) == '\r' or leer_char(lista) == '\n':
                         generar_error('++ Error: \' cadena no se cierra en linea,abierto en caracter: '
                                       + str(aperturaEnCaracter) + ' ,linea: ' + str(line_count))
-                        contadorCaracter = contadorCaracter+1
+                        contador_caracter += 1
                         lista = lista[1:]
                         break
 
-                    contadorCaracter = contadorCaracter + 1
+                    contador_caracter = contador_caracter + 1
                     lista = lista[1:]
 
                     if not lista:
@@ -231,12 +216,12 @@ def get_token(lista):
 
         elif leer_char(lista).isdigit() == True:
             numero = leer_char(lista)
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             while lista:
                 if leer_char(lista).isdigit() == True:
                     numero = numero + leer_char(lista)
-                    contadorCaracter = contadorCaracter+1
+                    contador_caracter += 1
                     lista = lista[1:]
                 else:
                     break
@@ -246,12 +231,12 @@ def get_token(lista):
 
         elif leer_char(lista).isalpha() == True:
             alphanum = leer_char(lista)
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             while lista:
                 if leer_char(lista).isalpha() == True or leer_char(lista).isdigit() == True or leer_char(lista) == '_':
                     alphanum = alphanum + leer_char(lista)
-                    contadorCaracter = contadorCaracter+1
+                    contador_caracter += 1
                     lista = lista[1:]
                 else:
                     break
@@ -260,27 +245,27 @@ def get_token(lista):
             return lista, token
 
         elif leer_char(lista) == '/':
-            contadorCaracter = contadorCaracter+1
+            contador_caracter += 1
             lista = lista[1:]
             if leer_char(lista) == '*':
-                contadorCaracter = contadorCaracter+1
+                contador_caracter += 1
                 lista = lista[1:]
                 open_comment = True
-                aperturaEnCaracter = contadorCaracter
+                aperturaEnCaracter = contador_caracter
                 while lista:
                     if leer_char(lista) == '*':
-                        contadorCaracter = contadorCaracter+1
+                        contador_caracter += 1
                         lista = lista[1:]
                         if leer_char(lista) == '/':
-                            contadorCaracter = contadorCaracter+1
+                            contador_caracter += 1
                             lista = lista[1:]
                             open_comment = False
                             break
                         else:
-                            contadorCaracter = contadorCaracter+1
+                            contador_caracter += 1
                             lista = lista[1:]
                     else:
-                        contadorCaracter = contadorCaracter+1
+                        contador_caracter += 1
                         lista = lista[1:]
                 if(open_comment == True):
                     print('!! Atención: /* comentario en bloque no se cierra, abierto en caracter: ' +
@@ -288,13 +273,13 @@ def get_token(lista):
 
             else:
                 generar_error('++ Error: / esta solo en caracter: ' +
-                              str(contadorCaracter)+' ,linea: '+str(line_count))
+                              str(contador_caracter)+' ,linea: '+str(line_count))
             return lista, token
 
         else:
             generar_error('++ Error: Caracter no reconocido:[' + leer_char(
-                lista) + '] en caracter: '+str(contadorCaracter)+' ,linea: '+str(line_count))
-            contadorCaracter = contadorCaracter+1
+                lista) + '] en caracter: '+str(contador_caracter)+' ,linea: '+str(line_count))
+            contador_caracter += 1
             lista = lista[1:]
         return lista, token
 
