@@ -25,9 +25,9 @@ parse = []
 
 
 class Token:
-    def __init__(self, entry, key, linea):
-        self.entry = entry
+    def __init__(self, key, entry, linea):
         self.key = key
+        self.entry = entry
         self.linea = linea
 
     def to_string(self):

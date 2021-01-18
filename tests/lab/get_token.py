@@ -17,15 +17,15 @@ class Token:
 def pedir_token():
     global line_count, file_lines
 
-    token = get_token() if file_lines else Token(
+    token = get_token() if not (len(file_lines) == 1 and file_lines[0] == '') else Token(
         'final', 'eof', line_count)
 
     if token.tipo == 'final' and token.valor == 'eol':
         file_lines = file_lines[1:]
         line_count += 1
-        pedir_token()
-    else:
-        return token
+        token = pedir_token()
+
+    return token
 
 
 def get_token():
@@ -39,10 +39,13 @@ def get_token():
         elif linea == '\n':
             return Token('palabra', palabra, line_count)
         elif linea[0] == ' ':
+            file_lines[0] = file_lines[0][1:]
             return Token('palabra', palabra, line_count)
         else:
             palabra += linea[0]
             linea = file_lines[0] = file_lines[0][1:]
+            if linea == '':
+                return Token('palabra', palabra, line_count)
 
     return None
 

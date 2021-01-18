@@ -21,8 +21,11 @@ def generar_error(fallo):
     pass
 
 
-def generar_token(token_code, atribute):
-
+def generar_token(key, value):
+    """
+    Inputs: token key, token value
+    Output: token
+    """
     found = False
     with open(master.file_paths['token_source']) as token_source:
         token_dict = json.load(token_source)
