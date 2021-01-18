@@ -25,13 +25,13 @@ parse = []
 
 
 class Token:
-    def __init__(self, key, entry, linea):
+    def __init__(self, key, value, linea):
         self.key = key
-        self.entry = entry
+        self.value = value
         self.linea = linea
 
     def to_string(self):
-        return '<'+self.entry+','+self.key+'>'
+        return '<'+self.value+','+self.key+'>'
 
 
 class Simbolo:
@@ -113,7 +113,7 @@ class Tabla_Simbolos:
 
 def main():
     # declaracion de variables globales
-    global token_file, open_comment, line_count
+    global token_file, open_comment, line_count, error_file
     # Parses argument, and requires the user to provide one file
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument('-f', type=str, nargs=1,

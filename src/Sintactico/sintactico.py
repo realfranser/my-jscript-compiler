@@ -1,4 +1,4 @@
-# Este es el analizador sintactico
+# Analizador sintactico
 from Lexico import lexico
 from Semantico import semantico
 import master
@@ -6,10 +6,14 @@ from master import Token, Simbolo, Tabla_Simbolos, line_count, parse
 
 
 # ATRIBUTES
-global file_lines
+global file_lines, last_line
+
+last_line = False
 
 
 # FUNCTIONS
+
+
 def analizador(file_path):
     """
     Recibe una liena como entrada del analizador general y hace la generacion del arbol
@@ -33,6 +37,8 @@ def pedir_token():
     global line_count, file_lines
 
     if file_lines:
+        last_line = True if len(file_lines) == 1 else False
+
         file_lines[0], token = lexico.get_token(file_lines[0])
 
         if token.key == 'final' and token.entry == 'eol':
@@ -238,7 +244,6 @@ def L():
         parse.append(28)
         E()
         Q()
-        param = []
     elif sig_token == 'closePar':
         parse.append(29)
     else:
