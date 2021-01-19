@@ -17,9 +17,6 @@ file_paths = {
     "parse": "tests/output/parse.txt"
 }
 
-token_list = []
-tablas_simbolos = {}
-parse = []
 
 # imported by other files
 line_count = 1
@@ -119,32 +116,30 @@ class Tabla_Simbolos:
 
 def main():
     # declaracion de variables globales
-    global token_file, open_comment, line_count
+    global token_file, open_comment, line_count, token_list
     # Parses argument, and requires the user to provide one file
    # parser = argparse.ArgumentParser(add_help=True)
     # parser.add_argument('-f', type=str, nargs=1,
     # help='Required filename you want to compile')
-    #args = parser.parse_args()
+    # args = parser.parse_args()
 
-    #test_file_path = args.f[0]
+    # test_file_path = args.f[0]
     test_file_path = './tests/test2.js'
     """
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished
     """
-    with open(file_paths["token_output"], 'w') as token_file, open(file_paths["ts"], 'w') as ts_file, open(file_paths["parse"], 'w') as parse_file:
+    with open(file_paths["token_output"], 'w') as token_file, open(file_paths["ts"], 'w') as ts_file, open(file_paths["parse"], 'w') as parse_file, open(file_paths["error"], 'w') as error_file:
 
         open_comment = False
         line_count = 1
 
-        sintactico.analizador(test_file_path)
+        parse, token_list, tablas_simbolos = sintactico.analizador(
+            test_file_path)
 
         # Escribir en el fichero tabla de simbolos, todas las tablas de simbolos
         for tabla in tablas_simbolos:
             ts_file.write(tabla.to_string+"\n\n")
-
-        # Se anyade para ver si ha terminado el archivo
-        token_list.append(Token('final', '$', line_count-1))
 
         # Escribir en el fichero parse, todos los parses
         parse_string = 'Descendente'
@@ -154,9 +149,12 @@ def main():
 
         # Escribir en el fichero token_file todos los tokens
         token_string = ''
-        for token in token_list:
-            token_string += token.to_string
+        for token in token_list[:-1]:
+            token_string += (token.to_string() + '\n')
         token_file.write(token_string)
+
+        # Escribir en el fichero de errores
+        error_file.write("Compilado sin errores")
 
 
 if __name__ == '__main__':

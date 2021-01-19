@@ -62,7 +62,6 @@ def get_token(lista):
                 if leer_char(lista) == '*':
                     contador_caracter += 1
                     lista = lista[1:]
-                    cerradoEnCaracter = contador_caracter
                     if leer_char(lista) == '/':
                         contador_caracter += 1
                         lista = lista[1:]
@@ -74,12 +73,12 @@ def get_token(lista):
                 else:
                     contador_caracter += 1
                     lista = lista[1:]
-            if(open_comment == False):
-                print('!! Atención: */ comentario en bloque cerrado en caracter: ' +
-                      str(cerradoEnCaracter)+' ,linea: '+str(master.line_count))
             if not lista and open_comment and (master.last_line):
                 generar_error('++ Error: /* comentario en bloque no se cierra')
                 return lista, token
+
+        elif master.last_line and lista == '\n':
+            return lista, Token('final', '$', master.line_count)
 
         elif leer_char(lista) == '\n':
             contador_caracter += 1
@@ -97,7 +96,7 @@ def get_token(lista):
             if leer_char(lista) == '+':
                 contador_caracter += 1
                 lista = lista[1:]
-                token = generar_token('auto_inc', 'auto_inc')
+                token = generar_token('auto_inc_op', 'auto_inc')
             else:
                 token = generar_token('arit_op', 'plus')
             return lista, token
@@ -108,7 +107,7 @@ def get_token(lista):
             if leer_char(lista) == '-':
                 contador_caracter += 1
                 lista = lista[1:]
-                token = generar_token('autoDecOp', 'autodec')
+                token = generar_token('auto_dec_op', 'auto_dec')
             else:
                 token = generar_token('arit_op', 'minus')
             return lista, token

@@ -40,6 +40,7 @@ S -> INPUT ( ID ) ;
 S -> RETURN X ;
 S1 -> = E ;
 S1 -> ( L ) ;
+S1 -> ++ ;
 
 L -> E Q 
 L -> lambda

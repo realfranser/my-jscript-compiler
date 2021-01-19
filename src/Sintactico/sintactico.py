@@ -2,12 +2,15 @@
 from Lexico import lexico
 from Semantico import semantico
 import master
-from master import Token, Simbolo, Tabla_Simbolos, parse
+from master import Token, Simbolo, Tabla_Simbolos
 
 
 # ATRIBUTES
-global file_lines, sig_token
+global file_lines, sig_token, parse
 
+parse = []
+master.token_list = []
+master.tablas_simbolos = {}
 
 # FUNCTIONS
 
@@ -27,6 +30,8 @@ def analizador(file_path):
     sig_token = pedir_token()
     # llama al estado inicial
     P(Simbolo(lexema=None))
+
+    return parse, master.token_list, master.tablas_simbolos
 
 
 def pedir_token():
@@ -266,7 +271,7 @@ def S(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'ID':
+    if sig_token.key == 'ID':
         parse.append(22)
         # ID S1
         equipara('ID')
@@ -315,6 +320,10 @@ def S1(simbolo):
         equipara('open_par')
         simbolo = L(simbolo)
         equipara('close_par')
+        equipara('semicolon')
+    elif valor == 'auto_inc':
+        # ++ ;
+        equipara('auto_inc')
         equipara('semicolon')
     else:
         error_parse(sig_token)

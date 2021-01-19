@@ -33,6 +33,11 @@ def multiple_triple_comparator(value):
     return ((value and elem) == ('word' or 'pax' or 'cike'))
 
 
+def except_last(lista):
+    for element in lista[:-1]:
+        print(element)
+
+
 def main():
     #global lista
     # comprobar(lista)
@@ -41,8 +46,10 @@ def main():
     #print(comparador_triple(1, 2, 3))
     #print(comparador_triple(1, 2, 1))
     #print(comparador_triple(1, 1, 1))
-    print(multiple_triple_comparator('pax'))
-    print(multiple_triple_comparator('word'))
+    # print(multiple_triple_comparator('pax'))
+    # print(multiple_triple_comparator('word'))
+    lista = ['a', 'b', 'c']
+    except_last(lista)
 
 
 if __name__ == '__main__':
