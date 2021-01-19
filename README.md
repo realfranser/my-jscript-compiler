@@ -4,7 +4,6 @@ El workdlow de nuestra practica se divide en tres carpetas principales, este rea
         el PDF que se entrego como las imagenes, tablas , arboles y otro elementos necesarios dentro 
 	de este. Ademas tambien se puede ver un archivo .tex (tipo latex) este es con el que   
 	editabamos el pdf.
-	
 	**src:**
       - En el encontramos la parte principal del codigo. 
       - Dentro estan las carpertas __Lexico__, __Semantico__ y __Sintatico__. En estas encontramos el codigo en
@@ -14,7 +13,6 @@ El workdlow de nuestra practica se divide en tres carpetas principales, este rea
        en python y su uso en los demas documentos.
        - El archivo __master.py__ es donde podemos encontrar todo lo gordo del programa
        - No se que hay en __pycache__
-       
        **test**
        
        
