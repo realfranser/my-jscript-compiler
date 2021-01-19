@@ -88,8 +88,6 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         simbolo_actual = find(Simbolo(token.value)) # problema devuelve simbolo sin tipo
         if simbolo_actual == 'null':
             error_semantico('Error Semantico: Variable sin declarar')
-        print(simbolo_actual.__dict__)
-        print(simbolo.__dict__)
         if simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
