@@ -22,4 +22,10 @@ function Imprime(number a) {
     alert(a);
     return a;	/* esta instrucción se podría omitir*/
 }	/* la función no devuelve nada*/
+
+do {
+    x++;
+    alert(x);
+
+} while (x != 5);
 Imprime(factorial(Suma(5, 3)));	/* se llama a las tres funciones*/

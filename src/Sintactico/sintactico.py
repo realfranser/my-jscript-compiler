@@ -2,8 +2,8 @@
 from Lexico import lexico
 import master
 from master import Token, Simbolo, Tabla_Simbolos
-from Semantico import semantico
-from Semantico.semantico import analizar
+# from Semantico import semantico
+# from Semantico.semantico import analizar
 
 
 # ATRIBUTES
@@ -29,10 +29,9 @@ def analizador(file_path):
     # Obtiene el primer token
     sig_token = pedir_token()
     # llama al estado inicial
-    analizar(0, None, None)
     P(Simbolo(lexema=None))
 
-    tablas = semantico.tablas
+    tablas = []
 
     return master.parse, master.token_list, tablas
 
@@ -278,10 +277,8 @@ def S(simbolo):
     if sig_token.key == 'ID':
         master.parse.append(22)
         # ID S1
-        token = sig_token
         equipara('ID')
         simbolo = S1(simbolo)
-        semantico.analizar(22, simbolo, token)
     elif valor == 'alert':
         master.parse.append(23)
         # alert ( E ) ;
@@ -303,7 +300,6 @@ def S(simbolo):
         # return X ;
         equipara('return')
         simbolo = X(simbolo)
-        analizar(25, simbolo, sig_token)
         equipara('semicolon')
     else:
         error_parse(sig_token)
@@ -331,7 +327,6 @@ def S1(simbolo):
     elif valor == 'auto_inc':
         master.parse.append(53)
         # ++ ;
-        simbolo = analizar(53, simbolo, sig_token)
         equipara('auto_inc')
         equipara('semicolon')
     else:
@@ -402,7 +397,6 @@ def B(simbolo):
         equipara('if')
         equipara('open_par')
         simbolo = E(simbolo)
-        analizar(34, simbolo, None)
         equipara('close_par')
         simbolo = S(simbolo)
 
@@ -411,7 +405,6 @@ def B(simbolo):
         # let T ID ;
         equipara('let')
         simbolo = T(simbolo)
-        semantico.analizar(35, simbolo, sig_token)
         equipara('ID')
         equipara('semicolon')
 
@@ -445,15 +438,12 @@ def T(simbolo):
     if valor == 'number':
         master.parse.append(38)
         equipara('number')
-        simbolo = analizar(38, simbolo, sig_token)
     elif valor == 'boolean':
         master.parse.append(39)
         equipara('boolean')
-        simbolo = analizar(39, simbolo, sig_token)
     elif valor == 'string':
         master.parse.append(40)
         equipara('string')
-        simbolo = analizar(40, simbolo, sig_token)
     else:
         error_parse(sig_token)
 
@@ -469,12 +459,10 @@ def F(simbolo):
         # function H ID ( A ) { C }
         equipara('function')
         simbolo = H(simbolo)
-        semantico.analizar(410, simbolo, sig_token)
         equipara('ID')
         equipara('open_par')
         simbolo = A(simbolo)
         equipara('close_par')
-        semantico.analizar(411, simbolo, sig_token)
         equipara('open_braq')
         simbolo = C(simbolo)
         equipara('close_braq')
@@ -495,7 +483,6 @@ def H(simbolo):
         simbolo = T(simbolo)
     elif sig_token.key == 'ID':
         master.parse.append(43)
-        simbolo = Simbolo(valor, tipo='function')
     else:
         error_parse(sig_token)
 
