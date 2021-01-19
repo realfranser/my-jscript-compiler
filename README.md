@@ -5,7 +5,7 @@ El workdlow de nuestra practica se divide en tres carpetas principales, este rea
 	de este. Ademas tambien se puede ver un archivo .tex (tipo latex) este es con el que   
 	editabamos el pdf.
 	**src:**
-      - En el encontramos la parte principal del codigo. 
+	En el encontramos la parte principal del codigo. 
       - Dentro estan las carpertas __Lexico__, __Semantico__ y __Sintatico__. En estas encontramos el codigo en
       	python de cada una y ademas una carpeta Docs dentro, en us intererior podemos ubicar las gramaticas y 
 	tablas usadas, asimismo tambien las correciones que los profesores nos devolvieron, con los errores               cometidos.
