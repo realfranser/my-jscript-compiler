@@ -7,3 +7,7 @@ let number c;
 let boolean f;
 a = b + c;
 k = a == b;
+if(a==b)a=0;
+do{let number f; f = 3;}while(a==c);
+function aa (boolean p,number s){let number g;}
+function bb (number p,number g){let boolean g;}

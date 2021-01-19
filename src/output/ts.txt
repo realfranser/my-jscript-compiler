@@ -21,5 +21,39 @@ Contenido Tabla Simbolos # 0 :
 	+ Despl: 2
 * LEXEMA : 'f'
   ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
+* LEXEMA : 'f'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
+* LEXEMA : 'aa'
+  ATRIBUTOS :
+	+ tipo: funcion
+	+ numParam: 1
+	+ TipoParam1: boolean
+	+ ModoParam1: 1
+* LEXEMA : 'bb'
+  ATRIBUTOS :
+	+ tipo: funcion
+	+ numParam: 1
+	+ TipoParam1: int
+	+ ModoParam1: 1
+Contenido Tabla Simbolos # 1 :
+* LEXEMA : 'p'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
+* LEXEMA : 'g'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
+Contenido Tabla Simbolos # 2 :
+* LEXEMA : 'p'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
+* LEXEMA : 'g'
+  ATRIBUTOS :
 	+ tipo: boolean
 	+ Despl: 1

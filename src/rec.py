@@ -101,17 +101,19 @@ def writeTS(tabla):
 					lineaTS = '	+ Despl: ' + str(simbolo.despl) +'\n'
 					TSFile.write(lineaTS)
 
-				# if simbolo.numParam != 0:
-				# 	lineaTS = '	+ numParam: ' + str(simbolo.numParam) +'\n'
-				# 	TSFile.write(lineaTS)
-				# if simbolo.tipoParam and simbolo.modoParam:
-				# 		counter = 1
-				# 		for j in simbolo.tipoParam :
-				# 			#for i in simbolo.modoParam:   ------ revisar in da future
-				# 			lineaTS = '	+ TipoParam'+str(counter)+': ' + j +'\n'
-				# 			TSFile.write(lineaTS)
-				# 			lineaTS = '	+ ModoParam'+str(counter)+': ' + j +'\n'
-				# 			TSFile.write(lineaTS)
+
+					
+				if simbolo.param and simbolo.tipo == 'funcion':
+						print(simbolo.lexema)
+						lineaTS = '	+ numParam: ' + str(len(simbolo.param)) +'\n'
+						TSFile.write(lineaTS)
+						counter = 1
+						for j in simbolo.param :
+							#for i in simbolo.modoParam:   ------ revisar in da future
+							lineaTS = '	+ TipoParam'+str(counter)+': ' + str(j[0]) +'\n'
+							TSFile.write(lineaTS)
+							lineaTS = '	+ ModoParam'+str(counter)+': ' + str(j[1])+'\n'
+							TSFile.write(lineaTS)
 
 				# if simbolo.tipoRetorno != None:
 				# 	lineaTS = '	+ TipoRetorno: ' + simbolo.tipoRetorno +'\n'
@@ -780,15 +782,13 @@ def B(simbolo):
 		equipara('let')
 		t=T(simbolo)
 		t.lexema = sig_token.atribute
-		
 		equipara('ID')
 		equipara('semicolon')
 		
 		addToTS(t)
 		return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'alert' or sig_token.token == 'ID' or sig_token.token == 'input' or sig_token.token == 'return':
-		parse.append(36)
-
+		parse.append(36) # revisar 
 		t = S(simbolo)
 		return simbolo		
 	elif sig_token.token == 'do':
@@ -800,6 +800,9 @@ def B(simbolo):
 	 	equipara('while')
 	 	equipara('openPar')
 	 	tt = E(t)
+	 	if (tt.tipo != 'boolean'):
+	 		print('error no es un boolean en el while')
+	 		exit()
 	 	equipara('closePar')
 	 	equipara('semicolon')
 	 	return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
@@ -814,18 +817,18 @@ def T(simbolo):
 		#lexema = sig_token.atribute
 		equipara('number')
 		
-		return Simbolo(numTabla=0,lexema = simbolo.lexema,tipo='int',despl=2,param=[],numParam=0,tipoRetorno=None)
+		return Simbolo(numTabla=simbolo.numTabla,lexema = simbolo.lexema,tipo='int',despl=2,param=simbolo.param,numParam=simbolo.numParam,tipoRetorno=simbolo.tipoRetorno)
 	elif sig_token.token == 'boolean':
 		parse.append(39)
 		#lexema = sig_token.atribute
 		equipara('boolean')
 		
-		return Simbolo(numTabla=0,lexema =simbolo.lexema,tipo='boolean',despl=1,param=[],numParam=0,tipoRetorno=None)
+		return Simbolo(numTabla=simbolo.numTabla,lexema =simbolo.lexema,tipo='boolean',despl=1,param=simbolo.param,numParam=simbolo.numParam,tipoRetorno=simbolo.tipoRetorno)
 	elif sig_token.token == 'string':
 		parse.append(40)
 		#lexema = sig_token.atribute
 		equipara('string')
-		return Simbolo(numTabla=0,lexema = simbolo.lexema,tipo='string',despl=64,param=[],numParam=0,tipoRetorno=None)
+		return Simbolo(numTabla=simbolo.numTabla,lexema = simbolo.lexema,tipo='string',despl=64,param=simbolo.param,numParam=simbolo.numParam,tipoRetorno=simbolo.tipoRetorno)
 	else:
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
@@ -836,8 +839,8 @@ def F(simbolo):
 		parse.append(41)
 		equipara('function')
 		t = H(simbolo)
-		t.lexema= sig_token.atribute
-		t.tipo = 'funcion'
+		lexema= sig_token.atribute
+		t.numTabla = TS[-2].numTabla+1
 		equipara('ID')
 		equipara('openPar')
 		tt = A(t)
@@ -846,7 +849,10 @@ def F(simbolo):
 		equipara('openBraq')
 		ttt = C(tt)
 		equipara('closeBraq')
-		addToTS(ttt)
+		tt.numTabla=0
+		tt.lexema = lexema
+		tt.tipo = 'funcion'
+		addToTS(tt)
 		return ttt
 	else:
 		errorParse(Token(sig_token.token,lineaSint,'error'))
@@ -868,12 +874,19 @@ def H(simbolo):
 def A(simbolo):
 	print(simbolo.__dict__) 
 	print(inspect.currentframe().f_code.co_name)
+	
 	if sig_token.token == 'boolean' or sig_token.token == 'number' or sig_token.token == 'string':
 		parse.append(44)
 		t = T(simbolo)
+		simbolo.param.append([t.tipo,1])
+		simbolo.numParam = simbolo.numParam + 1
+		lexema = sig_token.atribute
+		t.lexema =lexema
 		equipara('ID')
 		tt = K(t)
-		return tt
+		addToTS(tt)
+		
+		return simbolo
 	elif sig_token.token == 'closePar':
 		parse.append(45)
 		return Simbolo
@@ -918,7 +931,6 @@ def P(simbolo):
 	if sig_token.token == 'alert' or  sig_token.token == 'do' or  sig_token.token == 'ID' or  sig_token.token == 'if' or  sig_token.token =='input' or  sig_token.token =='let' or  sig_token.token =='return':
 		parse.append(50)
 		t=B(simbolo)
-		#printTabla(TS)
 		tt=P(t)
 		return tt
 	elif sig_token.token == 'function':
@@ -980,6 +992,7 @@ def main():
 	# 	writeTS(TS)
 	# 	TL.append(Token('$',lastLine)) # se añade para saber que se ha terminado el archivo
 		A_sint()
+		printTabla(TS)
 		writeTS(TS)
 		writeParse(parse)
 	test.close()
