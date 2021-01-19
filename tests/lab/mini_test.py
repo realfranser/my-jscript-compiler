@@ -26,14 +26,23 @@ def comparador_triple(a, b, c):
     return a == b == c
 
 
+elem = 'word'
+
+
+def multiple_triple_comparator(value):
+    return ((value and elem) == ('word' or 'pax' or 'cike'))
+
+
 def main():
     #global lista
     # comprobar(lista)
     # print(sumar_uno(1))
     # print(simbolo_test(1))
-    print(comparador_triple(1, 2, 3))
-    print(comparador_triple(1, 2, 1))
-    print(comparador_triple(1, 1, 1))
+    #print(comparador_triple(1, 2, 3))
+    #print(comparador_triple(1, 2, 1))
+    #print(comparador_triple(1, 1, 1))
+    print(multiple_triple_comparator('pax'))
+    print(multiple_triple_comparator('word'))
 
 
 if __name__ == '__main__':

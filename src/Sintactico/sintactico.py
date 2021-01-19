@@ -2,7 +2,7 @@
 from Lexico import lexico
 from Semantico import semantico
 import master
-from master import Token, Simbolo, Tabla_Simbolos, line_count, parse
+from master import Token, Simbolo, Tabla_Simbolos, parse
 
 
 # ATRIBUTES
@@ -34,7 +34,7 @@ def pedir_token():
     se encarga de recorrer los elementos del fichero de entrada
     y llamar a la funcion get_token del analizador lexico
     """
-    global line_count, file_lines, sig_token
+    global file_lines, sig_token
 
     if file_lines:
         master.last_line = True if len(file_lines) == 1 else False
@@ -46,10 +46,9 @@ def pedir_token():
 
         elif token.key == 'final' and token.value == 'eol':
             file_lines = file_lines[1:]
-            line_count += 1
+            master.line_count += 1
             token = pedir_token()
 
-    master.token_list.append(token)
     return token
 
 
@@ -71,11 +70,16 @@ def equipara(valor):
 
     if 'ID' == valor == sig_token.key:
         sig_token = pedir_token()
+    elif 'whole_const' == valor == sig_token.key:
+        sig_token = pedir_token()
+    elif 'chain' == valor == sig_token.key:
+        sig_token = pedir_token()
     elif sig_token.value == valor:
         sig_token = pedir_token()
     else:
-        error_parse(Token('equipara', 'error', line_count))
+        error_parse(Token('equipara', 'error', master.line_count))
 
+    master.token_list.append(sig_token)
 
 # Una función para cada no terminal (y una rama para cada regla)
 
@@ -84,7 +88,7 @@ def E(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(1)
         # (not or open_par or chain or whole_const or ...) R E1
         simbolo = R(simbolo)
@@ -117,7 +121,7 @@ def R(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(4)
         # (not or open_par or ...) U R1
         simbolo = U(simbolo)
@@ -156,7 +160,7 @@ def U(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(8)
         # (not or open_par or ...) V U1
         simbolo = V(simbolo)
@@ -206,12 +210,12 @@ def V(simbolo):
         equipara('open_par')
         simbolo = E(simbolo)
         equipara('close_par')
-    elif valor == 'whole_const':
+    elif sig_token.key == 'whole_const':
         parse.append(14)
         # whole_const
         equipara('whole_const')
         simbolo = Simbolo('hacer semantico aqui')
-    elif valor == 'chain':
+    elif sig_token.key == 'chain':
         parse.append(15)
         # chain
         equipara('chain')
@@ -322,7 +326,7 @@ def L(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(28)
         # (not or open_par or ...) E Q
         simbolo = E(simbolo)
@@ -357,7 +361,7 @@ def X(simbolo):
 
     valor = sig_token.value
 
-    if valor == 'not' or valor == 'open_par' or valor == 'chain' or valor == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
+    if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         parse.append(32)
         # (not or open_par or ...) E
         simbolo = E(simbolo)
