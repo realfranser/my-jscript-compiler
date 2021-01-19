@@ -22,6 +22,7 @@ file_paths = {
 line_count = 1
 open_comment = False
 last_line = False
+parse = []
 
 
 # CLASSES
@@ -34,7 +35,7 @@ class Token:
         self.linea = linea
 
     def to_string(self):
-        return '<'+self.value+','+self.key+'>'
+        return '<'+self.key+','+self.value+'>'
 
 
 class Simbolo:
@@ -110,6 +111,12 @@ class Tabla_Simbolos:
             string += '	+ Tipo: ' + simbolo.param + '\n' if simbolo.param != None else ''
 
         return string
+
+    def find(self, token):
+        for entry in self.entradas:
+            if entry.lexema == token.value:
+                return True
+        return False
 
 # FUNCTIONS
 

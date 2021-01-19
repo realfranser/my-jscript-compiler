@@ -1,1 +1,1 @@
-Error sintactico: semicolon, en linea: 5
+Compilado sin errores

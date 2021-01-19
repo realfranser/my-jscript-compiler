@@ -34,10 +34,8 @@ def generar_token(key, value):
                 token = Token(key, value, master.line_count)
                 found = True
                 break
-        if not found:  # Esto no tiene ningun sentido
-            pos = 0  # addToTS(0, value)  # Editar cuando hagamos semantico
-            # tabla_simbolos_actual.add(elemento)
-            token = Token('ID', str(pos), master.line_count)
+        if not found:
+            token = Token('ID', value, master.line_count)
     else:
         token = Token(key, value, master.line_count)
 
