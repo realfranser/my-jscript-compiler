@@ -1,9 +1,9 @@
 let number a;
 let number b;
 let boolean bbb;
-a = 3;
-b = 4;
-let boolean c;
-function pepe ( boolean a ) { 
-f="jkjk" ;
-}
+let boolean k;
+a=3;
+let number c;
+let boolean f;
+a = b + c;
+k = a == b;

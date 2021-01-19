@@ -11,11 +11,15 @@ Contenido Tabla Simbolos # 0 :
   ATRIBUTOS :
 	+ tipo: boolean
 	+ Despl: 1
-* LEXEMA : 'pepe'
+* LEXEMA : 'k'
   ATRIBUTOS :
-	+ tipo: funcion
+	+ tipo: boolean
 	+ Despl: 1
-* LEXEMA : 'pepe'
+* LEXEMA : 'c'
   ATRIBUTOS :
-	+ tipo: string
-	+ Despl: 64
+	+ tipo: int
+	+ Despl: 2
+* LEXEMA : 'f'
+  ATRIBUTOS :
+	+ tipo: boolean
+	+ Despl: 1

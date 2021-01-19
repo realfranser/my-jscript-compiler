@@ -1,5 +1,6 @@
 import json
 import argparse
+import inspect
 
 
 
@@ -26,14 +27,14 @@ parse=[]
 
 
 class Simbolo:
-	def __init__ (self,numTabla=0,lexema=None,tipo= None,despl=0,param=[],tipoRetorno = None):
+	def __init__ (self,numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno = None):
 		# tipo Simbolo , Tabla de Simbolos matriz de 'Simbolo',
 		self.numTabla = numTabla # Tabla a la que pertenece el simbolo
 		self.lexema = lexema # lexema de linea 
 		self.tipo = tipo 	 # tipo de identificador ej: int, boolean ,'cadena'
 		self.despl = despl   # direccion relativa
 		self.param = param  # lista de tipo [[tipo param,modoparam],[tipo param,modoparam],...]
-		#self.numParam = numParam # parametros subprograma
+		self.numParam = numParam # parametros subprograma
 		#self.tipoParam = tipoParam # lista tipos parametros subprograma
 		#self.modoParam = tipoRetorno # lista modo de paso parametro subprograma
 		self.tipoRetorno = tipoRetorno  # tipo devuelto por funcion
@@ -70,14 +71,17 @@ def getLexema(tabla,lexema):
 	for i in tabla:
 		if i.lexema == lexema:
 			return i
-	return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],tipoRetorno=None)
+	return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
 
 
 def addToTS(simbolo):
-	if getLexema(TS,Simbolo)!= Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],tipoRetorno=None) and Simbolo != Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],tipoRetorno=None):
+	print('Simbolo añadido: ' +str(simbolo.__dict__))
+	if getLexema(TS,Simbolo)!= Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None) and Simbolo != Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None):
 		TS.append(simbolo) # ACTUALIZAR !!! en caso de que ya exista actualizar el valor
 	return len(TS)
-
+def printTabla(tabla):
+	for simbolo in tabla:
+		print(simbolo.__dict__)
 def writeTS(tabla):
 	nums = getNumTabla(tabla)
 	for tsNumber in nums:
@@ -124,6 +128,7 @@ def writeTS(tabla):
 								
 def generarToken(tokenCode,atribute,linea):
 	found =False
+	print('token:'+atribute)
 	with  open(sourceTokenFilePath) as sourceTokenFile:
 		data = json.load(sourceTokenFile)
 		if tokenCode == 'reservedWord':#buscar en token.json
@@ -215,7 +220,7 @@ def analizadorLinea(lista, lineCounter):
 			if leerChar(lista) == '+':
 				contadorCaracter = contadorCaracter+1
 				lista = lista[1:]
-				token = generarToken('autoIncOp','autoinc',lineCounter)
+				token = generarToken('autoIncOp','autoInc',lineCounter)
 			else:
 				token = generarToken('aritOp','plus',lineCounter)
 			return lista,token
@@ -430,7 +435,7 @@ def A_sint():
 	
 	sig_token=getNextToken()
 	lineaSint =sig_token.linea
-	p= P(Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],tipoRetorno=None)) # deduzco que es el axioma , en las diapositivas no pone nada
+	p= P(Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)) # deduzco que es el axioma , en las diapositivas no pone nada
 	
 	if sig_token.token != '$':
 		errorParse(Token('A_sint',lineaSint,'error'))
@@ -453,6 +458,8 @@ def errorParse(error):
 # Una función para cada no terminal (y una rama para cada regla)
 
 def E(simbolo):
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'not' or sig_token.token == 'openPar' or sig_token.token == 'chain' or sig_token.token == 'wholeConst' or sig_token.token == 'false' or sig_token.token == 'ID' or sig_token.token == 'true' :
 		parse.append(1) 
 		t = R(simbolo)
@@ -462,7 +469,8 @@ def E(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def E1(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'and':
 		parse.append(2)
 		equipara('and')
@@ -476,9 +484,11 @@ def E1(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def R(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'not' or sig_token.token == 'openPar' or sig_token.token =='chain' or sig_token.token =='wholeConst' or sig_token.token =='false' or sig_token.token =='ID' or sig_token.token =='true':
 		parse.append(4)
+		print(simbolo.__dict__)
 		t= U(simbolo)
 		tt = R1(t)
 		return tt
@@ -486,19 +496,33 @@ def R(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def R1(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'equals':
 		parse.append(5)
 		equipara('equals')
 		t = U(simbolo)
 		tt = R1(t)
-		return tt
+		print('tipos')
+		print(simbolo.__dict__)
+		print(t.__dict__)
+		print(tt.__dict__)
+		print('tipos')
+		if tt.tipo != simbolo.tipo:
+			print('no se puede comparar distintos tipos regla r1')
+			exit()
+		return Simbolo(numTabla=0,lexema=None,tipo='boolean',despl=1,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'notEquals':
 		parse.append(6)
 		equipara('notEquals')
 		t=U(simbolo)
+		t.tipo = 'boolean'
+		t.despl = 2
 		tt=R1(t)
-		return tt
+		if tt.tipo != simbolo.tipo:
+			print('no se puede comparar distintos tipos regla r1')
+			exit()
+		return simbolo
 	elif sig_token.token == 'and' or sig_token.token == 'closePar' or sig_token.token == 'colon' or sig_token.token == 'semicolon':
 		parse.append(7)
 		return simbolo
@@ -507,27 +531,39 @@ def R1(simbolo):
 
 
 def U(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'not' or sig_token.token == 'openPar' or sig_token.token =='chain' or sig_token.token =='wholeConst' or sig_token.token =='false' or sig_token.token =='ID' or sig_token.token =='true':
 		parse.append(8)
 		t =V(simbolo)
 		tt =U1(t)
+		if t.tipo != tt.tipo:
+			print('error en regla U'+str(sig_token.linea))
+			exit()
 		return tt
 	else:
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def U1(simbolo):
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'plus':
 		parse.append(9)
 		equipara('plus')
 		t =V(simbolo)
 		tt =U1(t)
+		if t.tipo != tt.tipo or (t.tipo!='int' and t.tipo != 'string'):
+			print('error en regla u1 + '+str(sig_token.linea))
+			exit()
 		return tt
 	elif sig_token.token == 'minus':
 		parse.append(10)
 		equipara('minus')
 		t =V(simbolo)
 		tt =U1(t)
+		if t.tipo != tt.tipo or t.tipo!='number':
+			print('error en regla u1 - '+str(sig_token.linea))
+			exit()
 		return tt
 	elif sig_token.token == 'notEquals' or sig_token.token == 'and' or sig_token.token == 'closePar' or sig_token.token == 'colon' or sig_token.token == 'semicolon' or sig_token.token == 'equals':
 		parse.append(11)
@@ -536,54 +572,83 @@ def U1(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def V(simbolo):
-	 
+	 print(simbolo.__dict__) 
+	 print(inspect.currentframe().f_code.co_name)
 	 if sig_token.token == 'ID':
 	 	parse.append(12)
 	 	atribute = sig_token.atribute
+	 	simbolo = getLexema(TS,sig_token.atribute) ## get de ts el simbolo de este id
 	 	equipara('ID')
 	 	t = V1(simbolo)
-	 	t.lexema = atribute
+	 	
+	 	#if t.tipo != id.tipo:
+	 		#print('error el tipo de las variables no concuerda '+t.tipo+'!='+id.tipo+' regla v')
+	 		#exit()
 	 	return t
 	 elif sig_token.token == 'openPar':
 	 	parse.append(13)
 	 	equipara('openPar')
 	 	t = E(simbolo)
+
 	 	equipara('closePar')
 	 	return t
 	 elif sig_token.token == 'wholeConst':
 	 	parse.append(14)
 	 	equipara('wholeConst')
-	 	return Simbolo(numTabla=0,lexema=simbolo.lexema,tipo='int',despl=2,param=[],tipoRetorno=None)
+	 	simbolo.tipo = 'int'
+	 	simbolo.despl = 2
+	 	return simbolo
 	 elif sig_token.token == 'chain':
 	 	parse.append(15)
 	 	equipara('chain')
-	 	return Simbolo(numTabla=0,lexema=simbolo.lexema,tipo='string',despl=64,param=[],tipoRetorno=None)
+	 	simbolo.tipo = 'string'
+	 	simbolo.despl = 1
+	 	return simbolo
 	 elif sig_token.token == 'true':
 	 	parse.append(16)
 	 	equipara('true')
-	 	return Simbolo(numTabla=0,lexema=simbolo.lexema,tipo='boolean',despl=1,param=[],tipoRetorno=None)
+	 	simbolo.tipo = 'boolean'
+	 	simbolo.despl = 1
+	 	return simbolo
 	 elif sig_token.token == 'false':
 	 	parse.append(17)
 	 	equipara('false')
-	 	return Simbolo(numTabla=0,lexema=simbolo.lexema,tipo= 'boolean',despl=1,param=[],tipoRetorno=None)
+	 	simbolo.tipo = 'boolean'
+	 	simbolo.despl = 1
+	 	return simbolo
 	 elif sig_token.token == 'not':
 	 	parse.append(18)
 	 	equipara('not')
+	 	if getLexema(TS,sig_token.atribute).tipo != 'boolean':
+	 		print('error en la variable despues del not no es boolean regla v')
+	 		exit()
+	 	elif getLexema(TS,sig_token.atribute).lexema != None:
+	 		print('error, usando variable no declarada, regla v')
+	 		exit()
 	 	equipara('ID')
-	 	return Simbolo(numTabla=0,lexema=simbolo.lexema,tipo= 'boolean',despl=1,param=[],tipoRetorno=None)
+	 	simbolo.tipo = 'boolean'
+	 	simbolo.despl = 1
+	 	return simbolo
 
 
 def V1(simbolo):
-	
+	print(sig_token.token)
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'openPar':
 	 	parse.append(19)
 	 	equipara('openPar')
 	 	t =L(simbolo)
 	 	equipara('closePar')
+	 	if simbolo.numParam != t.numParam or simbolo.tipo != t.tipo:
+	 		print('error en numero de parametros o tipo de parametros')
+	 		exit()
 	 	return t
 	elif sig_token.token == 'autoInc':
 	 	parse.append(20)
 	 	equipara('autoInc')
+	 	simbolo.tipo = 'int'
+	 	simbolo.despl = 2
 	 	return simbolo
 	elif sig_token.token == 'notEquals' or sig_token.token == 'and' or sig_token.token == 'closePar' or sig_token.token == 'plus' or sig_token.token == 'colon' or sig_token.token == 'minus' or sig_token.token == 'semicolon' or sig_token.token == 'equals':
 		parse.append(21)
@@ -594,14 +659,19 @@ def V1(simbolo):
 
 
 def S(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'ID':
 		parse.append(22)
-		p = getLexema(TS,sig_token.atribute)
+		simbolo = getLexema(TS,sig_token.atribute) # busco el tipo en la ts
+		if(simbolo.lexema == None):
+			print('simbolo no encontrado,token: '+str(sig_token.atribute))
+			exit()
 		equipara('ID') # creo que aqui hay que consultar la ts, buscar el id mirar el tipo y contrastar 
 		t = S1(simbolo)
-		if (t.tipo != p.tipo and t == Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],tipoRetorno=None)):
+		if (t.tipo != simbolo.tipo):
 			print('malllllll')
+			exit()
 		return t
 	elif sig_token.token == 'alert':
 		parse.append(23)
@@ -626,7 +696,8 @@ def S(simbolo):
 		equipara('semicolon')
 		return t
 def S1(simbolo): 
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'equal':
 		parse.append(26)
 		equipara('equal')
@@ -645,11 +716,16 @@ def S1(simbolo):
 
 
 def L(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'not' or sig_token.token == 'openPar' or sig_token.token =='chain' or sig_token.token =='wholeConst' or sig_token.token =='false' or sig_token.token =='ID' or sig_token.token =='true':
 		parse.append(28)
 		t=E(simbolo)
+		t.numParam = simbolo.numParam+1
+		t.param.append(t.tipo)
 		tt=Q(t)
+		tt.numParam = simbolo.numParam+1
+		tt.param.append(tt.tipo)
 		return tt
 	elif sig_token.token == 'closePar':
 		parse.append(29)
@@ -658,7 +734,8 @@ def L(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def Q(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'colon':
 		parse.append(30)
 		equipara('colon')
@@ -672,7 +749,8 @@ def Q(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def X(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'not' or sig_token.token == 'openPar' or sig_token.token =='chain' or sig_token.token =='wholeConst' or sig_token.token =='false' or sig_token.token =='ID' or sig_token.token =='true':
 		parse.append(32)
 		t= E()
@@ -684,29 +762,35 @@ def X(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def B(simbolo):
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'if':
 		parse.append(34)
 		equipara('if')
 		equipara('openPar')
 		t =E(simbolo)
-
+		if t.tipo != 'boolean':
+			print('dentro del if solo puede haber sentencias boolean, lexema:'+str(t.lexema)+' tipo:'+str(t.tipo))
+			exit()
 		equipara('closePar')
 		tt =S(t)
-		return tt
+		return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'let':
 		parse.append(35)
 		equipara('let')
 		t=T(simbolo)
 		t.lexema = sig_token.atribute
+		
 		equipara('ID')
 		equipara('semicolon')
+		
 		addToTS(t)
-		return t
+		return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'alert' or sig_token.token == 'ID' or sig_token.token == 'input' or sig_token.token == 'return':
 		parse.append(36)
 
 		t = S(simbolo)
-		return t		
+		return simbolo		
 	elif sig_token.token == 'do':
 	 	parse.append(37)
 	 	equipara('do')
@@ -718,33 +802,36 @@ def B(simbolo):
 	 	tt = E(t)
 	 	equipara('closePar')
 	 	equipara('semicolon')
-	 	return tt
+	 	return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
 	else:
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def T(simbolo):
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'number':
 		parse.append(38)
 		#lexema = sig_token.atribute
 		equipara('number')
 		
-		return Simbolo(numTabla=0,lexema = simbolo.lexema,tipo='int',despl=2,param=[],tipoRetorno=None)
+		return Simbolo(numTabla=0,lexema = simbolo.lexema,tipo='int',despl=2,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'boolean':
 		parse.append(39)
 		#lexema = sig_token.atribute
 		equipara('boolean')
 		
-		return Simbolo(numTabla=0,lexema =simbolo.lexema,tipo='boolean',despl=1,param=[],tipoRetorno=None)
+		return Simbolo(numTabla=0,lexema =simbolo.lexema,tipo='boolean',despl=1,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'string':
 		parse.append(40)
 		#lexema = sig_token.atribute
 		equipara('string')
-		return Simbolo(numTabla=0,lexema = simbolo.lexema,tipo='string',despl=64,param=[],tipoRetorno=None)
+		return Simbolo(numTabla=0,lexema = simbolo.lexema,tipo='string',despl=64,param=[],numParam=0,tipoRetorno=None)
 	else:
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def F(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'function':
 		parse.append(41)
 		equipara('function')
@@ -766,6 +853,8 @@ def F(simbolo):
 
 
 def H(simbolo):
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'boolean' or sig_token.token == 'number' or sig_token.token == 'string':
 		parse.append(42)
 		t = T(simbolo)
@@ -777,7 +866,8 @@ def H(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 		
 def A(simbolo):
-
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'boolean' or sig_token.token == 'number' or sig_token.token == 'string':
 		parse.append(44)
 		t = T(simbolo)
@@ -791,6 +881,8 @@ def A(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 		
 def K(simbolo):
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'colon':
  		parse.append(46)
  		equipara('colon')
@@ -805,7 +897,8 @@ def K(simbolo):
  		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def C(simbolo):
-	
+	print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'alert' or  sig_token.token == 'do' or  sig_token.token == 'ID' or sig_token.token == 'if' or  sig_token.token =='input' or  sig_token.token =='let' or  sig_token.token =='return':
 		
 		parse.append(48)
@@ -820,10 +913,12 @@ def C(simbolo):
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
 def P(simbolo):
-	#print(simbolo.__dict__)
+	#print(simbolo.__dict__) 
+	print(inspect.currentframe().f_code.co_name)
 	if sig_token.token == 'alert' or  sig_token.token == 'do' or  sig_token.token == 'ID' or  sig_token.token == 'if' or  sig_token.token =='input' or  sig_token.token =='let' or  sig_token.token =='return':
 		parse.append(50)
 		t=B(simbolo)
+		#printTabla(TS)
 		tt=P(t)
 		return tt
 	elif sig_token.token == 'function':
@@ -851,7 +946,7 @@ def main():
 	args = parser.parse_args()
 
 	
-	testFilePath = args.f[0]
+	testFilePath = 'pruebasDraco/pp.txt' #args.f[0]
 
     #
     # tokenFilePath, errorFilePath, TSFilePath have to be flushed each time .py is executed, do to this , these are opened in 'w' mode.
