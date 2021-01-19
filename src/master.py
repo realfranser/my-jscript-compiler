@@ -43,13 +43,12 @@ class Simbolo:
     Elemento que conforma las tablas de simbolos
     """
 
-    def __init__(self, lexema, tipo=None, despl=None, num_param=None, tipo_param=[], modo_paso=[], tipo_dev=None, etiqueta=None):
+    def __init__(self, lexema, tipo=None, despl=None, num_param=None, tipo_param=[], tipo_dev=None, etiqueta=None):
         self.lexema = lexema  # lexema de linea
         self.tipo = tipo 	 # tipo de identificador ej: int, boolean ,'cadena'
         self.despl = despl   # direccion relativa
         self.num_param = num_param  # parametros subprograma
         self.tipo_param = tipo_param  # lista tipos parametros subprograma
-        self.modo_paso = modo_paso  # lista modo de paso parametro subprograma
         self.tipo_dev = tipo_dev  # tipo devuelto por funcion
         self.etiqueta = etiqueta  # Etiqueta tipo funcion
 
@@ -62,17 +61,18 @@ class Tabla_Simbolos:
     Functions:
     """
 
-    def __init__(self, nombre):
+    def __init__(self, nombre, retorno):
         self.nombre = nombre
         self.desplazamiento = 0
         self.entradas = []
+        self.retorno = retorno
         self.sizes = {
-            "entero": 2,
-            "logico": 1,
-            "cadena": 64  # Revisar size de las cadenas
+            "numero": 2,
+            "boolean": 1,
+            "string": 64  # Revisar size de las cadenas
         }
 
-    def insertar_simbolo(self, simbolo):
+    def insertar(self, simbolo):
         """
         Inserta un nuevo simbolo en la tabla
         Si el simbolo es de un tipo perteneciente al diccionario sizes
@@ -91,32 +91,32 @@ class Tabla_Simbolos:
 
         for simbolo in self.entradas:
             string += '* LEXEMA : \''+simbolo.lexema+'\'\n  ATRIBUTOS :\n'
-            string += '	+ Tipo: ' + simbolo.tipo + '\n' if simbolo.tipo != None else ''
+            string += '	+ Tipo: ' + \
+                str(simbolo.tipo) + '\n' if simbolo.tipo != None else ''
             string += '	+ Despl: ' + \
                 str(simbolo.despl) + '\n' if simbolo.despl != None else ''
             string += '	+ Num_Param: ' + \
                 str(simbolo.num_param) + \
                 '\n' if simbolo.num_param != None else ''
 
-            for i in range(len(simbolo.tipo_parm)):
+            for i in range(len(simbolo.tipo_param)):
                 string = '	+ Tipo_Param' + \
                     str(i)+': ' + simbolo.tipo_param[i] + '\n'
                 string = '	+ Modo_Paso' + \
                     str(i)+': ' + simbolo.modo_paso[i] + '\n'
 
-            string += '	+ Tipo_Retorno: ' + simbolo.tipoRetorno + \
-                '\n' if simbolo.tipo_retorno != None else ''
-            string += '	+ Tipo: ' + simbolo.etiqFuncion + \
+            string += '	+ Tipo_Retorno: ' + simbolo.tipo_dev + \
+                '\n' if simbolo.tipo_dev != None else ''
+            string += '	+ Tipo: ' + simbolo.etiqueta + \
                 '\n' if simbolo.etiqueta != None else ''
-            string += '	+ Tipo: ' + simbolo.param + '\n' if simbolo.param != None else ''
 
         return string
 
-    def find(self, token):
+    def find(self, simbolo):
         for entry in self.entradas:
-            if entry.lexema == token.value:
-                return True
-        return False
+            if entry.lexema == simbolo.lexema:
+                return entry
+        return 'null'
 
 # FUNCTIONS
 
@@ -131,7 +131,7 @@ def main():
     # args = parser.parse_args()
 
     # test_file_path = args.f[0]
-    test_file_path = './tests/test2.js'
+    test_file_path = './tests/test1.js'
     """
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished
@@ -146,7 +146,7 @@ def main():
 
         # Escribir en el fichero tabla de simbolos, todas las tablas de simbolos
         for tabla in tablas_simbolos:
-            ts_file.write(tabla.to_string+"\n\n")
+            ts_file.write(tabla.to_string()+"\n\n")
 
         # Escribir en el fichero parse, todos los parses
         parse_string = 'Descendente'

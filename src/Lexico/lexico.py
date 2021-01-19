@@ -75,7 +75,7 @@ def get_token(lista):
                 generar_error('++ Error: /* comentario en bloque no se cierra')
                 return lista, token
 
-        elif master.last_line and lista == '\n':
+        elif (master.last_line and lista == '\n') or (master.last_line and lista == ''):
             return lista, Token('final', '$', master.line_count)
 
         elif leer_char(lista) == '\n':
@@ -290,5 +290,6 @@ def get_token(lista):
             contador_caracter += 1
             lista = lista[1:]
         return lista, token
-
+    if (master.last_line and lista == '\n') or (master.last_line and lista == ''):
+        return lista, Token('final', '$', master.line_count)
     return lista, token

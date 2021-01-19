@@ -38,6 +38,21 @@ def except_last(lista):
         print(element)
 
 
+class Tipo:
+
+    def __init__(self, lexema):
+        self.lexema = lexema
+
+
+lista_tipo = []
+
+for _ in range(1, 5):
+    lista_tipo.append(Tipo('hola'))
+
+for _ in range(1, 5):
+    lista_tipo.append(Tipo('adios'))
+
+
 def main():
     #global lista
     # comprobar(lista)
@@ -48,8 +63,10 @@ def main():
     #print(comparador_triple(1, 1, 1))
     # print(multiple_triple_comparator('pax'))
     # print(multiple_triple_comparator('word'))
-    lista = ['a', 'b', 'c']
-    except_last(lista)
+    #lista = ['a', 'b', 'c']
+    # except_last(lista)
+    lista = [i.lexema for i in lista_tipo]
+    print(lista)
 
 
 if __name__ == '__main__':
