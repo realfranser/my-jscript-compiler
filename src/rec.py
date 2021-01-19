@@ -784,7 +784,10 @@ def B(simbolo):
 		t.lexema = sig_token.atribute
 		equipara('ID')
 		equipara('semicolon')
-		
+		sim=getLexema(TS,t.lexema)
+		if sim.lexema and sim.numTabla == t.numTabla:
+			print('error variable:'+t.lexema+'previamente declarada')
+			exit()
 		addToTS(t)
 		return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'alert' or sig_token.token == 'ID' or sig_token.token == 'input' or sig_token.token == 'return':

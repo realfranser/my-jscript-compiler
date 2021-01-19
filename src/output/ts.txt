@@ -23,7 +23,7 @@ Contenido Tabla Simbolos # 0 :
   ATRIBUTOS :
 	+ tipo: int
 	+ Despl: 2
-* LEXEMA : 'f'
+* LEXEMA : 'o'
   ATRIBUTOS :
 	+ tipo: int
 	+ Despl: 2
