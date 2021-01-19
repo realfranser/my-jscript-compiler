@@ -1,1 +1,1 @@
-Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado
+Compilado sin errores

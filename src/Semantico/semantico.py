@@ -159,6 +159,6 @@ def find(simbolo):
     ret = tablas[tabla_count].find(simbolo)
     
     if ret != 'null':
-        return simbolo
+        return ret
     ret = tablas[0].find(simbolo)
     return ret
