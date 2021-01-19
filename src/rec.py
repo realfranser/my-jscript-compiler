@@ -776,7 +776,7 @@ def B(simbolo):
 			exit()
 		equipara('closePar')
 		tt =S(t)
-		return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
+		return Simbolo(numTabla=simbolo.numTabla,lexema=None,tipo= None,despl=0,param=simbolo.param,numParam=0,tipoRetorno=simbolo.tipoRetorno)
 	elif sig_token.token == 'let':
 		parse.append(35)
 		equipara('let')
@@ -789,7 +789,7 @@ def B(simbolo):
 			print('error variable:'+t.lexema+'previamente declarada')
 			exit()
 		addToTS(t)
-		return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
+		return Simbolo(numTabla=simbolo.numTabla,lexema=None,tipo= None,despl=0,param=simbolo.param,numParam=0,tipoRetorno=simbolo.tipoRetorno)
 	elif sig_token.token == 'alert' or sig_token.token == 'ID' or sig_token.token == 'input' or sig_token.token == 'return':
 		parse.append(36) # revisar 
 		t = S(simbolo)
@@ -808,7 +808,7 @@ def B(simbolo):
 	 		exit()
 	 	equipara('closePar')
 	 	equipara('semicolon')
-	 	return Simbolo(numTabla=0,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=None)
+	 	return Simbolo(numTabla=simbolo.numTabla,lexema=None,tipo= None,despl=0,param=simbolo.param,numParam=0,tipoRetorno=simbolo.tipoRetorno)
 	else:
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 
@@ -856,7 +856,7 @@ def F(simbolo):
 		tt.lexema = lexema
 		tt.tipo = 'funcion'
 		addToTS(tt)
-		return ttt
+		return Simbolo(numTabla=simbolo.numTabla,lexema=None,tipo= None,despl=0,param=[],numParam=0,tipoRetorno=simbolo.tipoRetorno)
 	else:
 		errorParse(Token(sig_token.token,lineaSint,'error'))
 

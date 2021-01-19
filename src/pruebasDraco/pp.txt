@@ -1,3 +1,4 @@
+
 let number a;
 let number b;
 let boolean bbb;
@@ -10,4 +11,4 @@ k = a == b;
 if(a==b)a=0;
 do{let number o; f = 3;}while(a==c);
 function aa (boolean p,number s){let number g;}
-function bb (number p,number t){let boolean g;}
+function bb (number g,number t){let boolean g; }

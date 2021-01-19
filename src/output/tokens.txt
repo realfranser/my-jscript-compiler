@@ -95,4 +95,8 @@
 <reservedWord,boolean>
 <ID,0>
 <separator,semicolon>
+<reservedWord,let>
+<reservedWord,number>
+<ID,0>
+<separator,semicolon>
 <separator,closeBraq>

@@ -49,7 +49,7 @@ Contenido Tabla Simbolos # 1 :
 	+ tipo: int
 	+ Despl: 2
 Contenido Tabla Simbolos # 2 :
-* LEXEMA : 'p'
+* LEXEMA : 'g'
   ATRIBUTOS :
 	+ tipo: int
 	+ Despl: 2
@@ -57,3 +57,7 @@ Contenido Tabla Simbolos # 2 :
   ATRIBUTOS :
 	+ tipo: boolean
 	+ Despl: 1
+* LEXEMA : 'f'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 2
