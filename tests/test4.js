@@ -1,9 +1,6 @@
-number 1a = 1
-string pp = 'hola
-numbe;
-if (hola
-    else {
+let boolean b;
 
-    
-&
+function a(number x, number y) {
 
+}
+a(1, b);

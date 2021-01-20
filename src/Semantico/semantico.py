@@ -8,7 +8,7 @@ tabla_count = 0
 
 def error_semantico(message):
     with open(master.file_paths["error"], 'w') as error_file:
-        error_file.write(message)
+        error_file.write(message + ',linea: ' + str(master.line_count))
     exit()
 
 
@@ -63,17 +63,18 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         if simbolo_actual.tipo == 'function':
             fun_params = simbolo.tipo_param
             if simbolo_actual.num_param != len(fun_params):
-                
+
                 error_semantico(
                     'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
-
+            for p in fun_params:
+                print(p.__dict__)
             if not ([param.tipo for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
                 error_semantico(
                     'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
-              
+
             return simbolo_actual
 
-        elif simbolo_actual.tipo != simbolo.tipo:
+        elif simbolo.lexema == 'autoincremento' and simbolo_actual.tipo != 'numero':
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
 
@@ -125,7 +126,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
                 error_semantico(
                     'num params incorrecto, expected {} have {} '.format(simbolo_actual.num_param, len(fun_params)))
 
-            if not ([param.tipo for param in fun_params[:]] == [param for param in simbolo_actual.tipo_param]):
+            if not ([param.tipo for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
                 error_semantico(
                     'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
 
@@ -134,7 +135,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         elif simbolo.tipo == 'function':
             if simbolo.tipo_dev != simbolo_actual.tipo:
                 error_semantico(
-                    'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
+                    'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado ')
 
         elif simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
@@ -168,7 +169,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         # let number x;
 
         # simbolo = nombre 'T', tipo(boolean, numero o string)
-        #token = ID
+        # token = ID
 
         simbolo = Simbolo(token.value, simbolo.tipo)
         error_semantico('Error Semantico: Variable \'{}\' previamente declarada'.format(token.value)) if tablas[tabla_count].find(

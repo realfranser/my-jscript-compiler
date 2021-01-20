@@ -102,7 +102,7 @@ class Tabla_Simbolos:
             for i in range(len(simbolo.tipo_param)):
                 string = '	+ Tipo_Param' + \
                     str(i)+': ' + str(simbolo.tipo_param[i]) + '\n'
-                #string = '	+ Modo_Paso' + \
+                # string = '	+ Modo_Paso' + \
                 #   str(i)+': ' + simbolo.modo_paso[i] + '\n'
 
             string += '	+ Tipo_Retorno: ' + simbolo.tipo_dev + \
@@ -128,7 +128,7 @@ def main():
     # args = parser.parse_args()
 
     # test_file_path = args.f[0]
-    test_file_path = './tests/test3.js'
+    test_file_path = './tests/test4.js'
     """
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished

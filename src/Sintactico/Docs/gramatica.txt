@@ -54,5 +54,4 @@ C -> lambda
 P -> B P 
 P -> F P
 P -> lambda
-S1 -> ++ ;
 }
