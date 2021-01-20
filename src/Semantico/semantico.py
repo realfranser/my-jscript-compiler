@@ -62,21 +62,16 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
         if simbolo_actual.tipo == 'function':
             fun_params = simbolo.tipo_param
-
             if simbolo_actual.num_param != len(fun_params):
+                
                 error_semantico(
                     'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
 
             if not ([param.tipo for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
                 error_semantico(
                     'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
-
+              
             return simbolo_actual
-
-        elif simbolo.tipo == 'function':
-            if simbolo.tipo_dev != simbolo_actual.tipo:
-                error_semantico(
-                    'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
 
         elif simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
@@ -128,9 +123,9 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
             if simbolo_actual.num_param != len(fun_params):
                 error_semantico(
-                    'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
+                    'num params incorrecto, expected {} have {} '.format(simbolo_actual.num_param, len(fun_params)))
 
-            if not ([param.tipo for param in fun_params] == [param.tipo for param in simbolo_actual.tipo_param]):
+            if not ([param.tipo for param in fun_params[:]] == [param for param in simbolo_actual.tipo_param]):
                 error_semantico(
                     'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
 

@@ -357,8 +357,10 @@ def L(simbolo):
     if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         master.parse.append(28)
         # (not or open_par or ...) E Q
+        p = simbolo.tipo_param
         simbolo = E(simbolo)
-        simbolo.tipo_param.append(simbolo)
+        p.append(simbolo)
+        simbolo.tipo_param=p
         simbolo = Q(simbolo)
         # comprobar que no le meta dos veces el mismo
     elif valor == 'close_par':
@@ -377,8 +379,10 @@ def Q(simbolo):
         master.parse.append(30)
         # , E Q
         equipara('colon')
+        p = simbolo.tipo_param
         simbolo = E(simbolo)
-        simbolo.tipo_param.append(simbolo)
+        p.append(simbolo)
+        simbolo.tipo_param=p
         simbolo = Q(simbolo)
         # actualizar fun_params
     elif valor == 'close_par':
@@ -537,9 +541,7 @@ def A(simbolo):
 
 
 def K(simbolo):
-
     valor = sig_token.value
-
     if valor == 'colon':
         master.parse.append(46)
         # , T ID K
