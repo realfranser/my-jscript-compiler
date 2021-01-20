@@ -128,7 +128,7 @@ def main():
     # args = parser.parse_args()
 
     # test_file_path = args.f[0]
-    test_file_path = './tests/test1.js'
+    test_file_path = './tests/test3.js'
     """
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished

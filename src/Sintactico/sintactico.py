@@ -358,7 +358,9 @@ def L(simbolo):
         master.parse.append(28)
         # (not or open_par or ...) E Q
         simbolo = E(simbolo)
+        simbolo.tipo_param.append(simbolo)
         simbolo = Q(simbolo)
+        # comprobar que no le meta dos veces el mismo
     elif valor == 'close_par':
         master.parse.append(29)
     else:
@@ -376,7 +378,9 @@ def Q(simbolo):
         # , E Q
         equipara('colon')
         simbolo = E(simbolo)
+        simbolo.tipo_param.append(simbolo)
         simbolo = Q(simbolo)
+        # actualizar fun_params
     elif valor == 'close_par':
         master.parse.append(31)
     else:
@@ -487,6 +491,7 @@ def F(simbolo):
         semantico.analizar(411, simbolo, sig_token)
         equipara('open_braq')
         simbolo = C(simbolo)
+        semantico.analizar(412, None, None)
         equipara('close_braq')
         # SEMANTICO Y CREAR TABLA DE SIMBOLOS
     else:
@@ -520,6 +525,7 @@ def A(simbolo):
         master.parse.append(44)
         # (boolean or number or string ) T ID K
         simbolo = T(simbolo)
+        analizar(44, simbolo, sig_token)
         equipara('ID')
         simbolo = K(simbolo)
     elif valor == 'close_par':
@@ -539,6 +545,7 @@ def K(simbolo):
         # , T ID K
         equipara('colon')
         simbolo = T(simbolo)
+        analizar(46, simbolo, sig_token)
         equipara('ID')
         simbolo = K(simbolo)
     elif valor == 'close_par':

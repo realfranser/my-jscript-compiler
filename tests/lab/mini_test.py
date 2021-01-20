@@ -76,6 +76,22 @@ def find(lex):
     return lista_de_tipos.find(lex) or lista_de_tipos2.find(lex)
 
 
+ts_tipos = ['1', '2', '3']
+
+
+def comprobar_tipos_28(fun_param):
+
+    if len(ts_tipos) != len(fun_param):
+        print('num params incorrecto, expected {} have {}'.format(
+            len(ts_tipos), len(fun_param)))
+
+    elif not ([param for param in fun_param] == [param for param in ts_tipos]):
+        print('no coinciden los tipos')
+
+    else:
+        print('ok')
+
+
 def main():
     #global lista
     # comprobar(lista)
@@ -90,9 +106,12 @@ def main():
     # except_last(lista)
     #lista = [i.lexema for i in lista_tipo]
     # print(lista)
-    print(find('13').lexema)
-    print(find('6').lexema)
-    print(find('50'))  # .lexema)
+    # print(find('13').lexema)
+    # print(find('6').lexema)
+    # print(find('50'))  # .lexema)
+    comprobar_tipos_28(['1', '2', '3'])
+    comprobar_tipos_28(['1', '2'])
+    comprobar_tipos_28(['1', '8', '3'])
 
 
 if __name__ == '__main__':

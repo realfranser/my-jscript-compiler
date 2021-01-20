@@ -14,6 +14,8 @@ def error_semantico(message):
 
 def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
+    global tabla_count
+
     if parse == 0:
         tablas.append(Tabla_Simbolos('0', 'void'))
 
@@ -53,11 +55,30 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         return Simbolo('resta', tipo='numero')
 
     elif parse == 12:
-        # ID++ en caso V comprobar para caso ID(L)
         simbolo_actual = find(Simbolo(token.value))
+
         if not simbolo_actual:
             tablas[tabla_count].insertar(Simbolo(token.value, tipo='numero'))
-        if simbolo_actual.tipo != simbolo.tipo:
+
+        if simbolo_actual.tipo == 'function':
+            fun_params = simbolo.tipo_param
+
+            if simbolo_actual.num_param != len(fun_params):
+                error_semantico(
+                    'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
+
+            if not ([param.tipo for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
+                error_semantico(
+                    'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
+
+            return simbolo_actual
+
+        elif simbolo.tipo == 'function':
+            if simbolo.tipo_dev != simbolo_actual.tipo:
+                error_semantico(
+                    'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
+
+        elif simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
 
@@ -102,19 +123,37 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         if not simbolo_actual:
             tablas[tabla_count].insertar(Simbolo(token.value, tipo='numero'))
 
-        if simbolo_actual.tipo != simbolo.tipo:
+        if simbolo_actual.tipo == 'function':
+            fun_params = simbolo.tipo_param
+
+            if simbolo_actual.num_param != len(fun_params):
+                error_semantico(
+                    'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
+
+            if not ([param.tipo for param in fun_params] == [param.tipo for param in simbolo_actual.tipo_param]):
+                error_semantico(
+                    'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
+
+            return simbolo_actual
+
+        elif simbolo.tipo == 'function':
+            if simbolo.tipo_dev != simbolo_actual.tipo:
+                error_semantico(
+                    'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
+
+        elif simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
 
     elif parse == 23:
         # alert(E);
-        if simbolo.tipo != 'boolean' or simbolo.tipo != 'numero':
+        if simbolo.tipo != 'boolean' and simbolo.tipo != 'numero':
             error_semantico(
                 'Error Semantico: Argumento en llamada a \'alert()\' no es de tipo boolean o numero')
 
     elif parse == 24:
         # input(E);
-        if simbolo.tipo != 'boolean' or simbolo.tipo != 'numero':
+        if simbolo.tipo != 'boolean' and simbolo.tipo != 'numero':
             error_semantico(
                 'Error Semantico: Argumento en llamada a \'alert()\' no es de tipo boolean o numero')
 
@@ -132,6 +171,9 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
     elif parse == 35:
         # let number x;
+
+        # simbolo = nombre 'T', tipo(boolean, numero o string)
+        #token = ID
 
         simbolo = Simbolo(token.value, simbolo.tipo)
         error_semantico('Error Semantico: Variable \'{}\' previamente declarada'.format(token.value)) if tablas[tabla_count].find(
@@ -151,6 +193,8 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         error_semantico('Error Semantico: Funcion previamente declarada') if find(
             Simbolo(token.value)) else tablas.append(Tabla_Simbolos(token.value,
                                                                     retorno='void' if simbolo.tipo == 'function' else simbolo.tipo))
+        tabla_count = len(tablas) - 1
+
     elif parse == 411:
         # function boolean x(boolean y){let boolean z; return z;}
         tabla = tablas[tabla_count]
@@ -163,6 +207,15 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
         tablas[0].insertar(simbolo)
 
+    elif parse == 412:
+        tabla_count = 0
+
+    elif parse == 44:
+        tablas[tabla_count].insertar(Simbolo(token.value, tipo=simbolo.tipo))
+
+    elif parse == 46:
+        tablas[tabla_count].insertar(Simbolo(token.value, tipo=simbolo.tipo))
+
     elif parse == 53:
         return Simbolo('autoincremento', tipo='numero')
 
@@ -171,9 +224,9 @@ def find(simbolo):
 
     return tablas[tabla_count].find(simbolo) or tablas[0].find(simbolo)
 
-    #ret = tablas[tabla_count].find(simbolo)
+    # ret = tablas[tabla_count].find(simbolo)
 
     # if ret != 'null':
     #    return ret
-    #ret = tablas[0].find(simbolo)
+    # ret = tablas[0].find(simbolo)
     # return ret

@@ -1,1 +1,0 @@
-Error Semantico: Variable 'x' previamente declarada
