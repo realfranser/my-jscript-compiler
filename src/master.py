@@ -100,10 +100,8 @@ class Tabla_Simbolos:
                 '\n' if simbolo.num_param != None else ''
 
             for i in range(len(simbolo.tipo_param)):
-                string = '	+ Tipo_Param' + \
+                string += '	+ Tipo_Param' + \
                     str(i)+': ' + str(simbolo.tipo_param[i]) + '\n'
-                # string = '	+ Modo_Paso' + \
-                #   str(i)+': ' + simbolo.modo_paso[i] + '\n'
 
             string += '	+ Tipo_Retorno: ' + simbolo.tipo_dev + \
                 '\n' if simbolo.tipo_dev != None else ''

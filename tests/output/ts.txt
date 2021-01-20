@@ -1,7 +1,31 @@
+Contenido Tabla de Simbolos #0 :
+* LEXEMA : 'b'
+  ATRIBUTOS :
+	+ Tipo: boolean
+	+ Despl: 0
+	+ Tipo_Param0: <master.Simbolo object at 0x7fca80142550>
+	+ Tipo_Param1: <master.Simbolo object at 0x7fca80142550>
+* LEXEMA : 'a'
+  ATRIBUTOS :
+	+ Tipo: function
+	+ Num_Param: 2
+	+ Tipo_Param0: numero
 	+ Tipo_Param1: numero
 	+ Tipo_Retorno: void
 
 
-	+ Tipo_Param1: <master.Simbolo object at 0x7f7a2db294f0>
+Contenido Tabla de Simbolos #a :
+* LEXEMA : 'x'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 0
+	+ Tipo_Param0: <master.Simbolo object at 0x7fca80142550>
+	+ Tipo_Param1: <master.Simbolo object at 0x7fca80142550>
+* LEXEMA : 'y'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 2
+	+ Tipo_Param0: <master.Simbolo object at 0x7fca80142550>
+	+ Tipo_Param1: <master.Simbolo object at 0x7fca80142550>
 
 
