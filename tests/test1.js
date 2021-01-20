@@ -1,3 +1,3 @@
 let number x;
 let number a;
-return;
+a = 1;

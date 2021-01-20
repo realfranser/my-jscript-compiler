@@ -101,7 +101,7 @@ def E(simbolo):
         # (not or open_par or chain or whole_const or ...) R E1
         simbolo = R(simbolo)
         simbolo = E1(simbolo)
-
+        
     else:
         error_parse(sig_token)
 
@@ -117,6 +117,7 @@ def E1(simbolo):
         equipara('and')
         simbolo = R(simbolo)
         simbolo = E1(simbolo)
+        simbolo = analizar(2, simbolo, sig_token)
     # FOLLOW de E1  =  { ) , ; }
     elif valor == 'close_par' or valor == 'colon' or valor == 'semicolon':
         master.parse.append(3)
@@ -151,12 +152,14 @@ def R1(simbolo):
         equipara('equals')
         simbolo = U(simbolo)
         simbolo = R1(simbolo)
+        simbolo = analizar(5, simbolo, sig_token)
     elif valor == 'not_equals':
         master.parse.append(6)
         # != U R1
         equipara('not_equals')
         simbolo = U(simbolo)
         simbolo = R1(simbolo)
+        simbolo = analizar(6, simbolo, sig_token)
     elif valor == 'and' or valor == 'close_par' or valor == 'colon' or valor == 'semicolon':
         master.parse.append(7)
     else:
@@ -190,12 +193,14 @@ def U1(simbolo):
         equipara('plus')
         simbolo = V(simbolo)
         simbolo = U1(simbolo)
+        simbolo = analizar(9, simbolo, sig_token)
     elif valor == 'minus':
         master.parse.append(10)
         # - V U1
         equipara('minus')
         simbolo = V(simbolo)
         simbolo = U1(simbolo)
+        simbolo = analizar(10, simbolo, sig_token)
     elif valor == 'not_equals' or valor == 'and' or valor == 'close_par' or valor == 'colon' or valor == 'semicolon' or valor == 'equals':
         master.parse.append(11)
     else:
@@ -211,8 +216,10 @@ def V(simbolo):
     if sig_token.key == 'ID':
         master.parse.append(12)
         # ID V1
+        token = sig_token
         equipara('ID')
         simbolo = V1(simbolo)
+        semantico.analizar(12, simbolo, token)
     elif valor == 'open_par':
         master.parse.append(13)
         # ( E )
@@ -223,28 +230,28 @@ def V(simbolo):
         master.parse.append(14)
         # whole_const
         equipara('whole_const')
-        simbolo = Simbolo('hacer semantico aqui')
+        simbolo = analizar(14, simbolo, sig_token)
     elif sig_token.key == 'chain':
         master.parse.append(15)
         # chain
         equipara('chain')
-        simbolo = Simbolo('hacer semantico aqui')
+        simbolo = analizar(15, simbolo, sig_token)
     elif valor == 'true':
         master.parse.append(16)
         # true
         equipara('true')
-        simbolo = Simbolo('hacer semantico aqui')
+        simbolo = analizar(16, simbolo, sig_token)
     elif valor == 'false':
         master.parse.append(17)
         # false
         equipara('false')
-        simbolo = Simbolo('hacer semantico aqui')
+        simbolo = analizar(17, simbolo, sig_token)
     elif valor == 'not':
         master.parse.append(18)
         # not ID
         equipara('not')
+        simbolo = analizar(18, simbolo, sig_token)
         equipara('ID')
-        simbolo = Simbolo('hacer semantico aqui')
 
     return simbolo
 
@@ -262,7 +269,9 @@ def V1(simbolo):
     elif valor == 'auto_inc':
         master.parse.append(20)
         # ++
+        simbolo = analizar(20, simbolo, sig_token)
         equipara('auto_inc')
+
     elif valor == 'not_equals' or valor == 'and' or valor == 'close_par' or valor == 'plus' or valor == 'colon' or valor == 'minus' or valor == 'semicolon' or valor == 'equals':
         master.parse.append(21)
     else:
@@ -288,6 +297,7 @@ def S(simbolo):
         equipara('alert')
         equipara('open_par')
         simbolo = E(simbolo)
+        analizar(23, simbolo, sig_token)
         equipara('close_par')
         equipara('semicolon')
     elif valor == 'input':

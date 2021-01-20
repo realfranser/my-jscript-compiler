@@ -5,5 +5,7 @@
 <reserved_word,number>
 <ID,a>
 <separator,semicolon>
-<reserved_word,return>
+<ID,a>
+<asig_op,equal>
+<whole_const,1>
 <separator,semicolon>
