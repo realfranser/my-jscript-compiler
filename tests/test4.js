@@ -1,4 +1,4 @@
-let boolean b;
+let number b;
 
 function a(number x, number y) {
 

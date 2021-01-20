@@ -274,6 +274,7 @@ def V1(simbolo):
 
     elif valor == 'not_equals' or valor == 'and' or valor == 'close_par' or valor == 'plus' or valor == 'colon' or valor == 'minus' or valor == 'semicolon' or valor == 'equals':
         master.parse.append(21)
+        simbolo = analizar(21, simbolo, sig_token)
     else:
         error_parse(sig_token)
 
@@ -357,10 +358,9 @@ def L(simbolo):
     if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         master.parse.append(28)
         # (not or open_par or ...) E Q
-        p = simbolo.tipo_param
         simbolo = E(simbolo)
-        p.append(simbolo)
-        simbolo.tipo_param=p
+        simbolo.meter_tipo_param(simbolo.tipo)
+
         simbolo = Q(simbolo)
         # comprobar que no le meta dos veces el mismo
     elif valor == 'close_par':
@@ -379,10 +379,7 @@ def Q(simbolo):
         master.parse.append(30)
         # , E Q
         equipara('colon')
-        p = simbolo.tipo_param
-        simbolo = E(simbolo)
-        p.append(simbolo)
-        simbolo.tipo_param=p
+        simbolo.tipo_param.append(E(Simbolo(sig_token.value)).tipo)
         simbolo = Q(simbolo)
         # actualizar fun_params
     elif valor == 'close_par':

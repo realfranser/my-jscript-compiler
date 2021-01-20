@@ -52,6 +52,9 @@ class Simbolo:
         self.tipo_dev = tipo_dev  # tipo devuelto por funcion
         self.etiqueta = etiqueta  # Etiqueta tipo funcion
 
+    def meter_tipo_param(self, tipo):
+        self.tipo_param.append(tipo)
+
 
 class Tabla_Simbolos:
     """
@@ -100,7 +103,7 @@ class Tabla_Simbolos:
                 '\n' if simbolo.num_param != None else ''
 
             for i in range(len(simbolo.tipo_param)):
-                string += '	+ Tipo_Param' + \
+                string += '	+ Tipo_Param ' + \
                     str(i)+': ' + str(simbolo.tipo_param[i]) + '\n'
 
             string += '	+ Tipo_Retorno: ' + simbolo.tipo_dev + \

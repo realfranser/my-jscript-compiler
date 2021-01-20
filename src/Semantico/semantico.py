@@ -68,15 +68,16 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
                     'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
             for p in fun_params:
                 print(p.__dict__)
-            if not ([param.tipo for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
+            if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
                 error_semantico(
                     'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
 
             return simbolo_actual
+        elif simbolo:
 
-        elif simbolo.lexema == 'autoincremento' and simbolo_actual.tipo != 'numero':
-            error_semantico(
-                'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
+            if simbolo.lexema == 'autoincremento' and simbolo_actual.tipo != 'numero':
+                error_semantico(
+                    'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
 
     elif parse == 14:
         # whole_const
@@ -111,6 +112,9 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         # ID ++;
         return Simbolo('autoincremento', tipo='numero')
 
+    elif parse == 21:
+        return find(simbolo)
+
     elif parse == 22:
         # X=3; en caso S
         # problema devuelve simbolo sin tipo
@@ -126,7 +130,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
                 error_semantico(
                     'num params incorrecto, expected {} have {} '.format(simbolo_actual.num_param, len(fun_params)))
 
-            if not ([param.tipo for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
+            if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
                 error_semantico(
                     'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
 
