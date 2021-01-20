@@ -66,8 +66,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
                 error_semantico(
                     'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
-            for p in fun_params:
-                print(p.__dict__)
+
             if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
                 error_semantico(
                     'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))

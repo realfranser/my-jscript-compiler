@@ -297,7 +297,7 @@ def S(simbolo):
         # alert ( E ) ;
         equipara('alert')
         equipara('open_par')
-        simbolo = E(simbolo)
+        simbolo = E(Simbolo(sig_token.value))
         analizar(23, simbolo, sig_token)
         equipara('close_par')
         equipara('semicolon')
@@ -359,8 +359,7 @@ def L(simbolo):
         master.parse.append(28)
         # (not or open_par or ...) E Q
         simbolo = E(simbolo)
-        simbolo.meter_tipo_param(simbolo.tipo)
-
+        simbolo.tipo_param.append(simbolo.tipo)
         simbolo = Q(simbolo)
         # comprobar que no le meta dos veces el mismo
     elif valor == 'close_par':
