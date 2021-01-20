@@ -480,7 +480,7 @@ def F(simbolo):
         equipara('function')
         simbolo = H(simbolo)
         semantico.analizar(410, simbolo, sig_token)
-        equipara('ID')i no se ha declarado o si se declara fuera de cualquier función, y será local si se declara dentro del cuerpo de una función. No se admite la redeclaración del mismo ide
+        equipara('ID')  # si no se ha declarado o si se declara fuera de cualquier función, y será local si se declara dentro del cuerpo de una función. No se admite la redeclaración del mismo ide
         equipara('open_par')
         simbolo = A(simbolo)
         equipara('close_par')
