@@ -44,13 +44,36 @@ class Tipo:
         self.lexema = lexema
 
 
-lista_tipo = []
+class Lista_tipo:
 
-for _ in range(1, 5):
-    lista_tipo.append(Tipo('hola'))
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.lista = []
 
-for _ in range(1, 5):
-    lista_tipo.append(Tipo('adios'))
+    def find(self, lex):
+
+        #lista = [tipo for tipo in self.lista if tipo.lexema == lex]
+        # return lista[0] if lista else None
+        return ([tipo for tipo in self.lista if tipo.lexema == lex][:1] or [None])[0]
+
+    def insertar(self, tipo):
+        self.lista.append(tipo)
+
+
+lista_de_tipos = Lista_tipo('prueba')
+lista_de_tipos2 = Lista_tipo('prueba2')
+
+for num in range(1, 10):
+    lista_de_tipos.insertar(Tipo(str(num)))
+
+for num in range(10, 20):
+    lista_de_tipos2.insertar(Tipo(str(num)))
+
+
+def find(lex):
+    #elemento = lista_de_tipos.find(lex)
+    # return elemento if elemento else lista_de_tipos2.find(lex)
+    return lista_de_tipos.find(lex) or lista_de_tipos2.find(lex)
 
 
 def main():
@@ -65,8 +88,11 @@ def main():
     # print(multiple_triple_comparator('word'))
     #lista = ['a', 'b', 'c']
     # except_last(lista)
-    lista = [i.lexema for i in lista_tipo]
-    print(lista)
+    #lista = [i.lexema for i in lista_tipo]
+    # print(lista)
+    print(find('13').lexema)
+    print(find('6').lexema)
+    print(find('50'))  # .lexema)
 
 
 if __name__ == '__main__':

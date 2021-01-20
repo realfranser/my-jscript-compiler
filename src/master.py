@@ -113,10 +113,7 @@ class Tabla_Simbolos:
         return string
 
     def find(self, simbolo):
-        for entry in self.entradas:
-            if entry.lexema == simbolo.lexema:
-                return entry
-        return 'null'
+        return ([entry for entry in self.entradas if entry.lexema == simbolo.lexema][:1] or [None])[0]
 
 # FUNCTIONS
 

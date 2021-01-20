@@ -1,1 +1,1 @@
-Compilado sin errores
+Error Semantico: Variable 'x' previamente declarada

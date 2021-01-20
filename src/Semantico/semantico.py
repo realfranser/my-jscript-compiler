@@ -12,7 +12,7 @@ def error_semantico(message):
     exit()
 
 
-def analizar(parse, simbolo, token):  # token o simbolo ? ambos 
+def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
     if parse == 0:
         tablas.append(Tabla_Simbolos('0', 'void'))
@@ -20,42 +20,47 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
     elif parse == 2:
         # == U R1  comprovar que es de tipo boolean
         if simbolo.tipo != 'boolean':
-            error_semantico('Error Semantico: secuencia tras \'&&\' no es de tipo booleano')
-        return Simbolo('and',tipo='boolean')
-    
+            error_semantico(
+                'Error Semantico: secuencia tras \'&&\' no es de tipo booleano')
+        return Simbolo('and', tipo='boolean')
+
     elif parse == 5:
         # == U R1  comprovar que es de tipo boolean
         if simbolo.tipo != 'boolean':
-            error_semantico('Error Semantico: secuencia tras \'==\' no es de tipo booleano')
-        return Simbolo('equals',tipo='boolean')
+            error_semantico(
+                'Error Semantico: secuencia tras \'==\' no es de tipo booleano')
+        return Simbolo('equals', tipo='boolean')
 
     elif parse == 6:
         # != U R1  comprovar que es de tipo boolean
         if simbolo.tipo != 'boolean':
-            error_semantico('Error Semantico: secuencia tras \'!=\' no es de tipo booleano')
-        return Simbolo('not_equals',tipo='boolean')
-    
+            error_semantico(
+                'Error Semantico: secuencia tras \'!=\' no es de tipo booleano')
+        return Simbolo('not_equals', tipo='boolean')
+
     elif parse == 9:
         # + V  comprovar que es de tipo entero
         if simbolo.tipo != 'numero':
-            error_semantico('Error Semantico: secuencia tras \'+\' no es de tipo entero')
-        return Simbolo('suma',tipo='numero')
+            error_semantico(
+                'Error Semantico: secuencia tras \'+\' no es de tipo entero')
+        return Simbolo('suma', tipo='numero')
 
     elif parse == 10:
         # - V  comprovar que es de tipo entero
         if simbolo.tipo != 'numero':
-            error_semantico('Error Semantico: secuencia tras \'-\' no es de tipo entero')
-        return Simbolo('resta',tipo='numero')
+            error_semantico(
+                'Error Semantico: secuencia tras \'-\' no es de tipo entero')
+        return Simbolo('resta', tipo='numero')
 
     elif parse == 12:
         # ID++ en caso V comprobar para caso ID(L)
         simbolo_actual = find(Simbolo(token.value))
-        if simbolo_actual == 'null':
+        if not simbolo_actual:
             error_semantico('Error Semantico: Variable sin declarar')
         if simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
-    
+
     elif parse == 14:
         # whole_const
         return Simbolo('whole_const', tipo='numero')
@@ -75,8 +80,14 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
     elif parse == 18:
         # not ID
         simbolo_actual = find(Simbolo(token.value))
-        if simbolo_actual != 'boolean':
-            error_semantico('Error Semantico: Operacion logica \'not\' aplicada a variable no booleana ')
+
+        if not simbolo_actual:
+            error_semantico(
+                'Error Semantico: variable sin declarar')
+
+        elif simbolo_actual.tipo != 'boolean':
+            error_semantico(
+                'Error Semantico: Operacion logica \'not\' aplicada a variable no booleana ')
         return Simbolo('not', tipo='boolean')
 
     elif parse == 20:
@@ -85,10 +96,13 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
     elif parse == 22:
         # X=3; en caso S
-        simbolo_actual = find(Simbolo(token.value)) # problema devuelve simbolo sin tipo
-        if simbolo_actual == 'null':
+        # problema devuelve simbolo sin tipo
+        simbolo_actual = find(Simbolo(token.value))
+
+        if not simbolo_actual:
             error_semantico('Error Semantico: Variable sin declarar')
-        if simbolo_actual.tipo != simbolo.tipo:
+
+        elif simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
 
@@ -110,8 +124,6 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
             error_semantico(
                 'Error Semantico: Tipo return no coincide con el tipo de la funcion')
 
-
-
     elif parse == 34:
         # if(E) X;
         if simbolo.tipo != 'boolean':
@@ -122,7 +134,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         # let number x;
         simbolo = Simbolo(token.value, simbolo.tipo)
         error_semantico('Error Semantico: Variable \'{}\' previamente declarada'.format(token.value)) if find(
-            simbolo) != 'null' else tablas[tabla_count].insertar(simbolo)
+            simbolo) else tablas[tabla_count].insertar(simbolo)
 
     elif parse == 38:
         return Simbolo('T', tipo='numero')
@@ -136,8 +148,8 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
     elif parse == 410:
         # function x(boolean y){let boolean z; return z;}
         error_semantico('Error Semantico: Funcion previamente declarada') if find(
-            Simbolo(token.value)) != 'null' else tablas.append(Tabla_Simbolos(token.value,
-                                                                              retorno='void' if simbolo.tipo == 'function' else simbolo.tipo))
+            Simbolo(token.value)) else tablas.append(Tabla_Simbolos(token.value,
+                                                                    retorno='void' if simbolo.tipo == 'function' else simbolo.tipo))
     elif parse == 411:
         # function boolean x(boolean y){let boolean z; return z;}
         tabla = tablas[tabla_count]
@@ -156,9 +168,11 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
 def find(simbolo):
 
-    ret = tablas[tabla_count].find(simbolo)
-    
-    if ret != 'null':
-        return ret
-    ret = tablas[0].find(simbolo)
-    return ret
+    return tablas[tabla_count].find(simbolo) or tablas[0].find(simbolo)
+
+    #ret = tablas[tabla_count].find(simbolo)
+
+    # if ret != 'null':
+    #    return ret
+    #ret = tablas[0].find(simbolo)
+    # return ret
