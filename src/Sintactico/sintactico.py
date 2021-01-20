@@ -101,7 +101,7 @@ def E(simbolo):
         # (not or open_par or chain or whole_const or ...) R E1
         simbolo = R(simbolo)
         simbolo = E1(simbolo)
-        
+
     else:
         error_parse(sig_token)
 
@@ -480,7 +480,7 @@ def F(simbolo):
         equipara('function')
         simbolo = H(simbolo)
         semantico.analizar(410, simbolo, sig_token)
-        equipara('ID')
+        equipara('ID')i no se ha declarado o si se declara fuera de cualquier función, y será local si se declara dentro del cuerpo de una función. No se admite la redeclaración del mismo ide
         equipara('open_par')
         simbolo = A(simbolo)
         equipara('close_par')

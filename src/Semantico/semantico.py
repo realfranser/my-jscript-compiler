@@ -18,7 +18,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         tablas.append(Tabla_Simbolos('0', 'void'))
 
     elif parse == 2:
-        # == U R1  comprovar que es de tipo boolean
+        # && U R1  comprovar que es de tipo boolean
         if simbolo.tipo != 'boolean':
             error_semantico(
                 'Error Semantico: secuencia tras \'&&\' no es de tipo booleano')
@@ -26,14 +26,14 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
     elif parse == 5:
         # == U R1  comprovar que es de tipo boolean
-        if simbolo.tipo != 'boolean':
+        if simbolo.tipo != 'numero':
             error_semantico(
                 'Error Semantico: secuencia tras \'==\' no es de tipo booleano')
         return Simbolo('equals', tipo='boolean')
 
     elif parse == 6:
         # != U R1  comprovar que es de tipo boolean
-        if simbolo.tipo != 'boolean':
+        if simbolo.tipo != 'numero':
             error_semantico(
                 'Error Semantico: secuencia tras \'!=\' no es de tipo booleano')
         return Simbolo('not_equals', tipo='boolean')
@@ -56,7 +56,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         # ID++ en caso V comprobar para caso ID(L)
         simbolo_actual = find(Simbolo(token.value))
         if not simbolo_actual:
-            error_semantico('Error Semantico: Variable sin declarar')
+            tablas[tabla_count].insertar(Simbolo(token.value, tipo='numero'))
         if simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
@@ -83,7 +83,7 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
         if not simbolo_actual:
             error_semantico(
-                'Error Semantico: variable sin declarar')
+                'Error Semantico: variable sin declarar (se asume de tipo entero), \'{}\' tiene que ser boolean'.format(token.value))
 
         elif simbolo_actual.tipo != 'boolean':
             error_semantico(
@@ -100,9 +100,9 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         simbolo_actual = find(Simbolo(token.value))
 
         if not simbolo_actual:
-            error_semantico('Error Semantico: Variable sin declarar')
+            tablas[tabla_count].insertar(Simbolo(token.value, tipo='numero'))
 
-        elif simbolo_actual.tipo != simbolo.tipo:
+        if simbolo_actual.tipo != simbolo.tipo:
             error_semantico(
                 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
 
@@ -132,8 +132,9 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
 
     elif parse == 35:
         # let number x;
+
         simbolo = Simbolo(token.value, simbolo.tipo)
-        error_semantico('Error Semantico: Variable \'{}\' previamente declarada'.format(token.value)) if find(
+        error_semantico('Error Semantico: Variable \'{}\' previamente declarada'.format(token.value)) if tablas[tabla_count].find(
             simbolo) else tablas[tabla_count].insertar(simbolo)
 
     elif parse == 38:
