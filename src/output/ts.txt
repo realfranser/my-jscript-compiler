@@ -2,7 +2,7 @@ Contenido Tabla Simbolos # 0 :
 * LEXEMA : 'a'
   ATRIBUTOS :
 	+ tipo: int
-	+ Despl: 2
+	+ Despl: 0
 * LEXEMA : 'b'
   ATRIBUTOS :
 	+ tipo: int
@@ -10,54 +10,71 @@ Contenido Tabla Simbolos # 0 :
 * LEXEMA : 'bbb'
   ATRIBUTOS :
 	+ tipo: boolean
-	+ Despl: 1
+	+ Despl: 3
 * LEXEMA : 'k'
   ATRIBUTOS :
 	+ tipo: boolean
-	+ Despl: 1
-* LEXEMA : 'c'
-  ATRIBUTOS :
-	+ tipo: int
-	+ Despl: 2
+	+ Despl: 4
 * LEXEMA : 'f'
   ATRIBUTOS :
 	+ tipo: int
-	+ Despl: 2
+	+ Despl: 6
 * LEXEMA : 'o'
   ATRIBUTOS :
 	+ tipo: int
-	+ Despl: 2
-* LEXEMA : 'aa'
+	+ Despl: 8
+* LEXEMA : 'z'
   ATRIBUTOS :
-	+ tipo: funcion
-	+ numParam: 1
-	+ TipoParam1: boolean
-	+ ModoParam1: 1
+	+ tipo: int
+	+ Despl: 10
+* LEXEMA : 'c'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 12
 * LEXEMA : 'bb'
   ATRIBUTOS :
 	+ tipo: funcion
-	+ numParam: 1
+	+ numParam: 2
 	+ TipoParam1: int
 	+ ModoParam1: 1
+	+ TipoParam2: int
+	+ ModoParam2: 1
+* LEXEMA : 'aa'
+  ATRIBUTOS :
+	+ tipo: funcion
+	+ numParam: 2
+	+ TipoParam1: boolean
+	+ ModoParam1: 1
+	+ TipoParam2: int
+	+ ModoParam2: 1
+	+ TipoRetorno: boolean
+* LEXEMA : 'df'
+  ATRIBUTOS :
+	+ tipo: int
+	+ Despl: 14
 Contenido Tabla Simbolos # 1 :
-* LEXEMA : 'p'
-  ATRIBUTOS :
-	+ tipo: int
-	+ Despl: 2
 * LEXEMA : 'g'
   ATRIBUTOS :
 	+ tipo: int
-	+ Despl: 2
-Contenido Tabla Simbolos # 2 :
-* LEXEMA : 'g'
+	+ Despl: 0
+* LEXEMA : 't'
   ATRIBUTOS :
 	+ tipo: int
 	+ Despl: 2
-* LEXEMA : 'g'
+* LEXEMA : 'fe'
   ATRIBUTOS :
 	+ tipo: boolean
-	+ Despl: 1
-* LEXEMA : 'f'
+	+ Despl: 3
+Contenido Tabla Simbolos # 2 :
+* LEXEMA : 'p'
+  ATRIBUTOS :
+	+ tipo: boolean
+	+ Despl: -1
+* LEXEMA : 's'
   ATRIBUTOS :
 	+ tipo: int
-	+ Despl: 2
+	+ Despl: 1
+* LEXEMA : 'g'
+  ATRIBUTOS :
+	+ tipo: string
+	+ Despl: 65
