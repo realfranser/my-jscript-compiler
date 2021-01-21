@@ -86,7 +86,6 @@ def writeTS(tabla):
 	nums = getNumTabla(tabla)
 	for tsNumber in nums:
 		desplazamiento =0
-		desplazamiento= desplazamiento - tabla[0].despl
 		lineaNumeroTS = 'Contenido Tabla Simbolos # '+str(tsNumber)+' :\n'
 		TSFile.write(lineaNumeroTS)
 		for simbolo in tabla:
@@ -130,8 +129,9 @@ def writeTS(tabla):
 				# 	lineaTS = '	+ tipo: ' + simbolo.param +'\n'
 				# 	TSFile.write(lineaTS)
 	
-								
+numeroDeID=0
 def generarToken(tokenCode,atribute,linea):
+	global numeroDeID
 	found =False
 	print('token:'+atribute)
 	with  open(sourceTokenFilePath) as sourceTokenFile:
@@ -148,7 +148,8 @@ def generarToken(tokenCode,atribute,linea):
 							break
 			if found == False:
 				#pos = addToTS(0,atribute) ################# Editar cuando hagamos semantico
-				token = '<ID,' + str(0) + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
+				token = '<ID,' + str(numeroDeID) + '>\n' ## el Analizador Lexico añade los lexemas de tipo ID a la Tabla de Símbolos
+				numeroDeID = numeroDeID + 1
 				tt = Token('ID',linea,atribute)
 				TL.append(Token('ID',linea,atribute))
 				
