@@ -1,1 +1,1 @@
-num params incorrecto, expected 2 have 3,linea: 25
+Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado,linea: 25

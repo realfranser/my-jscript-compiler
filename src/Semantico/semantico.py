@@ -26,18 +26,24 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
                 'Error Semantico: secuencia tras \'&&\' no es de tipo booleano')
         return Simbolo('and', tipo='boolean')
 
+    elif parse == 4:
+        # entra simbolo U como simbolo, simbolo R1 como token
+        if (simbolo.lexema == 'equals' or simbolo.lexema == 'not_equals') and token.tipo != 'numero':
+            error_semantico(
+                'Error Semantico: 4 secuencia tras \'==\' no es de tipo booleano')
+
     elif parse == 5:
         # == U R1  comprovar que es de tipo boolean
         if simbolo.tipo != 'numero':
             error_semantico(
-                'Error Semantico: secuencia tras \'==\' no es de tipo booleano')
+                'Error Semantico: 5 secuencia tras \'==\' no es de tipo booleano')
         return Simbolo('equals', tipo='boolean')
 
     elif parse == 6:
         # != U R1  comprovar que es de tipo boolean
         if simbolo.tipo != 'numero':
             error_semantico(
-                'Error Semantico: secuencia tras \'!=\' no es de tipo booleano')
+                'Error Semantico: 6 secuencia tras \'!=\' no es de tipo booleano')
         return Simbolo('not_equals', tipo='boolean')
 
     elif parse == 9:
@@ -60,23 +66,28 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         if not simbolo_actual:
             tablas[tabla_count].insertar(Simbolo(token.value, tipo='numero'))
 
-        if simbolo_actual.tipo == 'function':
-            fun_params = simbolo.tipo_param
-            if simbolo_actual.num_param != len(fun_params):
+        # if simbolo_actual.tipo == 'function':
+            # fun_params = simbolo.tipo_param
+            # if simbolo_actual.num_param != len(fun_params):
 
-                error_semantico(
-                    'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
+            # error_semantico(
+            # 'num params incorrecto, expected {} have {}'.format(simbolo_actual.num_param, len(fun_params)))
 
-            if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
-                error_semantico(
-                    'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
+            # if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
+            # error_semantico(
+            # 'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
 
-            return simbolo_actual
-        elif simbolo:
-
-            if simbolo.lexema == 'autoincremento' and simbolo_actual.tipo != 'numero':
+            # return simbolo_actual
+        if simbolo and simbolo.tipo == 'function':
+            if simbolo.tipo_dev != simbolo_actual.tipo:
                 error_semantico(
                     'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
+
+        elif simbolo_actual.tipo != 'function' and simbolo and simbolo.tipo != simbolo_actual.tipo:
+            error_semantico(
+                'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
+
+        return simbolo_actual
 
     elif parse == 14:
         # whole_const
@@ -115,34 +126,38 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         return find(simbolo)
 
     elif parse == 22:
+        pass
         # X=3; en caso S
         # problema devuelve simbolo sin tipo
-        simbolo_actual = find(Simbolo(token.value))
+        #simbolo_actual = find(Simbolo(token.value))
 
-        if not simbolo_actual:
-            tablas[tabla_count].insertar(Simbolo(token.value, tipo='numero'))
+#        if not simbolo_actual:
+ #           tablas[tabla_count].insertar(Simbolo(token.value, tipo='numero'))
 
-        if simbolo_actual.tipo == 'function':
-            fun_params = simbolo.tipo_param
+        # if simbolo_actual.tipo == 'function':
+        # fun_params = simbolo.tipo_param
 
-            if simbolo_actual.num_param != len(fun_params):
-                error_semantico(
-                    'num params incorrecto, expected {} have {} '.format(simbolo_actual.num_param, len(fun_params)))
+        # if simbolo_actual.num_param != len(fun_params):
+        # error_semantico(
+        # 'num params incorrecto, expected {} have {} '.format(simbolo_actual.num_param, len(fun_params)))
 
-            if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
-                error_semantico(
-                    'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
+        # if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
+        # error_semantico(
+        # 'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
 
-            return simbolo_actual
+        # return simbolo_actual
+        # pass
 
-        elif simbolo.tipo == 'function':
-            if simbolo.tipo_dev != simbolo_actual.tipo:
-                error_semantico(
-                    'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado ')
+        # elif simbolo.tipo == 'function':
+        # if simbolo.tipo_dev != simbolo_actual.tipo:
+        # error_semantico(
+        # 'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado ')
 
-        elif simbolo_actual.tipo != simbolo.tipo:
-            error_semantico(
-                'Error Semantico: Tipo de la variable no coincide con el tipo del valor asignado')
+        # if simbolo_actual != 'function' and simbolo_actual.tipo != simbolo.tipo:
+        #   error_semantico(
+        #      'Error Semantico: Tipo de la variable no coincide con paxenroma el tipo del valor asignado')
+
+        # return simbolo_actual
 
     elif parse == 23:
         # alert(E);
@@ -161,6 +176,27 @@ def analizar(parse, simbolo, token):  # token o simbolo ? ambos
         if not (simbolo.tipo == tablas[tabla_count].retorno or (simbolo.tipo == None and tablas[tabla_count].retorno == 'void')):
             error_semantico(
                 'Error Semantico: Tipo return no coincide con el tipo de la funcion')
+
+    elif parse == 28:
+        simbolo_actual = find(Simbolo(token.value))
+        fun_params = simbolo.tipo_param
+
+        if len(simbolo_actual.tipo_param) != len(fun_params):
+            error_semantico(
+                'num params incorrecto, expected {} have {} '.format(simbolo_actual.num_param, len(fun_params)))
+
+        if not ([param for param in fun_params] == [param for param in simbolo_actual.tipo_param]):
+            error_semantico(
+                'No coinciden los tipos de entrada de la funcion \'{}\''.format(token.value))
+
+    elif parse == 29:
+        simbolo_actual = find(Simbolo(token.value))
+
+        if simbolo_actual.num_param != 0:
+            error_semantico(
+                'introducinedo parametros en la funcion \'{}\' sin parametros de entrada'.format(
+                    token.value)
+            )
 
     elif parse == 34:
         # if(E) X;

@@ -4,7 +4,7 @@ function number factorial(number x)
 /* se define la función recursiva con un parámetro, 
    que oculta a la variable global de igual nombre */
 {
-    /*if (x == 1) x++;*/
+    if (x == 1) x++;
     x = x++;
 
 
@@ -22,4 +22,4 @@ function Imprime(number a) {
     alert(a);
     return;	/* esta instrucción se podría omitir*/
 }	/* la función no devuelve nada*/
-Imprime(factorial(Suma(5, 3)));	/* se llama a las tres funciones*/
+Imprime(factorial(Suma(2, x)));	/* se llama a las tres funciones*/

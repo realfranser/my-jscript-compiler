@@ -134,8 +134,9 @@ def R(simbolo):
     if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         master.parse.append(4)
         # (not or open_par or ...) U R1
-        simbolo = U(simbolo)
-        simbolo = R1(simbolo)
+        primer = U(simbolo)
+        simbolo = R1(primer)
+        analizar(4, simbolo, primer)
     else:
         error_parse(sig_token)
 
@@ -219,7 +220,7 @@ def V(simbolo):
         token = sig_token
         equipara('ID')
         simbolo = V1(simbolo)
-        semantico.analizar(12, simbolo, token)
+        simbolo = semantico.analizar(12, simbolo, token)
     elif valor == 'open_par':
         master.parse.append(13)
         # ( E )
@@ -288,6 +289,7 @@ def S(simbolo):
     if sig_token.key == 'ID':
         master.parse.append(22)
         # ID S1
+        simbolo = semantico.find(Simbolo(valor))
         token = sig_token
         equipara('ID')
         simbolo = S1(simbolo)
@@ -354,16 +356,20 @@ def S1(simbolo):
 def L(simbolo):
 
     valor = sig_token.value
+    simbolo = Simbolo('L')
 
     if valor == 'not' or valor == 'open_par' or sig_token.key == 'chain' or sig_token.key == 'whole_const' or valor == 'false' or sig_token.key == 'ID' or valor == 'true':
         master.parse.append(28)
         # (not or open_par or ...) E Q
         simbolo = E(simbolo)
-        simbolo.tipo_param.append(simbolo.tipo)
+        tipo = simbolo.tipo_dev if simbolo.tipo == 'function' else simbolo.tipo
+        simbolo.tipo_param.append(tipo)
         simbolo = Q(simbolo)
+        analizar(28, simbolo, Token('ID', valor, master.line_count))
         # comprobar que no le meta dos veces el mismo
     elif valor == 'close_par':
         master.parse.append(29)
+        analizar(28, simbolo, Token('ID', valor, master.line_count))
     else:
         error_parse(sig_token)
 
