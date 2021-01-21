@@ -1,0 +1,1 @@
+ErrorSemantico: no se puede comparar == distintos tipos regla r1

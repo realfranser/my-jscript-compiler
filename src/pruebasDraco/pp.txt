@@ -10,7 +10,7 @@ input(f);
 input(b);
 bbb = k;
 bbb = true;
-k = a == b;
+k = a == k;
 if(a==b) a=1;
 do{let number o; z = 3;}while(a==b);
 
@@ -25,7 +25,7 @@ function bb (number g,number t){let boolean fe;  }
 function boolean aa (boolean p,number s){let string g; return p;}
 if(a==b)a=0;
 
-
+bb(1,2);
 bbb = a == b;
 
 bbb = 2 == 1;

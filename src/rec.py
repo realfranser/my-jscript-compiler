@@ -80,7 +80,7 @@ def addToTS(simbolo):
 	return len(TS)
 def printTabla(tabla):
 	for simbolo in tabla:
-		print(simbolo.__dict__)
+		errorSemantico(simbolo.__dict__)
 def writeTS(tabla):
 	nums = getNumTabla(tabla)
 	for tsNumber in nums:
@@ -452,7 +452,10 @@ def equipara(t):
 	else:
 		errorParse(Token('equipara',lineaSint,'error'))
 
-
+def errorSemantico(error):
+	eS = 'ErrorSemantico: '+ error
+	generarError(eS)
+	exit()
 def errorParse(error):
 	#habra que cambiarlo
 	eP = 'ErrorSintactico: Error antes de token \''+str(error.token) + '\',linea:' + str(error.linea)
@@ -507,7 +510,7 @@ def R1(simbolo):
 		t = U(Simbolo())
 		tt = R1(t)
 		if tt.tipo != simbolo.tipo or tt.tipo!= 'int'or simbolo.tipo!= 'int':
-			print('no se puede comparar == distintos tipos regla r1')
+			errorSemantico('no se puede comparar == distintos tipos regla r1')
 			exit()
 		return Simbolo(numTabla=0,lexema='==',tipo='boolean',despl=1,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'notEquals':
@@ -516,7 +519,7 @@ def R1(simbolo):
 		t=U(Simbolo())
 		tt=R1(t)
 		if tt.tipo != simbolo.tipo or tt.tipo!= 'int'or simbolo.tipo!= 'int':
-			print('no se puede comparar != distintos tipos regla r1')
+			errorSemantico('no se puede comparar != distintos tipos regla r1')
 			exit()
 		return Simbolo(numTabla=0,lexema='!=',tipo='boolean',despl=1,param=[],numParam=0,tipoRetorno=None)
 	elif sig_token.token == 'and' or sig_token.token == 'closePar' or sig_token.token == 'colon' or sig_token.token == 'semicolon':
@@ -534,7 +537,7 @@ def U(simbolo):
 		t =V(Simbolo())
 		tt =U1(t)
 		if t.tipo != tt.tipo:
-			print('error no son del mismo tipo en regla U, linea:'+str(sig_token.linea+1))
+			errorSemantico('error no son del mismo tipo en regla U, linea:'+str(sig_token.linea+1))
 			exit()
 		return tt
 	else:
@@ -549,7 +552,7 @@ def U1(simbolo):
 		t =V(Simbolo())
 		tt =U1(t)
 		if t.tipo != tt.tipo or (t.tipo!='int' and t.tipo != 'string'):
-			print('error en regla u1 + '+str(sig_token.linea))
+			errorSemantico('error en regla u1 + '+str(sig_token.linea))
 			exit()
 		return tt
 	elif sig_token.token == 'minus':
@@ -558,7 +561,7 @@ def U1(simbolo):
 		t =V(Simbolo())
 		tt =U1(t)
 		if t.tipo != tt.tipo or t.tipo!='number':
-			print('error en regla u1 - '+str(sig_token.linea))
+			errorSemantico('error en regla u1 - '+str(sig_token.linea))
 			exit()
 		return tt
 	elif sig_token.token == 'notEquals' or sig_token.token == 'and' or sig_token.token == 'closePar' or sig_token.token == 'colon' or sig_token.token == 'semicolon' or sig_token.token == 'equals':
@@ -613,10 +616,10 @@ def V(simbolo):
 	 	parse.append(18)
 	 	equipara('not')
 	 	if getLexema(TS,sig_token.atribute).tipo != 'boolean':
-	 		print('error en la variable despues del not no es boolean regla v')
+	 		errorSemantico('error en la variable despues del not no es boolean regla v')
 	 		exit()
 	 	elif getLexema(TS,sig_token.atribute).lexema != None:
-	 		print('error, usando variable no declarada, regla v')
+	 		errorSemantico('error, usando variable no declarada, regla v')
 	 		exit()
 	 	equipara('ID')
 	 	simbolo.tipo = 'boolean'
@@ -633,7 +636,7 @@ def V1(simbolo):
 	 	t =L(Simbolo())
 	 	equipara('closePar')
 	 	if simbolo.numParam != t.numParam or simbolo.tipo != t.tipo:
-	 		print('error en numero de parametros o tipo de parametros en la llamada a la funcion')
+	 		errorSemantico('error en numero de parametros o tipo de parametros en la llamada a la funcion')
 	 		exit()
 	 	return t
 	elif sig_token.token == 'autoInc':
@@ -664,10 +667,10 @@ def S(simbolo):
 		t = S1(Simbolo())
 		if (simboloID.tipo == 'funcion'):
 			if(simboloID.param != t.param ):
-				print('no coinciden parametros')
+				errorSemantico('no coinciden parametros')
 				exit()
 		elif (t.tipo != simboloID.tipo):
-			print('mal')
+			errorSemantico('mal')
 			exit()
 		return t
 	elif sig_token.token == 'alert': 
@@ -677,7 +680,7 @@ def S(simbolo):
 		t = E(Simbolo())
 		
 		if(t.tipo != 'int' and t.tipo != 'string'):
-			print('Error: alert() solo acepta expresiones/variables de tipo \'int\' o \'string\' , Variable:{0}, Tipo:{1}'.format(t.lexema, t.tipo))
+			errorSemantico('Error: alert() solo acepta expresiones/variables de tipo \'int\' o \'string\' , Variable:{0}, Tipo:{1}'.format(t.lexema, t.tipo))
 			exit()
 		equipara('closePar')
 		equipara('semicolon')
@@ -694,7 +697,7 @@ def S(simbolo):
 			addToTS(simboloID) # si no esta se declara de tipo int
 
 		if(simboloID.tipo != 'int' and  simboloID.tipo != 'string' ):
-			print('Error: input() solo acepta variables de tipo \'int\' o \'string\' , Variable:{0}, Tipo:{1}'.format(simboloID.lexema, simboloID.tipo))
+			errorSemantico('Error: input() solo acepta variables de tipo \'int\' o \'string\' , Variable:{0}, Tipo:{1}'.format(simboloID.lexema, simboloID.tipo))
 			exit()
 
 		equipara('ID')
@@ -707,10 +710,10 @@ def S(simbolo):
 		equipara('return')
 		t = X(simbolo)
 		if simbolo.tipoRetorno == 'void' and t.tipo != None:
-			print('error: tipo tipoRetorno distinto de tipo funcion void')
+			errorSemantico('error: tipo tipoRetorno distinto de tipo funcion void')
 			exit()
 		if simbolo.tipoRetorno != 'void' and simbolo.tipoRetorno != t.tipo:
-			print('error: tipo tipoRetorno distinto de tipo funcion')
+			errorSemantico('error: tipo tipoRetorno distinto de tipo funcion')
 			exit()
 		equipara('semicolon')
 		return Simbolo()
@@ -790,7 +793,7 @@ def B(simbolo):
 		equipara('openPar')
 		t =E(Simbolo())
 		if t.tipo != 'boolean':
-			print('dentro del if solo puede haber sentencias boolean, lexema:'+ str(t.lexema)+' tipo:'+str(t.tipo))
+			errorSemantico('dentro del if solo puede haber sentencias boolean, lexema:'+ str(t.lexema)+' tipo:'+str(t.tipo))
 			exit()
 		equipara('closePar')
 		tt =S(t)
@@ -805,7 +808,7 @@ def B(simbolo):
 		equipara('semicolon')
 		simboloGuardado=getLexema(TS,t.lexema)
 		if simboloGuardado.lexema and simboloGuardado.numTabla == t.numTabla:
-			print('error variable:'+t.lexema+'previamente declarada')
+			errorSemantico('error variable:'+t.lexema+'previamente declarada')
 			exit()
 		addToTS(t)
 		return Simbolo(numTabla=simbolo.numTabla,tipoRetorno= simbolo.tipoRetorno)
@@ -825,7 +828,7 @@ def B(simbolo):
 	 	equipara('openPar')
 	 	tt = E(t)
 	 	if (tt.tipo != 'boolean'):
-	 		print('error no es un boolean en el while')
+	 		errorSemantico('error no es un boolean en el while')
 	 		exit()
 	 	equipara('closePar')
 	 	equipara('semicolon')
