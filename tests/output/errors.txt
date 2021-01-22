@@ -1,1 +1,1 @@
-Error semantico: los parametros de entrada en la llamada a la funcion Suma no son correctos, en linea: 31
+Error semantico: 'num1' es una variable de tipo boolean, en linea: 5
