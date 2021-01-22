@@ -1,10 +1,18 @@
 Contenido Tabla de Simbolos #0 :
-* LEXEMA : 'aux'
+* LEXEMA : 'x'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 0
+* LEXEMA : 'a'
   ATRIBUTOS :
 	+ Tipo: boolean
-	+ Despl: 0
-	+ Tipo_Param0: numero
-	+ Tipo_Retorno: void
+	+ Despl: 2
+	+ Tipo_Param1: numero
+	+ Tipo_Retorno: numero
+	+ Tipo_Param1: numero
+	+ Tipo_Retorno: boolean
+	+ Tipo_Param1: boolean
+	+ Tipo_Retorno: numero
 
 
 Contenido Tabla de Simbolos #1 :
@@ -12,5 +20,35 @@ Contenido Tabla de Simbolos #1 :
   ATRIBUTOS :
 	+ Tipo: numero
 	+ Despl: 0
+* LEXEMA : 'b'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 2
+
+
+Contenido Tabla de Simbolos #2 :
+* LEXEMA : 'a'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 0
+* LEXEMA : 'b'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 2
+
+
+Contenido Tabla de Simbolos #3 :
+* LEXEMA : 'a'
+  ATRIBUTOS :
+	+ Tipo: boolean
+	+ Despl: 0
+* LEXEMA : 'b'
+  ATRIBUTOS :
+	+ Tipo: boolean
+	+ Despl: 1
+* LEXEMA : 'aux'
+  ATRIBUTOS :
+	+ Tipo: boolean
+	+ Despl: 2
 
 
