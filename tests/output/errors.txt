@@ -1,1 +1,1 @@
-Compilado sin errores
+Error sintactico: boolean, en linea: 1
