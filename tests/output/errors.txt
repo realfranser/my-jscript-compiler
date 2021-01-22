@@ -1,1 +1,1 @@
-Error semantico: 'num1' es una variable de tipo boolean, en linea: 5
+Error semantico: alert solo acepta numeros o strings, en linea: 8
