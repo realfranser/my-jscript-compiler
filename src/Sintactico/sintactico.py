@@ -35,7 +35,7 @@ def analizador(file_path):
 
     tablas = []
 
-    return master.parse, master.token_list, tablas
+    return master.parse, master.token_list, semantico.tablas
 
 
 def pedir_token():
@@ -130,7 +130,7 @@ def E1(is_boolean):
     else:
         error_parse(sig_token)
 
-    return simbolo
+    return is_boolean
 
 
 def R():
@@ -176,7 +176,7 @@ def R1(equals_notequals):
     else:
         error_parse(sig_token)
 
-    return simbolo
+    return equals_notequals
 
 
 def U():
@@ -190,7 +190,7 @@ def U():
         mas_menos = U1(False)
         # Si mas_menos es True, entonces se comprueba que V sea numero y se devuelve V
         # Si mas_menos es False, entonces se devuelve directamente V
-        simbolo = analizar(8, simbolo, mas_menos)
+        analizar(8, simbolo, mas_menos)
     else:
         error_parse(sig_token)
 
@@ -259,7 +259,7 @@ def V():
         master.parse.append(15)
         # chain
         equipara('chain')
-        # Devolvemos simbolo de tipo chain
+        # Devolvemos simbolo de tipo string
         simbolo = analizar(15, None, None)
     elif valor == 'true':
         master.parse.append(16)
@@ -284,11 +284,9 @@ def V():
 
     return simbolo
 
-# !!!! REALMENTE HACE FALTA UN SIMBOLO DE ENTRADA???
-# REVISAR EL SEGUNDO ELIF
-
 
 def V1():
+    # REVISAR EL SEGUNDO ELIF
 
     valor = sig_token.value
 
@@ -299,6 +297,8 @@ def V1():
         # simbolo es la lista de los tipos de variables en L
         simbolo = L()
         equipara('close_par')
+        # Transformar lista a simbolo tipo lista_tipos con tipo_param = lista
+        simbolo = analizar(19, simbolo, None)
     elif valor == 'auto_inc':
         master.parse.append(20)
         # ++
@@ -325,11 +325,11 @@ def S():
         # ID S1
         token = sig_token
         equipara('ID')
-        simbolo = S1(simbolo)
+        simbolo = S1()
         # Si 'ID' es una variable se comprueba el tipo del token y devuelve 'ID'.tipo
-        # Si 'ID' es una funcion S1 devuelve una lista de los tipos que se le mete
+        # Si 'ID' es una funcion, S1 devuelve una lista de los tipos que se le mete
         # al llamar a dicha funcion y devuelve un simbolo de tipo 'function'.dev
-        simbolo = analizar(22, simbolo, token)
+        analizar(22, simbolo, token)
 
     elif valor == 'alert':
         master.parse.append(23)
@@ -350,7 +350,7 @@ def S():
         equipara('ID')
         equipara('close_par')
         equipara('semicolon')
-        # Se comprueba que el simbolo.tipo con nombre 'ID' sea valido como input
+        # Se comprueba que el simbolo.tipo con nombre 'ID' sea valido como input (numero o string)
         analizar(24, None, token)
     elif valor == 'return':
         master.parse.append(25)
@@ -363,7 +363,7 @@ def S():
         error_parse(sig_token)
 
 
-def S1(simbolo):
+def S1():
 
     valor = sig_token.value
 
@@ -373,6 +373,7 @@ def S1(simbolo):
         equipara('equal')
         simbolo = E()
         equipara('semicolon')
+        # No hace falta semantico ya que hay que devolver el tipo de E
     elif valor == 'open_par':
         master.parse.append(27)
         # ( L ) ;
@@ -380,6 +381,8 @@ def S1(simbolo):
         simbolo = L()
         equipara('close_par')
         equipara('semicolon')
+        simbolo = analizar(27, simbolo, None)
+        # No hace falta semantico ya que hay que devolver (lista_tipos) devuelta por l
     elif valor == 'auto_inc':
         master.parse.append(53)
         # ++ ;
@@ -402,9 +405,10 @@ def L():
         master.parse.append(28)
         # (not or open_par or ...) E Q
         simbolo = E()
-        # Se tiene que implementar en el semantico
-        #tipo = simbolo.tipo_dev if simbolo.tipo == 'function' else simbolo.tipo
+        # El semantico devuelve el tipo de simbolo en caso de que sea una variable
+        # si simbolo es una funcion, el semantico devuelve su tipo de retorno
         tipo = analizar(28, simbolo, None)
+        # Se mete el tipo devuelto por el semantico en la lista lista_tipos
         lista_tipos.append(tipo)
         lista_tipos = Q(lista_tipos)
     elif valor == 'close_par':
@@ -424,9 +428,10 @@ def Q(lista_tipos):
         # , E Q
         equipara('colon')
         simbolo = E()
-        # Se tiene que meter la linea de abajo en el semantico
-        #tipo = simbolo.tipo_dev if simbolo.tipo == 'function' else simbolo.tipo
+        # El semantico devuelve el tipo de simbolo en caso de que sea una variable
+        # si simbolo es una funcion, el semantico devuelve su tipo de retorno
         tipo = analizar(30, simbolo, None)
+        # Se mete el tipo devuelto por el semantico en la lista lista_tipos
         lista_tipos.append(tipo)
         lista_tipos = Q(lista_tipos)
     elif valor == 'close_par':
@@ -468,6 +473,7 @@ def B():
         simbolo = E()
         equipara('close_par')
         S()
+        # Comprobar que simbolo es de tipo boolean
         analizar(34, simbolo, None)
 
     elif valor == 'let':
@@ -478,14 +484,13 @@ def B():
         token = sig_token
         equipara('ID')
         equipara('semicolon')
+        # Comprobar que 'ID' no haya sido declarada en ese ambito y si no es asi, crear la nueva variable
         analizar(35, simbolo, token)
 
     elif valor == 'alert' or sig_token.key == 'ID' or valor == 'input' or valor == 'return':
         master.parse.append(36)
         # (alert or ID or input or return) S
-        token = sig_token
         S()
-        analizar(36, simbolo, token)
 
     elif valor == 'do':
         master.parse.append(37)
@@ -499,11 +504,10 @@ def B():
         simbolo = E()
         equipara('close_par')
         equipara('semicolon')
+        # Comprobar que E sea de tipo boolean
         analizar(37, simbolo, None)
     else:
         error_parse(sig_token)
-
-    return simbolo
 
 
 def T():
@@ -551,8 +555,6 @@ def F():
     else:
         error_parse(sig_token)
 
-    return simbolo
-
 
 def H():
 
@@ -563,11 +565,11 @@ def H():
         # (boolean or number or string) T
         simbolo = T()
         # Es una funcion del tipo devuelto por T()
-        analizar(42, None, None)
+        analizar(42, simbolo, None)
     elif sig_token.key == 'ID':
         master.parse.append(43)
         # Es una funcion void
-        analizar(43, None, None)
+        simbolo = analizar(43, None, None)
     else:
         error_parse(sig_token)
 
@@ -627,11 +629,11 @@ def C():
         B()
         C()
         # Se deberia comprobar que haya return cuando haga falta
-        analizar(48, None, None)
+        #analizar(48, None, None)
     elif valor == 'close_braq':
         master.parse.append(49)
         # Se deberia comprobar que haya return cuando haga falta
-        analizar(49, None, None)
+        # analizar(49, None, None)
     else:
         error_parse(sig_token)
 
@@ -647,6 +649,7 @@ def P():
     elif valor == 'function':
         master.parse.append(51)
         F()
+        analizar(51, None, None)
         P()
     elif valor == '$':
         master.parse.append(52)

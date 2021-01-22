@@ -1,0 +1,45 @@
+Contenido Tabla de Simbolos #0 :
+* LEXEMA : 'x'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 0
+	+ Tipo_Param0: boolean
+	+ Tipo_Retorno: numero
+	+ Tipo: factorial
+	+ Tipo_Param1: numero
+	+ Tipo_Retorno: boolean
+	+ Tipo: Suma
+	+ Tipo_Param0: numero
+	+ Tipo_Retorno: void
+	+ Tipo: Imprime
+
+
+Contenido Tabla de Simbolos #1 :
+* LEXEMA : 'y'
+  ATRIBUTOS :
+	+ Tipo: boolean
+	+ Despl: 0
+
+
+Contenido Tabla de Simbolos #2 :
+* LEXEMA : 'aux'
+  ATRIBUTOS :
+	+ Tipo: boolean
+	+ Despl: 0
+* LEXEMA : 'fin'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 1
+* LEXEMA : 'pax'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 3
+
+
+Contenido Tabla de Simbolos #3 :
+* LEXEMA : 'a'
+  ATRIBUTOS :
+	+ Tipo: numero
+	+ Despl: 0
+
+

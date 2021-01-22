@@ -1,6 +1,6 @@
 let number x;  /* global*/
 x = 3;
-function number factorial(number x)
+function number factorial(boolean y)
 /* se define la función recursiva con un parámetro, 
    que oculta a la variable global de igual nombre */
 {
@@ -9,18 +9,18 @@ function number factorial(number x)
 
 
 }	/* la función devuelve un entero*/
-function boolean Suma(number aux, number fin)
+function boolean Suma(boolean aux, number fin)
 /* se define la función Suma que recibe 
    dos enteros por valor */
 /* usa la variable global x */
 {
-    aux = factorial(aux - 1);
+    pax = factorial(aux && aux);
 
-    return aux != 10000;
+    return pax != 10000;
 }	/* la función devuelve un lógico*/
 function Imprime(number a) {
     alert(a);
-    return a;	/* esta instrucción se podría omitir*/
+    return;	/* esta instrucción se podría omitir*/
 }	/* la función no devuelve nada*/
 
 do {
@@ -28,4 +28,4 @@ do {
     alert(x);
 
 } while (x != 5);
-Imprime(factorial(Suma(5, 3)));	/* se llama a las tres funciones*/
+Imprime(factorial(Suma(true, 3)));	/* se llama a las tres funciones*/

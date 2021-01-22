@@ -52,6 +52,28 @@ class Simbolo:
         self.tipo_dev = tipo_dev  # tipo devuelto por funcion
         self.etiqueta = etiqueta  # Etiqueta tipo funcion
 
+    def to_string(self):
+
+        string = '* LEXEMA : \''+self.lexema+'\'\n  ATRIBUTOS :\n'
+        string += '	+ Tipo: ' + \
+            str(self.tipo) + '\n' if self.tipo != None else ''
+        string += '	+ Despl: ' + \
+            str(self.despl) + '\n' if self.despl != None else ''
+        string += '	+ Num_Param: ' + \
+            str(self.num_param) + \
+            '\n' if self.num_param != None else ''
+
+        for i in range(len(self.tipo_param)):
+            string = '	+ Tipo_Param' + \
+                str(i)+': ' + self.tipo_param[i] + '\n'
+
+        string += '	+ Tipo_Retorno: ' + self.tipo_dev + \
+            '\n' if self.tipo_dev != None else ''
+        string += '	+ Tipo: ' + self.etiqueta + \
+            '\n' if self.etiqueta != None else ''
+
+        return string
+
 
 class Tabla_Simbolos:
     """
@@ -83,38 +105,21 @@ class Tabla_Simbolos:
             self.desplazamiento += self.sizes[simbolo.tipo]
         self.entradas.append(simbolo)
 
-    def to_string(self):
+    def to_string(self, num_tabla):
         """
         Hacer el to string para que cada Tabla de Simbolos se printee como es debido
         """
-        string = 'Contenido Tabla de Simbolos #'+self.nombre+' :\n'
+        string = 'Contenido Tabla de Simbolos #{}'.format(
+            str(num_tabla)) + ' :\n'
 
         for simbolo in self.entradas:
-            string += '* LEXEMA : \''+simbolo.lexema+'\'\n  ATRIBUTOS :\n'
-            string += '	+ Tipo: ' + \
-                str(simbolo.tipo) + '\n' if simbolo.tipo != None else ''
-            string += '	+ Despl: ' + \
-                str(simbolo.despl) + '\n' if simbolo.despl != None else ''
-            string += '	+ Num_Param: ' + \
-                str(simbolo.num_param) + \
-                '\n' if simbolo.num_param != None else ''
-
-            for i in range(len(simbolo.tipo_param)):
-                string = '	+ Tipo_Param' + \
-                    str(i)+': ' + simbolo.tipo_param[i] + '\n'
-                string = '	+ Modo_Paso' + \
-                    str(i)+': ' + simbolo.modo_paso[i] + '\n'
-
-            string += '	+ Tipo_Retorno: ' + simbolo.tipo_dev + \
-                '\n' if simbolo.tipo_dev != None else ''
-            string += '	+ Tipo: ' + simbolo.etiqueta + \
-                '\n' if simbolo.etiqueta != None else ''
+            string += simbolo.to_string()
 
         return string
 
-    def find(self, simbolo):
+    def find(self, id_entrada):
 
-        return tablas[tabla_count].find(simbolo) or tablas[0].find(simbolo)
+        return ([entry for entry in self.entradas if entry.lexema == id_entrada][:1] or [None])[0]
 
 
 # FUNCTIONS
@@ -143,9 +148,11 @@ def main():
         parse, token_list, tablas_simbolos = sintactico.analizador(
             test_file_path)
 
+        print(tablas_simbolos[0].entradas[2].to_string())
+
         # Escribir en el fichero tabla de simbolos, todas las tablas de simbolos
         for tabla in tablas_simbolos:
-            ts_file.write(tabla.to_string()+"\n\n")
+            ts_file.write(tabla.to_string(tablas_simbolos.index(tabla))+"\n\n")
 
         # Escribir en el fichero parse, todos los parses
         parse_string = 'Descendente'

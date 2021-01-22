@@ -53,20 +53,33 @@ for _ in range(1, 5):
     lista_tipo.append(Tipo('adios'))
 
 
+def devolver_tipo(cond):
+    return Tipo('tipo') if cond else None
+
+
 def main():
-    #global lista
+    # global lista
     # comprobar(lista)
     # print(sumar_uno(1))
     # print(simbolo_test(1))
-    #print(comparador_triple(1, 2, 3))
-    #print(comparador_triple(1, 2, 1))
-    #print(comparador_triple(1, 1, 1))
+    # print(comparador_triple(1, 2, 3))
+    # print(comparador_triple(1, 2, 1))
+    # print(comparador_triple(1, 1, 1))
     # print(multiple_triple_comparator('pax'))
     # print(multiple_triple_comparator('word'))
-    #lista = ['a', 'b', 'c']
+    # lista = ['a', 'b', 'c']
     # except_last(lista)
-    lista = [i.lexema for i in lista_tipo]
-    print(lista)
+    # lista = [i.lexema for i in lista_tipo]
+    # print(lista)
+    # print(isinstance([], list))
+    # print(['1', '2', '3'] == ['1', '2', '3'])
+    # print(['2', '2', '3'] == ['1', '2', '3'])
+    # print(['1', '2'] == ['1', '2', '3'])
+    print('no coincide') if not devolver_tipo(False) or devolver_tipo(
+        False).lexema != 'pax' else print('coincide')
+
+    print('no coincide') if not devolver_tipo(True) or devolver_tipo(
+        True).lexema != 'tipo' else print('coincide')
 
 
 if __name__ == '__main__':
