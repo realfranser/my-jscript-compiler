@@ -1,77 +1,41 @@
 # Esta es la gramatica del analizador semantico
 
-/*
 
-T -> NUMBER		...	T.tipo  := ent
-				T.ancho := 2
+P' -> { crearTS(despl=0) = TSG } P
+P  -> B P
+P  -> F { P.tipo := if (F.tipo != null) err & Error() } P
+P  -> lambda
 
-T -> BOOLEAN		...	T.tipo 	:= log
-				T.ancho := 1
-
-T -> STRING		...	T.tipo 	:= str
-				T.ancho := 64
-
-H -> T			...	H.tipo 	:= T.tipo
-  -> lambda			H.long	:= 0;	H.pos = vacio
-
-X -> E			... 	X.tipo	:= E.tipo
-  -> lambda			X.long	:= 0;	X.pos = vacio
-
-B -> S			...	B.tipo	:= S.tipo
-
-V -> ID V1		...	V.long	:= 1 + V1.long; V.pos	:= ID.pos xor	V1.pos
-
-E1 -> lambda		...	E1.long	:= 0;	E1.pos = vacio
-
-R1 -> lambda		...	R1.long	:= 0;	R1.pos = vacio
-
-U1 -> lambda		...	U1.long	:= 0;	U1.pos = vacio
-
-V1 -> lambda		...	V1.long	:= 0;	V1.pos = vacio
-
-L -> lambda		...	L.long	:= 0;	L.pos = vacio
-
-Q -> lambda		...	Q.long	:= 0;	Q.pos = vacio
-
-*/
-
-.P' -> { crearTS(despl=0) = TSG } P
-.P  -> B P
-.P  -> F { P.tipo := if (F.tipo != null) err & Error() } P
-.P  -> lambda
-
-.B  -> IF (E) S { crearTS(), B.tipo = if(E.tipo==boolean & S.tipo!=err) then S.tipo & B.ret=S.ret else err & Error() }
-.B  -> S { B.tipo := S.tipo, B.ret = S.ret}
--B  -> LET T ID ; {B.tipo:= if (BuscaTSL(TS, id.ent)!=null) err & Error()
-					else AnyadirTS(TS,id.ent,addDespl(), T.tipo, T.tam)}
+B  -> IF (E) S { crearTS(), B.tipo = if(E.tipo==boolean & S.tipo!=err) then S.tipo & B.ret=S.ret else err & Error() }
+B  -> S { B.tipo := S.tipo, B.ret = S.ret}
+B  -> LET T ID ; {B.tipo:= if (BuscaTSL(TS, id.ent)!=null) err & Error() else AnyadirTS(TS,id.ent,addDespl(), T.tipo, T.tam)}
 -B  -> DO { C } WHILE ( E ) ; 
 
 
 
-.E  -> R E1 { if  (E1.tipo == null) E.tipo = R.tipo
+E  -> R E1 { if  (E1.tipo == null) E.tipo = R.tipo
 			else if ( R.tipo!=E1.tipo & E1.tipo!=err & R.tipo!=err )
 				E.tipo=err & Error()
 			else if (R.tipo!=E1.tipo & (E1.tipo==boolean | R.tipo==boolean))
 				E.tipo = err & Error()
 			else E.tipo=boolean}
-.E1 -> && R E1'{ E1.tipo = if((E1',tipo!=null & E1'.tipo!=boolean)| R.tipo != boolean ) err && Error() else boolean }
-.E1 -> lambda
+E1 -> && R E1'{ E1.tipo = if((E1',tipo!=null & E1'.tipo!=boolean)| R.tipo != boolean ) err && Error() else boolean }
+E1 -> lambda
 
-
-.R  -> U R1 {if (R1.tipo==null) R.tipo=U.tipo
+R  -> U R1 {if (R1.tipo==null) R.tipo=U.tipo
 				else if (U.tipo!=R1.tipo) R.tipo=err && Error()
 				else R.tipo=boolean}
--R1 -> == U R1  -(==U -- R1.tipo = U.tipo)-
--R1 -> != U R1  
-.R1 -> lambda
+R1 -> == U R1' if(R1.tipo==U.tipo) then R1.tipo = ok
+R1 -> != U R1' if(R1.tipo==U.tipo) then R1.tipo = ok
+R1 -> lambda
 
 
-.U  -> V U1 { U.tipo = if(U1.tipo!=null & V.tipo!=U1.tipo)then err & Error() else V.tipo}
-.U1 -> + V U1'  {U1.tipo = if (U1'.tipo!=null & V.tipo!=U1'.tipo) then err & Error() else V.tipo}
--U1 -> - V U1'  {U1.tipo = if (U1'.tipo!=null & V.tipo!=U1'.tipo) then err & Error() else V.tipo}
-.U1 -> lambda
+U  -> V U1 { U.tipo = if(U1.tipo!=null & V.tipo!=U1.tipo)then err & Error() else V.tipo}
+U1 -> + V U1'  {U1.tipo = if (U1'.tipo!=null & V.tipo!=U1'.tipo) then err & Error() else V.tipo}
+U1 -> - V U1'  {U1.tipo = if (U1'.tipo!=null & V.tipo!=U1'.tipo) then err & Error() else V.tipo}
+U1 -> lambda
 
-.V -> ID V1 {if BuscaTS(id.ent)!=null & BuscaTipoTS(id.ent)==fun
+V -> ID V1 {if BuscaTS(id.ent)!=null & BuscaTipoTS(id.ent)==fun
 			if ( paramTS(id.ent)!=V1.param )
 				V.tipo=BuscaRetTs(id.ent) & Error()
 			else V.tipo=BuscaRetTs(id.ent)
@@ -83,33 +47,29 @@ Q -> lambda		...	Q.long	:= 0;	Q.pos = vacio
 			if(V1.param!=null) V.tipo=err & Error()
 			else V.tipo=int
 			}
-.V1 -> ( L ){V1.param = L.param}
--V1 -> ++
-.V1 -> lambda
+V1 -> ( L ){V1.param = L.param}
+-V1 -> ++ 
+V1 -> lambda
 
-.V -> ( E ) {V.tipo=E.tipo}
-.V -> ENT {V.tipo=if(entero>32767) err & Error() else int}
-.V -> CAD {V.tipo=char}
-.V -> TRUE {V.tipo=boolean}
-.V -> FALSE {Vtipo=boolean}
+V -> ( E ) {V.tipo=E.tipo}
+V -> ENT {V.tipo=if(entero>32767) err & Error() else int}
+V -> CAD {V.tipo=char}
+V -> TRUE {V.tipo=boolean}
+V -> FALSE {Vtipo=boolean}
 -V -> ! ID 
 
 
-.L -> E Q { L.param = E.tipo + Q.param }
-.L -> lambda
+L -> E Q { L.param = E.tipo + Q.param }
+L -> lambda
 
-.Q  -> , E Q' { Q.param = E.tipo + Q'.param }
-.Q  -> lambda
+Q  -> , E Q' { Q.param = E.tipo + Q'.param }
+Q  -> lambda
 
-.X  -> E (X.tam=E.tam, X.ret = E.tipo)
-.x  -> lambda
+X  -> E (X.tam=E.tam, X.ret = E.tipo)
+x  -> lambda
 
-.S  -> ID S1 { if (BuscaTS(id.ent)==null)
-			AnyadeTG(id.ent,addDespl(),int,2)
-		if (BuscaTipoTS(id.ent)!=S1.tipo) S.tipo=err & Error()
-		else A.tipo = ok}
-  ----- ID S1{ if (BuscaTS(id.ent)==null then 
-  			AnyadeTG(id.ent, addDespl(),int,2)
+S  -> ID S1{ if (BuscaTS(id.ent)==null 
+		then	AnyadeTG(id.ent, addDespl(),int,2)
 		if(S1.tipo == fun & BuscaTipoTS(id.ent)!=S1.tipo)
 			S.tipo = err & Error()
 		else if (S1.tipo == fun & BuscaTipoTS(id.ent)!=S1.tipo)
@@ -119,48 +79,34 @@ Q -> lambda		...	Q.long	:= 0;	Q.pos = vacio
 		else S.tipo = ok
 		}
 			
+S  -> RETURN X {if S.ret!=X.tipo or X.tipo=err Then S.tipo=err Else S.tipo=X.ret}
+S  -> ALERT (E) {S.tipo = ok}
+S  -> INPUT (ID) {P.tipo = ok}
+					
+F  -> FUNCTION H ID (A) {C} {if (BuscarTS(id) !=null) F.tipo = err & Error() ; crearTS();
+				F.tipo = if (C.tipo == H.tipo == ok) ok else err}			
 
-.S  -> RETURN X {S.tipo = ok, S.ret = X.ret }
--S  -> ALERT (E) {S.tipo = ok}
-
--S  -> INPUT (ID) {if (BuscaTS(id)==null)
-					AnyadeTG(id.ent, addDespl(), int, 2); S.tipo =ok }
-
-
-.F  -> FUNCTION H ID (A) {C} {if (BuscarTS(id) !=null) F.tipo = err & Error() ; crearTS();
-				F.tipo = if (C.tipo == H.tipo == ok) ok else err}
-				
-
-.S1 -> = E ; { S1.tipo = E.tipo }
-
-.S1 -> (L) { S1.tipo = fun, S1.param = L.param } 
+S1 -> = E ; { S1.tipo = E.tipo }
+S1 -> (L) { S1.tipo = fun, S1.param = L.param } 
 
 
-.T  -> NUMBER {T.tipo = NUMBER, T.tam = 2 }
-.T  -> BOOLEAN {T.tipo = BOOLEAN, T.tam = 1 }
-.T  -> STRING {T.tipo = STRING, T.tam = 4 }
+T  -> NUMBER {T.tipo = NUMBER, T.tam = 2 }
+T  -> BOOLEAN {T.tipo = BOOLEAN, T.tam = 1 }
+T  -> STRING {T.tipo = STRING, T.tam = 4 }
 
-.H  -> T {H.tam = T.Tam, H.ret := T.tipo}
-.H  -> lambda
+H  -> T {H.tam = T.Tam, H.ret := T.tipo}
+H  -> lambda
 
--C  -> B C1 { if ( B.ret !=null & C1.ret!=null)
+C  -> B C1 { if ( B.ret !=null & C1.ret!=null)
 			if (B.ret!=C1.ret) C.tipo = err & Error()
 			else C.ret = B.ret
 		else if (B.ret!=null & C1.ret==null)
 			C.ret = B.ret
 		else if (B.ret==null & C1.ret!=null)
 			C.ret = C1.ret
+C  -> lambda
 
-.C  -> lambda
-
-
-A  -> T { A.tipo := T.tipo} 
-A  -> ID { if (BuscaTS(id)==null)
-			AnyadeTG(id.ent, addDespl(), int, 2); S.tipo =ok }
-A  -> K  { A.param = K.param }???????
+A  -> T ID K {AnyadeTL(id.ent,addDesp(), T.tipo, T.tam, K.param = T.tipo + K.param)
 A  -> lambda
-
-.A  -> T ID K {AnyadeTL(id.ent,addDesp(), T.tipo, T.tam, K.param = T.tipo + K.param)
-.A  -> lambda
-.K  -> , T ID K1 { AnyadeTL(id.ent, addDesp(), T.tipo, T.tam), K1.param = T.tipo + K1.param }
-.K  -> lambda
+K  -> , T ID K1 { AnyadeTL(id.ent, addDesp(), T.tipo, T.tam), K1.param = T.tipo + K1.param }
+K  -> lambda
