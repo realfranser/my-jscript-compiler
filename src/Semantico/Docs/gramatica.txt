@@ -9,9 +9,10 @@ P  -> lambda
 B  -> IF (E) S { crearTS(), B.tipo = if(E.tipo==boolean & S.tipo!=err) then S.tipo & B.ret=S.ret else err & Error() }
 B  -> S { B.tipo := S.tipo, B.ret = S.ret}
 B  -> LET T ID ; {B.tipo:= if (BuscaTSL(TS, id.ent)!=null) err & Error() else AnyadirTS(TS,id.ent,addDespl(), T.tipo, T.tam)}
--B  -> DO { C } WHILE ( E ) ; 
 
 
+B  -> DO { C } WHILE ( E ) ; {if (E.tipo = ok)  then C.tipo =ok else Error()}
+			
 
 E  -> R E1 { if  (E1.tipo == null) E.tipo = R.tipo
 			else if ( R.tipo!=E1.tipo & E1.tipo!=err & R.tipo!=err )
@@ -29,14 +30,13 @@ R1 -> == U R1' if(R1.tipo==U.tipo) then R1.tipo = ok
 R1 -> != U R1' if(R1.tipo==U.tipo) then R1.tipo = ok
 R1 -> lambda
 
-
 U  -> V U1 { U.tipo = if(U1.tipo!=null & V.tipo!=U1.tipo)then err & Error() else V.tipo}
 U1 -> + V U1'  {U1.tipo = if (U1'.tipo!=null & V.tipo!=U1'.tipo) then err & Error() else V.tipo}
 U1 -> - V U1'  {U1.tipo = if (U1'.tipo!=null & V.tipo!=U1'.tipo) then err & Error() else V.tipo}
 U1 -> lambda
 
 V -> ID V1 {if BuscaTS(id.ent)!=null & BuscaTipoTS(id.ent)==fun
-			if ( paramTS(id.ent)!=V1.param )
+			if(paramTS(id.ent)!=V1.param)
 				V.tipo=BuscaRetTs(id.ent) & Error()
 			else V.tipo=BuscaRetTs(id.ent)
 		else if (BuscaTS(id.ent)!=null & BuscaTipoTS(id.ent)!=fun)
@@ -48,7 +48,7 @@ V -> ID V1 {if BuscaTS(id.ent)!=null & BuscaTipoTS(id.ent)==fun
 			else V.tipo=int
 			}
 V1 -> ( L ){V1.param = L.param}
--V1 -> ++ 
+V1 -> ++ {if (V1.tipo == int) then  V1.tipo=ok}
 V1 -> lambda
 
 V -> ( E ) {V.tipo=E.tipo}
@@ -56,7 +56,7 @@ V -> ENT {V.tipo=if(entero>32767) err & Error() else int}
 V -> CAD {V.tipo=char}
 V -> TRUE {V.tipo=boolean}
 V -> FALSE {Vtipo=boolean}
--V -> ! ID 
+V -> ! ID {if  (V.tipo == id.tipo == boolean) then V.tipo = id.tipo} 
 
 
 L -> E Q { L.param = E.tipo + Q.param }
@@ -68,18 +68,18 @@ Q  -> lambda
 X  -> E (X.tam=E.tam, X.ret = E.tipo)
 x  -> lambda
 
-S  -> ID S1{ if (BuscaTS(id.ent)==null 
+S  -> ID S1{ if (BuscaTS(id.ent)==null)
 		then	AnyadeTG(id.ent, addDespl(),int,2)
 		if(S1.tipo == fun & BuscaTipoTS(id.ent)!=S1.tipo)
 			S.tipo = err & Error()
 		else if (S1.tipo == fun & BuscaTipoTS(id.ent)!=S1.tipo)
-			S.tipo = err &Error()
+			S.tipo = err & Error()
 		else if ( BuscaTipoTS(id.ent)==fun & BuscaParamTS(id.ent)!=S1.param)
 			S.tipo = err & Error()
 		else S.tipo = ok
 		}
 			
-S  -> RETURN X {if S.ret!=X.tipo or X.tipo=err Then S.tipo=err Else S.tipo=X.ret}
+S  -> RETURN X {if (S.ret!=X.tipo or X.tipo=err) Then S.tipo=err Else S.tipo=X.ret}
 S  -> ALERT (E) {S.tipo = ok}
 S  -> INPUT (ID) {P.tipo = ok}
 					
