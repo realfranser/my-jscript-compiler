@@ -19,5 +19,5 @@ function number xor(boolean a, boolean b){
 
     let boolean aux;
     aux = a && b;
-    return x;
+    return;
 }

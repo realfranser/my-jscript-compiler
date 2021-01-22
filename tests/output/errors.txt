@@ -1,1 +1,1 @@
-Error semantico: alert solo acepta numeros o strings, en linea: 8
+Error semantico: la funcion xor es de tipo void, no puede devolver ningun elemento, en linea: 22
