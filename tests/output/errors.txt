@@ -1,1 +1,1 @@
-Error sintactico: boolean, en linea: 1
+Error sintactico: number, en linea: 1
