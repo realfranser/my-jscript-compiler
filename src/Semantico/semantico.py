@@ -1,4 +1,5 @@
 # Analizador semantico
+import copy
 import master
 from master import Tabla_Simbolos, Token, Simbolo
 
@@ -248,6 +249,16 @@ def analizar(parse, simbolo, token):
 
         tablas.append(Tabla_Simbolos(token.value, simbolo.tipo))
         tabla_count = len(tablas)-1
+        return Token(token.value, simbolo.tipo, 0)
+
+    elif parse == 410:
+
+        tablas[0].insertar(Simbolo(token.key,
+                                   tipo='function',
+                                   despl=None,
+                                   num_param=simbolo.num_param,
+                                   tipo_param=simbolo.tipo_param,
+                                   tipo_dev=token.value))
 
     elif parse == 42:
 
@@ -260,29 +271,20 @@ def analizar(parse, simbolo, token):
     elif parse == 44:
 
         tablas[tabla_count].insertar(Simbolo(token.value, tipo=simbolo.tipo))
+        return simbolo.tipo
 
     elif parse == 45:
 
-        tablas[0].insertar(Simbolo(tabla.nombre,
-                                   tipo='function',
-                                   num_param=0,
-                                   tipo_param=None,
-                                   tipo_dev=tabla.retorno,
-                                   etiqueta=tabla.nombre))
+        return Simbolo('A', tipo='vacio', num_param=0, tipo_param=[])
 
     elif parse == 46:
 
         tablas[tabla_count].insertar(Simbolo(token.value, tipo=simbolo.tipo))
+        return simbolo.tipo
 
     elif parse == 47:
 
-        tablas[0].insertar(Simbolo(tabla.nombre,
-                                   tipo='function',
-                                   num_param=len(tabla.entradas),
-                                   tipo_param=[
-                                       entry.tipo for entry in tabla.entradas],
-                                   tipo_dev=tabla.retorno,
-                                   etiqueta=tabla.nombre))
+        return Simbolo('K', tipo='lista_tipos', num_param=len(simbolo), tipo_param=simbolo)
 
     elif parse == 51:
         tabla_count = 0

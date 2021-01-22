@@ -544,10 +544,11 @@ def F():
         token = sig_token
         equipara('ID')
         # Crear nueva tabla con nombre del token y tipo del simbolo
-        analizar(41, simbolo, token)
+        token = analizar(41, simbolo, token)
         equipara('open_par')
-        A()
+        simbolo = A()
         equipara('close_par')
+        analizar(410, simbolo, token)
         equipara('open_braq')
         C()
         equipara('close_braq')
@@ -579,6 +580,7 @@ def H():
 def A():
 
     valor = sig_token.value
+    lista_tipos = []
 
     if valor == 'boolean' or valor == 'number' or valor == 'string':
         master.parse.append(44)
@@ -587,17 +589,20 @@ def A():
         token = sig_token
         equipara('ID')
         # Meter en la funcion el parametro de entrada 'ID' de tipo simbolo
-        analizar(44, simbolo, token)
-        K()
+        tipo = analizar(44, simbolo, token)
+        lista_tipos.append(tipo)
+        simbolo = K(lista_tipos)
     elif valor == 'close_par':
         master.parse.append(45)
         # La funcion creada no recibe parametros de entrada
-        analizar(45, None, None)
+        simbolo = analizar(45, None, None)
     else:
         error_parse(sig_token)
 
+    return simbolo
 
-def K():
+
+def K(lista_tipos):
 
     valor = sig_token.value
 
@@ -609,14 +614,17 @@ def K():
         token = sig_token
         equipara('ID')
         # Meter en la funcion el parametro de entrada 'ID' de tipo simbolo
-        analizar(46, simbolo, token)
-        K()
+        tipo = analizar(46, simbolo, token)
+        lista_tipos.append(tipo)
+        simbolo = K(lista_tipos)
     elif valor == 'close_par':
         master.parse.append(47)
         # Completar la informacion de parametros de entrada en la funcion
-        analizar(47, None, None)
+        simbolo = analizar(47, lista_tipos, None)
     else:
         error_parse(sig_token)
+
+    return simbolo
 
 
 def C():

@@ -59,18 +59,21 @@ class Simbolo:
             str(self.tipo) + '\n' if self.tipo != None else ''
         string += '	+ Despl: ' + \
             str(self.despl) + '\n' if self.despl != None else ''
-        string += '	+ Num_Param: ' + \
-            str(self.num_param) + \
-            '\n' if self.num_param != None else ''
 
-        for i in range(len(self.tipo_param)):
-            string = '	+ Tipo_Param' + \
-                str(i)+': ' + self.tipo_param[i] + '\n'
+        if self.tipo == 'function':
 
-        string += '	+ Tipo_Retorno: ' + self.tipo_dev + \
-            '\n' if self.tipo_dev != None else ''
-        string += '	+ Tipo: ' + self.etiqueta + \
-            '\n' if self.etiqueta != None else ''
+            string += '	+ Num_Param: ' + \
+                str(self.num_param) + \
+                '\n' if self.num_param != None else ''
+
+            for i in range(len(self.tipo_param)):
+                string = '	+ Tipo_Param' + \
+                    str(i)+': ' + self.tipo_param[i] + '\n'
+
+            string += '	+ Tipo_Retorno: ' + self.tipo_dev + \
+                '\n' if self.tipo_dev != None else ''
+            string += '	+ Etiqueta: ' + self.etiqueta + \
+                '\n' if self.etiqueta != None else ''
 
         return string
 
@@ -129,13 +132,13 @@ def main():
     # declaracion de variables globales
     global token_file, open_comment, line_count, token_list
     # Parses argument, and requires the user to provide one file
-   # parser = argparse.ArgumentParser(add_help=True)
-    # parser.add_argument('-f', type=str, nargs=1,
-    # help='Required filename you want to compile')
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(add_help=True)
+    parser.add_argument('-f', type=str, nargs=1,
+                        help='Required filename you want to compile')
+    args = parser.parse_args()
 
-    # test_file_path = args.f[0]
-    test_file_path = './tests/test2.js'
+    test_file_path = args.f[0]
+    #test_file_path = './tests/test2.js'
     """
     The following files have to be flushed each time .py executes, to do this, they are opened in 'w' mode
     These paths are stored in the dictionary file_paths and can be changed as wished
@@ -147,8 +150,6 @@ def main():
 
         parse, token_list, tablas_simbolos = sintactico.analizador(
             test_file_path)
-
-        print(tablas_simbolos[0].entradas[2].to_string())
 
         # Escribir en el fichero tabla de simbolos, todas las tablas de simbolos
         for tabla in tablas_simbolos:

@@ -1,11 +1,5 @@
-1manolo == >
+let boolean a = true;
 
-    - -
+let number b = true;
 
-
-    'Esto esta escrito un sabado por la tarde
-
-/*Sin embargo
-ha sido un poco tedioso*/
-
-'Esto esta escrito un sabado por la tarde
+c = a + b;
