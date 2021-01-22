@@ -1,1 +1,1 @@
-Compilado sin errores
+Error semantico: un operador logico tine que ir precedido por un valor logico, en linea: 20

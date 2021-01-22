@@ -14,7 +14,7 @@ function boolean equals(number a, number b){
 }
 
 
-function number xor(boolean a, boolean b){
+function number xor(number a, boolean b){
 
     let boolean aux;
     aux = a && b;
