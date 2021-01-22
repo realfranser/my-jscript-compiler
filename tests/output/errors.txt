@@ -1,1 +1,1 @@
-Error sintactico: error, en linea: 1
+Compilado sin errores
