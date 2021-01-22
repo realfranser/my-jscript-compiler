@@ -1,1 +1,1 @@
-Error semantico: un operador logico tine que ir precedido por un valor logico, en linea: 20
+Error semantico: los parametros de entrada en la llamada a la funcion Suma no son correctos, en linea: 31
