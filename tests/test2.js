@@ -28,4 +28,4 @@ do {
     alert(x);
 
 } while (x != 5);
-Imprime(factorial(Suma(false, 1)));	/* se llama a las tres funciones*/
+Imprime(factorial(Suma(1, false)));	/* se llama a las tres funciones*/
