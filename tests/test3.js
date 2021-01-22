@@ -1,11 +1,8 @@
-boolean verdadero = true;
-boolean grupo14 = true;
-boolean aprobado = true;
-
+let boolean grupo14;
+grupo14 = false;
 do {
-    verdadero = false;
-    if (true) {
-        verdadero = true
-    }
+    grupo14 = false;
+    if (grupo14) grupo14 = true;
 
-} while (grupo14 && aprobado)
+
+} while (grupo14 && true);

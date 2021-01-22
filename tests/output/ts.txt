@@ -1,0 +1,7 @@
+Contenido Tabla de Simbolos #0 :
+* LEXEMA : 'grupo14'
+  ATRIBUTOS :
+	+ Tipo: boolean
+	+ Despl: 0
+
+
