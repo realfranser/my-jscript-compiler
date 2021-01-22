@@ -1,7 +1,16 @@
 Contenido Tabla de Simbolos #0 :
-* LEXEMA : 'grupo14'
+* LEXEMA : 'aux'
   ATRIBUTOS :
 	+ Tipo: boolean
+	+ Despl: 0
+	+ Tipo_Param0: numero
+	+ Tipo_Retorno: void
+
+
+Contenido Tabla de Simbolos #1 :
+* LEXEMA : 'a'
+  ATRIBUTOS :
+	+ Tipo: numero
 	+ Despl: 0
 
 
