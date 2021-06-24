@@ -25,8 +25,6 @@ test
   dirigidos hacia la utilizacion de python, _output:_ donde estan (_errors, parse, tokens, ts_) los datos 
   devueltos de la ejecucion de los test.
 
-README
-------------------
 
 ejecutar.sh
 ------------------
