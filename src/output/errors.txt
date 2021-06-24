@@ -1,1 +1,0 @@
-ErrorSintactico: Error antes de token 'alert',linea:9

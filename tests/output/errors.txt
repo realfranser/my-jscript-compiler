@@ -1,0 +1,1 @@
+Error semantico: la funcion xor es de tipo void, no puede devolver ningun elemento, en linea: 22
